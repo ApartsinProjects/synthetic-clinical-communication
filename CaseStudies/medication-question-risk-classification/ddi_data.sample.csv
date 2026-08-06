@@ -1,0 +1,200 @@
+drug1_id,drug2_id,drug1_name,drug2_name,interaction_type
+DB00006,DB00346,Bivalirudin,Alfuzosin,serum concentration
+DB00006,DB13783,Bivalirudin,Acemetacin,risk or severity of bleeding
+DB00006,DB06605,Bivalirudin,Apixaban,anticoagulant activities
+DB00006,DB06695,Bivalirudin,Dabigatran etexilate,anticoagulant activities
+DB00006,DB09075,Bivalirudin,Edoxaban,anticoagulant activities
+DB00006,DB06228,Bivalirudin,Rivaroxaban,anticoagulant activities
+DB00006,DB00227,Bivalirudin,Lovastatin,serum concentration
+DB00006,DB09030,Bivalirudin,Vorapaxar,risk or severity of adverse effects
+DB00006,DB00683,Bivalirudin,Midazolam,serum concentration
+DB00006,DB00641,Bivalirudin,Simvastatin,serum concentration
+DB00006,DB00932,Bivalirudin,Tipranavir,serum concentration
+DB00006,DB00248,Bivalirudin,Cabergoline,serum concentration
+DB00006,DB01200,Bivalirudin,Bromocriptine,serum concentration
+DB00006,DB00320,Bivalirudin,Dihydroergotamine,serum concentration
+DB00006,DB00696,Bivalirudin,Ergotamine,serum concentration
+DB00006,DB01253,Bivalirudin,Ergonovine,serum concentration
+DB00006,DB00353,Bivalirudin,Methylergometrine,serum concentration
+DB00006,DB00897,Bivalirudin,Triazolam,serum concentration
+DB00006,DB00977,Bivalirudin,Ethinyl Estradiol,serum concentration
+DB00006,DB01357,Bivalirudin,Mestranol,serum concentration
+DB00006,DB00783,Bivalirudin,Estradiol,serum concentration
+DB00006,DB00255,Bivalirudin,Diethylstilbestrol,serum concentration
+DB00006,DB00091,Bivalirudin,Cyclosporine,serum concentration
+DB00006,DB00864,Bivalirudin,Tacrolimus,metabolism
+DB00006,DB00454,Bivalirudin,Pethidine,risk or severity of adverse effects
+DB00006,DB00404,Bivalirudin,Alprazolam,serum concentration
+DB00006,DB08873,Bivalirudin,Boceprevir,serum concentration
+DB00006,DB00564,Bivalirudin,Carbamazepine,metabolism
+DB00006,DB01211,Bivalirudin,Clarithromycin,therapeutic efficacy
+DB00006,DB00705,Bivalirudin,Delavirdine,serum concentration
+DB00006,DB00655,Bivalirudin,Estrone,anticoagulant activities
+DB00006,DB00890,Bivalirudin,Dienestrol,anticoagulant activities
+DB00006,DB04575,Bivalirudin,Quinestrol,anticoagulant activities
+DB00006,DB04573,Bivalirudin,Estriol,anticoagulant activities
+DB00006,DB13952,Bivalirudin,Estradiol acetate,anticoagulant activities
+DB00006,DB13954,Bivalirudin,Estradiol cypionate,anticoagulant activities
+DB00006,DB13956,Bivalirudin,Estradiol valerate,anticoagulant activities
+DB00006,DB06401,Bivalirudin,Bazedoxifene,anticoagulant activities
+DB00006,DB04865,Bivalirudin,Omacetaxine mepesuccinate,risk or severity of bleeding
+DB00006,DB01149,Bivalirudin,Nefazodone,serum concentration
+DB00006,DB13943,Bivalirudin,Testosterone cypionate,therapeutic efficacy
+DB00006,DB13944,Bivalirudin,Testosterone enanthate,therapeutic efficacy
+DB00006,DB01431,Bivalirudin,Allylestrenol,therapeutic efficacy
+DB00006,DB00294,Bivalirudin,Etonogestrel,therapeutic efficacy
+DB00006,DB00603,Bivalirudin,Medroxyprogesterone acetate,therapeutic efficacy
+DB00006,DB00396,Bivalirudin,Progesterone,therapeutic efficacy
+DB00006,DB00717,Bivalirudin,Norethisterone,therapeutic efficacy
+DB00006,DB06789,Bivalirudin,Hydroxyprogesterone caproate,therapeutic efficacy
+DB00006,DB00304,Bivalirudin,Desogestrel,therapeutic efficacy
+DB00006,DB00378,Bivalirudin,Dydrogesterone,therapeutic efficacy
+DB00006,DB06730,Bivalirudin,Gestodene,therapeutic efficacy
+DB00006,DB11619,Bivalirudin,Gestrinone,therapeutic efficacy
+DB00006,DB09124,Bivalirudin,Medrogestone,therapeutic efficacy
+DB00006,DB11636,Bivalirudin,Nomegestrol,therapeutic efficacy
+DB00006,DB13857,Bivalirudin,Demegestone,therapeutic efficacy
+DB00006,DB00351,Bivalirudin,Megestrol acetate,therapeutic efficacy
+DB00006,DB00367,Bivalirudin,Levonorgestrel,therapeutic efficacy
+DB00006,DB09123,Bivalirudin,Dienogest,therapeutic efficacy
+DB00006,DB01395,Bivalirudin,Drospirenone,therapeutic efficacy
+DB00006,DB12474,Bivalirudin,Lynestrenol,therapeutic efficacy
+DB00006,DB13946,Bivalirudin,Testosterone undecanoate,therapeutic efficacy
+DB00006,DB08931,Bivalirudin,Riociguat,serum concentration
+DB00006,DB00203,Bivalirudin,Sildenafil,serum concentration
+DB00006,DB06287,Bivalirudin,Temsirolimus,risk or severity of adverse effects
+DB00006,DB00343,Bivalirudin,Diltiazem,metabolism
+DB00006,DB00661,Bivalirudin,Verapamil,metabolism
+DB00006,DB00686,Bivalirudin,Pentosan Polysulfate,anticoagulant activities
+DB00006,DB00321,Bivalirudin,Amitriptyline,serum concentration
+DB00006,DB00344,Bivalirudin,Protriptyline,serum concentration
+DB00006,DB00458,Bivalirudin,Imipramine,serum concentration
+DB00006,DB00540,Bivalirudin,Nortriptyline,serum concentration
+DB00006,DB00726,Bivalirudin,Trimipramine,serum concentration
+DB00006,DB01142,Bivalirudin,Doxepin,serum concentration
+DB00006,DB01151,Bivalirudin,Desipramine,serum concentration
+DB00006,DB01242,Bivalirudin,Clomipramine,serum concentration
+DB00006,DB09016,Bivalirudin,Butriptyline,serum concentration
+DB00006,DB13114,Bivalirudin,Amitriptylinoxide,serum concentration
+DB00006,DB08996,Bivalirudin,Dimetacrine,serum concentration
+DB00006,DB09167,Bivalirudin,Dosulepin,serum concentration
+DB00006,DB09289,Bivalirudin,Tianeptine,serum concentration
+DB00006,DB00543,Bivalirudin,Amoxapine,serum concentration
+DB00006,DB01048,Bivalirudin,Abacavir,serum concentration
+DB00006,DB00531,Bivalirudin,Cyclophosphamide,risk or severity of adverse effects
+DB00006,DB00390,Bivalirudin,Digoxin,serum concentration
+DB00006,DB06414,Bivalirudin,Etravirine,serum concentration
+DB00006,DB01254,Bivalirudin,Dasatinib,anticoagulant activities
+DB00006,DB01609,Bivalirudin,Deferasirox,risk or severity of adverse effects
+DB00006,DB03619,Bivalirudin,Deoxycholic Acid,risk or severity of adverse effects
+DB00006,DB09053,Bivalirudin,Ibrutinib,risk or severity of adverse effects
+DB00006,DB09079,Bivalirudin,Nintedanib,risk or severity of adverse effects
+DB00006,DB06206,Bivalirudin,Sugammadex,anticoagulant activities
+DB00006,DB09211,Bivalirudin,Limaprost,risk or severity of adverse effects
+DB00006,DB09070,Bivalirudin,Tibolone,anticoagulant activities
+DB00006,DB00465,Bivalirudin,Ketorolac,anticoagulant activities
+DB00006,DB00586,Bivalirudin,Diclofenac,anticoagulant activities
+DB00006,DB00712,Bivalirudin,Flurbiprofen,anticoagulant activities
+DB00006,DB00963,Bivalirudin,Bromfenac,anticoagulant activities
+DB00006,DB06802,Bivalirudin,Nepafenac,anticoagulant activities
+DB00006,DB00179,Bivalirudin,Masoprocol,anticoagulant activities
+DB00006,DB00210,Bivalirudin,Adapalene,anticoagulant activities
+DB00006,DB00244,Bivalirudin,Mesalazine,anticoagulant activities
+DB00006,DB00328,Bivalirudin,Indomethacin,anticoagulant activities
+DB00006,DB00337,Bivalirudin,Pimecrolimus,anticoagulant activities
+DB00006,DB00461,Bivalirudin,Nabumetone,anticoagulant activities
+DB00006,DB00469,Bivalirudin,Tenoxicam,anticoagulant activities
+DB00006,DB00482,Bivalirudin,Celecoxib,anticoagulant activities
+DB00006,DB00500,Bivalirudin,Tolmetin,anticoagulant activities
+DB00006,DB00533,Bivalirudin,Rofecoxib,anticoagulant activities
+DB00006,DB00554,Bivalirudin,Piroxicam,anticoagulant activities
+DB00006,DB00573,Bivalirudin,Fenoprofen,anticoagulant activities
+DB00006,DB00580,Bivalirudin,Valdecoxib,anticoagulant activities
+DB00006,DB00605,Bivalirudin,Sulindac,anticoagulant activities
+DB00006,DB00608,Bivalirudin,Chloroquine,anticoagulant activities
+DB00006,DB00688,Bivalirudin,Mycophenolate mofetil,anticoagulant activities
+DB00006,DB00735,Bivalirudin,Naftifine,anticoagulant activities
+DB00006,DB00744,Bivalirudin,Zileuton,anticoagulant activities
+DB00006,DB00749,Bivalirudin,Etodolac,anticoagulant activities
+DB00006,DB00768,Bivalirudin,Olopatadine,anticoagulant activities
+DB00006,DB00784,Bivalirudin,Mefenamic acid,anticoagulant activities
+DB00006,DB00788,Bivalirudin,Naproxen,anticoagulant activities
+DB00006,DB00795,Bivalirudin,Sulfasalazine,anticoagulant activities
+DB00006,DB00812,Bivalirudin,Phenylbutazone,anticoagulant activities
+DB00006,DB00814,Bivalirudin,Meloxicam,anticoagulant activities
+DB00006,DB00821,Bivalirudin,Carprofen,anticoagulant activities
+DB00006,DB00861,Bivalirudin,Diflunisal,anticoagulant activities
+DB00006,DB00870,Bivalirudin,Suprofen,anticoagulant activities
+DB00006,DB00936,Bivalirudin,Salicylic acid,anticoagulant activities
+DB00006,DB00939,Bivalirudin,Meclofenamic acid,anticoagulant activities
+DB00006,DB00945,Bivalirudin,Acetylsalicylic acid,anticoagulant activities
+DB00006,DB00972,Bivalirudin,Azelastine,anticoagulant activities
+DB00006,DB00991,Bivalirudin,Oxaprozin,anticoagulant activities
+DB00006,DB01009,Bivalirudin,Ketoprofen,anticoagulant activities
+DB00006,DB01014,Bivalirudin,Balsalazide,anticoagulant activities
+DB00006,DB01024,Bivalirudin,Mycophenolic acid,anticoagulant activities
+DB00006,DB01050,Bivalirudin,Ibuprofen,anticoagulant activities
+DB00006,DB01097,Bivalirudin,Leflunomide,anticoagulant activities
+DB00006,DB01250,Bivalirudin,Olsalazine,anticoagulant activities
+DB00006,DB01283,Bivalirudin,Lumiracoxib,anticoagulant activities
+DB00006,DB01397,Bivalirudin,Magnesium salicylate,anticoagulant activities
+DB00006,DB01399,Bivalirudin,Salsalate,anticoagulant activities
+DB00006,DB01401,Bivalirudin,Choline magnesium trisalicylate,anticoagulant activities
+DB00006,DB01435,Bivalirudin,Antipyrine,anticoagulant activities
+DB00006,DB01600,Bivalirudin,Tiaprofenic acid,anticoagulant activities
+DB00006,DB01628,Bivalirudin,Etoricoxib,anticoagulant activities
+DB00006,DB02709,Bivalirudin,Resveratrol,anticoagulant activities
+DB00006,DB03585,Bivalirudin,Oxyphenbutazone,anticoagulant activities
+DB00006,DB04552,Bivalirudin,Niflumic Acid,anticoagulant activities
+DB00006,DB04743,Bivalirudin,Nimesulide,anticoagulant activities
+DB00006,DB04817,Bivalirudin,Metamizole,anticoagulant activities
+DB00006,DB04951,Bivalirudin,Pirfenidone,anticoagulant activities
+DB00006,DB05676,Bivalirudin,Apremilast,anticoagulant activities
+DB00006,DB06196,Bivalirudin,Icatibant,anticoagulant activities
+DB00006,DB06725,Bivalirudin,Lornoxicam,anticoagulant activities
+DB00006,DB06736,Bivalirudin,Aceclofenac,anticoagulant activities
+DB00006,DB06737,Bivalirudin,Zaltoprofen,anticoagulant activities
+DB00006,DB06739,Bivalirudin,Seratrodast,anticoagulant activities
+DB00006,DB07615,Bivalirudin,Tranilast,anticoagulant activities
+DB00006,DB08439,Bivalirudin,Parecoxib,anticoagulant activities
+DB00006,DB08797,Bivalirudin,Salicylamide,anticoagulant activities
+DB00006,DB08880,Bivalirudin,Teriflunomide,anticoagulant activities
+DB00006,DB08976,Bivalirudin,Floctafenine,anticoagulant activities
+DB00006,DB08981,Bivalirudin,Fenbufen,anticoagulant activities
+DB00006,DB08984,Bivalirudin,Etofenamate,anticoagulant activities
+DB00006,DB08991,Bivalirudin,Epirizole,anticoagulant activities
+DB00006,DB09212,Bivalirudin,Loxoprofen,anticoagulant activities
+DB00006,DB09216,Bivalirudin,Tolfenamic Acid,anticoagulant activities
+DB00006,DB09218,Bivalirudin,Clonixin,anticoagulant activities
+DB00006,DB09288,Bivalirudin,Propacetamol,anticoagulant activities
+DB00006,DB11672,Bivalirudin,Curcumin,anticoagulant activities
+DB00006,DB12598,Bivalirudin,Nafamostat,anticoagulant activities
+DB00006,DB13063,Bivalirudin,Parthenolide,anticoagulant activities
+DB00006,DB13167,Bivalirudin,Alclofenac,anticoagulant activities
+DB00006,DB13346,Bivalirudin,Bufexamac,anticoagulant activities
+DB00006,DB09084,Bivalirudin,Benzydamine,anticoagulant activities
+DB00006,DB00163,Bivalirudin,Vitamin E,anticoagulant activities
+DB00006,DB00266,Bivalirudin,Dicoumarol,anticoagulant activities
+DB00006,DB00278,Bivalirudin,Argatroban,anticoagulant activities
+DB00006,DB00498,Bivalirudin,Phenindione,anticoagulant activities
+DB00006,DB00569,Bivalirudin,Fondaparinux sodium,anticoagulant activities
+DB00006,DB00682,Bivalirudin,Warfarin,anticoagulant activities
+DB00006,DB00946,Bivalirudin,Phenprocoumon,anticoagulant activities
+DB00006,DB00974,Bivalirudin,Edetic Acid,anticoagulant activities
+DB00006,DB01418,Bivalirudin,Acenocoumarol,anticoagulant activities
+DB00006,DB04272,Bivalirudin,Citric Acid,anticoagulant activities
+DB00006,DB04898,Bivalirudin,Ximelagatran,anticoagulant activities
+DB00006,DB06154,Bivalirudin,Pentaerythritol Tetranitrate,anticoagulant activities
+DB00006,DB11268,Bivalirudin,Protocatechualdehyde,anticoagulant activities
+DB00006,DB13136,Bivalirudin,Fluindione,anticoagulant activities
+DB00006,DB09125,Bivalirudin,Potassium Citrate,anticoagulant activities
+DB00006,DB09154,Bivalirudin,Sodium Citrate,anticoagulant activities
+DB00006,DB00233,Bivalirudin,Aminosalicylic Acid,anticoagulant activities
+DB00006,DB06807,Bivalirudin,Phenyl aminosalicylate,anticoagulant activities
+DB00006,DB09543,Bivalirudin,Methyl salicylate,anticoagulant activities
+DB00006,DB11079,Bivalirudin,Trolamine salicylate,anticoagulant activities
+DB00006,DB00208,Bivalirudin,Ticlopidine,anticoagulant activities
+DB00006,DB00775,Bivalirudin,Tirofiban,anticoagulant activities
+DB00006,DB01166,Bivalirudin,Cilostazol,anticoagulant activities
+DB00006,DB00261,Bivalirudin,Anagrelide,anticoagulant activities
+DB00006,DB00412,Bivalirudin,Rosiglitazone,anticoagulant activities

@@ -1,0 +1,7 @@
+match_type,class,qwen_fewshot_v2,xlmr_bio_v2,sklearn_candidate_reranker_v2_test,gemini_candidate_selector_v2_test,source
+strict,drug_decision,0.2086,0.2479,0.1641,0.2698,see note
+strict,procedure_decision,0.2038,0.4278,0.5638,0.3787,see note
+strict,overall,0.2063,0.3263,0.4273,0.3177,see note
+relaxed,drug_decision,0.7362,0.8268,0.4094,0.9569,see note
+relaxed,procedure_decision,0.5605,0.8310,0.8986,0.8864,see note
+relaxed,overall,0.6500,0.8288,0.6772,0.9256,see note
