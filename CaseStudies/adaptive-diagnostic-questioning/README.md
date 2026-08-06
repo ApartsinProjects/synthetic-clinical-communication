@@ -1,11 +1,11 @@
-# Adaptive Diagnostic Questioning (MedQDx)
+# Adaptive Diagnostic Questioning
 
 - **Paper section:** 3.1.2
 - **Source repository:** https://github.com/MaiWert/MedQDx
 
 ## Motivation
 
-Patients rarely present a complete clinical picture up front, so physicians reach a diagnosis through adaptive, targeted questioning. Existing LLM medical benchmarks instead evaluate on fully revealed cases and never measure a model's ability to conduct strategic inquiry under partial information. MedQDx addresses this gap: an LLM "doctor" must iteratively question an LLM "patient" starting from only partial case information and produce a diagnosis after each round, so the benchmark measures whether the model can adapt its questioning, refine hypotheses, and converge on the ground-truth diagnosis.
+Patients rarely present a complete clinical picture up front, so physicians reach a diagnosis through adaptive, targeted questioning. Existing LLM medical benchmarks instead evaluate on fully revealed cases and never measure a model's ability to conduct strategic inquiry under partial information. This study addresses this gap: an LLM "doctor" must iteratively question an LLM "patient" starting from only partial case information and produce a diagnosis after each round, so the benchmark measures whether the model can adapt its questioning, refine hypotheses, and converge on the ground-truth diagnosis.
 
 ## Data generation protocol
 
@@ -22,7 +22,7 @@ Patients rarely present a complete clinical picture up front, so physicians reac
 | Filename | Description | Rows / size |
 |---|---|---|
 | `patient_cases.csv` | Generated patient vignettes. Columns: `prognosis`, `symptoms`, `100% Case`, `80% Case`, `50% Case`. | 100 rows, 158 KB |
-| `benchmark.csv` | Full MedQDx benchmark: per-case columns plus `Question_1..3`, `Answer_1..3`, `Diagnosis_1..3`, `Similarity_1..3`. | 99 rows, 215 KB |
+| `benchmark.csv` | Full diagnostic-questioning benchmark: per-case columns plus `Question_1..3`, `Answer_1..3`, `Diagnosis_1..3`, `Similarity_1..3`. | 99 rows, 215 KB |
 | `generate_data.ipynb` | Benchmark-creation notebook (doctor-patient simulation loop). | 165 KB |
 
 ## Models trained and evaluated

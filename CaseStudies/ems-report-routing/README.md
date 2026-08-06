@@ -1,10 +1,10 @@
-# EMS Report Routing (MedAlert)
+# EMS Report Routing
 
 - **Paper section:** 3.4.1
 - **Source repository:** https://github.com/nofarGIT1/medalert-llm-ems-voice-ed-classification
 
 ## Motivation
-EMS pre-arrival radio reports let an Emergency Department prepare before a patient arrives, choosing a care area and anticipating specialty support. Such reports are short, variably worded, spoken rapidly, and distorted by ambulance noise and automatic transcription. MedAlert asks whether a classifier trained on both clean reports and noisy ASR transcripts can route reports robustly under ASR noise, predicting two targets: ED Care Area and Primary Specialty Consultation (mapped into 18 categories).
+EMS pre-arrival radio reports let an Emergency Department prepare before a patient arrives, choosing a care area and anticipating specialty support. Such reports are short, variably worded, spoken rapidly, and distorted by ambulance noise and automatic transcription. This study asks whether a classifier trained on both clean reports and noisy ASR transcripts can route reports robustly under ASR noise, predicting two targets: ED Care Area and Primary Specialty Consultation (mapped into 18 categories).
 
 ## Data generation protocol
 Source cases came from MIMIC-IV-Ext-CDS (v1.0.2, PhysioNet; not redistributed here). The ED care-area target was built with rule-based criteria; the specialty target was derived from LLM-generated specialty referrals and mapped into 18 broader consultation categories. GPT-4.1-mini then generated four EMS pre-arrival report variants per source case (`professional_complete`, `brief_radio_missing_details`, `patient_reported_uncertain`, `distracted_or_disorganized_handoff`), giving 2,139 source cases x 4 = 8,556 synthetic clean reports after leakage checks and two rounds of LLM post-processing. A TTS + ASR augmentation pipeline (Edge-TTS synthetic male voice, speech acceleration, synthetic siren + white-noise injection, Whisper Base transcription) produced noisy ASR transcripts at ~44% average Word Error Rate. Splits were by `source_case_id` to prevent leakage across variants.

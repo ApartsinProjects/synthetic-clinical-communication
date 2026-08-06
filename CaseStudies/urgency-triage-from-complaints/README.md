@@ -1,11 +1,11 @@
-# Urgency Triage from Patient Complaints (LangTriage)
+# Urgency Triage from Patient Complaints
 
 - **Paper section:** 3.1.3
 - **Source repository:** https://github.com/Nofar-Kedmi/LLM-Classifier-for-Patient-Reports
 
 ## Motivation
 
-Emergency-room triage must quickly separate patients who need immediate care from those who can wait. LangTriage frames this as binary text classification: given a free-text, first-person complaint describing how a patient feels on arrival, predict urgent (1) vs. non-urgent (0). Because real complaint text at scale is scarce, the project synthesizes patient narratives from structured clinical measurements, then trains classifiers on the generated text - covering both the data-to-text generation task and the downstream classification task.
+Emergency-room triage must quickly separate patients who need immediate care from those who can wait. This study frames this as binary text classification: given a free-text, first-person complaint describing how a patient feels on arrival, predict urgent (1) vs. non-urgent (0). Because real complaint text at scale is scarce, the project synthesizes patient narratives from structured clinical measurements, then trains classifiers on the generated text - covering both the data-to-text generation task and the downstream classification task.
 
 ## Data generation protocol
 

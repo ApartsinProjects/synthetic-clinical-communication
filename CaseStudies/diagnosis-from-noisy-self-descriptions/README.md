@@ -1,11 +1,11 @@
-# Diagnosis from Noisy Patient Self-Descriptions (PatientSignal)
+# Diagnosis from Noisy Patient Self-Descriptions
 
 - **Paper section:** 3.1.1
 - **Source repository:** https://github.com/lielsheri/Natural-Language-Processing-project
 
 ## Motivation
 
-When patients describe symptoms to a doctor they rarely speak in clean, clinical terms. They add personal stories, hesitations, repetitions, emotional reactions, and off-topic tangents. PatientSignal studies how this conversational "noise" degrades automated symptom-to-disease classification, and which model families stay robust. The task is a 24-class disease classification from a free-text symptom description; the challenge is to keep diagnostic accuracy despite realistic distraction.
+When patients describe symptoms to a doctor they rarely speak in clean, clinical terms. They add personal stories, hesitations, repetitions, emotional reactions, and off-topic tangents. This study examines how this conversational "noise" degrades automated symptom-to-disease classification, and which model families stay robust. The task is a 24-class disease classification from a free-text symptom description; the challenge is to keep diagnostic accuracy despite realistic distraction.
 
 ## Data generation protocol
 

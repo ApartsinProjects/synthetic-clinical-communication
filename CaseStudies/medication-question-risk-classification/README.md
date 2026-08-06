@@ -1,10 +1,10 @@
-# MediGuard: Medication-Question Risk Classification
+# Medication-Question Risk Classification
 
 - **Paper section:** 3.3.5
 - **Source repository:** https://github.com/Dvora-coder/LLM-Medication-QA-Risk-Classifier
 
 ## Motivation
-Online medication questions often contain early-warning signals of confusion, misuse, harmful drug-drug interactions, and dangerous self-medication. Detecting these high-risk questions is essential for triage, pharmacovigilance, and the safety of medical chatbots. MediGuard frames this as a binary classification: **Critical** (potentially dangerous medication behavior) vs. **General** (informational / low-risk). Example: "Is it safe to take ibuprofen with warfarin?" -> `Critical`. Challenges are noisy layperson phrasing, brand-name variation, context-dependent risk, and severe class imbalance (Critical cases are rare).
+Online medication questions often contain early-warning signals of confusion, misuse, harmful drug-drug interactions, and dangerous self-medication. Detecting these high-risk questions is essential for triage, pharmacovigilance, and the safety of medical chatbots. This study frames this as a binary classification: **Critical** (potentially dangerous medication behavior) vs. **General** (informational / low-risk). Example: "Is it safe to take ibuprofen with warfarin?" -> `Critical`. Challenges are noisy layperson phrasing, brand-name variation, context-dependent risk, and severe class imbalance (Critical cases are rare).
 
 ## Data generation protocol
 The core question set is the public **MedInfo2019-QA-Medications** corpus (~655 questions after cleaning), double-annotated for criticality by two reviewers with Cohen's kappa agreement. Because Critical examples are rare, **GPT-4.1 (via Azure OpenAI) was used for synthetic augmentation**: it generates additional synthetic `Critical` questions to improve rare-class recall, which are then classified with the same prompt-based pipeline. GPT-4.1 also serves as a classifier itself, using a **few-shot, retrieval-augmented prompt** (no fine-tuning): for each question, DPR + FAISS retrieve the top-3 context passages from a hybrid knowledge corpus (DrugBank DDI + WHO Essential Medicines List), which are injected into the prompt. Classical models add a TF-IDF "Critical Similarity" cosine feature, SMOTE oversampling, and SVD dimensionality reduction.
