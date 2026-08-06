@@ -539,9 +539,10 @@
     digress, and reach for lay terms, so an intake or triage model that understands only clean descriptions
     fails exactly where it is most needed. This study frames diagnosis as multi-class classification over
     twenty-four disease categories from free-text self-descriptions, and asks specifically how accuracy holds
-    up as the language grows noisier. The difficulty is that large collections of naturally noisy patient
-    narratives paired with confirmed diagnoses are neither public nor easily gathered under privacy
-    constraints, so a graded-difficulty corpus cannot be assembled from real records. To build one, a local
+    up as the language grows noisier. The nearest public resource, the 24-class Symptom2Disease
+    set<sup class="cit">[108]</sup>, is small and written in clean prose; naturally noisy patient narratives
+    paired with confirmed diagnoses are neither public nor easily gathered under privacy constraints, so a
+    graded-difficulty corpus cannot be assembled from real records. To build one, a local
     Llama-3.1-8B model rewrites 1,200 clean symptom descriptions into medium- and heavy-noise variants,
     introducing repetition, off-topic asides, and personal narrative while preserving the original diagnosis
     label, giving 2,400 cases at controlled noise levels. Four classifiers are then trained and compared as
@@ -567,8 +568,9 @@
     again, and the skill that matters is choosing the question that resolves the most uncertainty. Most
     benchmarks bypass this by handing a model the complete case, so this study instead frames diagnosis as an
     interactive process in which an LLM clinician interrogates an LLM patient that holds only part of a case
-    and commits to a diagnosis after each round. Recorded diagnostic conversations with ground-truth outcomes
-    are rarely released, so the encounters are simulated: GPT-4o-mini instantiates cases from the
+    and commits to a diagnosis after each round. Interactive benchmarks such as MediQ<sup class="cit">[50]</sup>
+    recast exam vignettes into partial-information questioning, but organic diagnostic conversations with
+    ground-truth outcomes are rarely released, so the encounters are simulated: GPT-4o-mini instantiates cases from the
     Symptom-Disease Prediction Dataset (132 symptoms, 41 diseases) at three information-reveal tiers
     (Table&nbsp;8) and plays the patient. Question selection follows an information-gain objective, choosing
     the next question $q$ that most reduces diagnostic uncertainty, $q^{*} = \arg\max_{q} I(D; A_q \mid H)$,
@@ -591,9 +593,9 @@
   <h4 class="proj">3.1.3&nbsp;&nbsp;Urgency Triage from Arrival Complaints</h4>
   <p>When a patient reaches the emergency department, the first decision, made from a short account of the
     problem, is whether the case is urgent. This study frames that decision as binary text classification,
-    urgent versus non-urgent, over first-person arrival complaints. Free-text complaints paired with triage
-    outcomes are privacy-restricted and not publicly available, so GPT-4 generates natural, non-clinical
-    complaint texts that imitate how patients describe their symptoms, with the original triage labels
+    urgent versus non-urgent, over first-person arrival complaints. Real triage data such as MIMIC-IV-ED<sup class="cit">[110]</sup> pairs a
+    telegraphic chief-complaint field with a five-level acuity, but it is access-gated and lacks first-person
+    prose, so GPT-4 generates natural, non-clinical complaint texts that imitate how patients describe their symptoms, with the original triage labels
     collapsed to a binary target. Three models are compared: a TF-IDF logistic-regression baseline, a
     fine-tuned DistilBERT encoder, and a fine-tuned T5 generator (Table&nbsp;9). DistilBERT attains the best
     accuracy and F1, while the logistic-regression baseline retains the highest recall, a trade-off that is
@@ -622,9 +624,9 @@
   <h4 class="proj">3.2.1&nbsp;&nbsp;Extracting Clinical Decisions from Hebrew Discharge Summaries</h4>
   <p>Discharge summaries are where a hospital's decisions are handed to the patient and the next provider, and
     this study extracts them as structured drug and procedure decisions, each a four-tuple of span, type,
-    canonical concept, and action, from Hebrew summaries. The obstacle is a shortage of resources: as the project
-    puts it, "Hebrew has essentially no open, labeled medical corpus," so there is no shareable discharge data
-    to learn from. GPT-4o-mini, run through the Batch API, therefore generates 518 synthetic Hebrew summaries
+    canonical concept, and action, from Hebrew summaries. The task has an English analogue, MedDec<sup class="cit">[109]</sup>, which labels clinical decisions over
+    MIMIC-III discharge summaries, but no Hebrew labeled corpus exists, so there is no shareable discharge data
+    to learn from in this language. GPT-4o-mini, run through the Batch API, therefore generates 518 synthetic Hebrew summaries
     carrying 1,222 gold spans, anchored to MedDec- and MIMIC-III-derived targets by marked-span anchoring,
     with every span validated to appear verbatim in its summary. Four systems are compared: an XLM-R BIO
     tagger, an sklearn candidate reranker, a Gemini candidate selector, and a Qwen2.5-1.5B few-shot baseline
@@ -662,8 +664,9 @@
   <p>Patient-portal intake messages arrive short, informal, and error-strewn, and this study turns them into
     administrative routing signals: an urgency level (green, yellow, or red), a set of risk factors, and a
     judgment of whether the message carries enough information to act on, leaving the decision itself with a
-    human. Since portal messages are protected health information and none are public, the corpus is entirely
-    synthetic: a small local model, Qwen2.5-0.5B-Instruct, produces 3,000 message-and-label tasks, of which
+    human. Recent real portal-message data such as PMR-Bench<sup class="cit">[111]</sup> frames urgency as
+    pairwise ranking rather than the multi-axis routing needed here, and portal messages remain protected
+    health information, so the corpus is entirely synthetic: a small local model, Qwen2.5-0.5B-Instruct, produces 3,000 message-and-label tasks, of which
     2,799 parse cleanly, each message carrying its own structured labels. Three specialist DistilBERT heads are
     then compared against the same local model prompted zero- and few-shot (Table&nbsp;11). The fine-tuned heads
     decisively outperform the prompted model, and their composition routes reliably, indicating that
@@ -717,8 +720,8 @@
   <h4 class="proj">3.3.3&nbsp;&nbsp;Clinical-Priority Triage of Longitudinal Portal Messages</h4>
   <p>Patient-portal messages must be sorted by clinical risk while holding a difficult balance between missed
     emergencies and alert fatigue, and this study frames that as multi-class risk classification over
-    longitudinal message sequences. No public dataset maps to the multi-system priority criteria involved, so
-    GPT-4o generates 3,000 longitudinal cases from structured clinical attributes and varied linguistic
+    longitudinal message sequences. Existing portal datasets are single-message, and none provide longitudinal per-patient sequences with the
+    multi-system priority criteria involved, so GPT-4o generates 3,000 longitudinal cases from structured clinical attributes and varied linguistic
     profiles, deliberately seeding "confidently wrong" edge cases to stress the classifier. Zero-shot LLMs, a
     fine-tuned DistilBERT, and a Bio_ClinicalBERT baseline are compared against a Bio_ClinicalBERT model
     wrapped in a conversational safety cascade (Table&nbsp;13); the cascaded model attains near-perfect
@@ -741,8 +744,10 @@
   <h4 class="proj">3.3.4&nbsp;&nbsp;Classifying Psychosocial Distress in Oncology Messages</h4>
   <p>This study reads a single oncology patient message and infers both the dominant psychosocial response,
     over seven categories, and an ordinal distress level, so that emotional state can be triaged at scale for
-    support teams. As the project observes, "there is no public labeled dataset for this framing, and emotional
-    labels are subjective and expensive to annotate." A local Gemma2-27B therefore generates 1,273 examples
+    support teams. Public cancer-forum sentiment sets exist, but they cover public posts rather than private
+    secure messages and use emotion rather than psychosocial-response labels; as the project observes, there is
+    no public labeled dataset for this framing, and emotional labels are subjective and expensive to annotate.
+    A local Gemma2-27B therefore generates 1,273 examples
     whose text never names the target label, a deliberate leakage control, and a dual-model judge (GPT-4o-mini
     and Qwen2.5-32B) assigns a quality tier to each. A fine-tuned DistilBERT leads on the ordinal distress
     task, reaching a linear-weighted $\kappa$ of 0.851, while a TF-IDF baseline edges ahead on the nominal
@@ -760,8 +765,8 @@
 
   <h4 class="proj">3.3.5&nbsp;&nbsp;Risk Classification of Medication Questions</h4>
   <p>This study triages patient medication questions as critical or general, a filter for emerging drug-safety
-    and interaction risks. Critical cases are intrinsically rare, producing severe class imbalance in any real
-    collection, so after two reviewers label 5,000 real forum questions, GPT-4.1 generates additional synthetic
+    and interaction risks. Adjacent resources such as MedicationQA carry no criticality label, and critical cases are intrinsically rare,
+    producing severe class imbalance, so after two reviewers label 5,000 real forum questions, GPT-4.1 generates additional synthetic
     critical questions to rebalance the training set, a step that raises the GPT-4.1 classifier's own macro-F1
     from 0.78 to 0.85. Fine-tuned BioBERT and BlueBERT are the strongest models overall (Table&nbsp;15), and
     the augmentation narrows much of the gap for the generative classifier. The study is reported in full as an
@@ -784,8 +789,8 @@
   <p>In home care, where no clinician is physically present, early signs of deterioration surface in the
     messages patients send and in their vital-sign trends. This study predicts whether a patient's status is
     unchanged, improving, or deteriorating from home-care symptom messages together with vital-sign deltas.
-    Such message-and-vitals streams with labeled outcomes are not publicly available, so the dataset is
-    generated synthetically with model prompting over coupled symptom and vital patterns and rendered as free
+    Home-telemonitoring datasets provide vital-sign streams but no paired patient messages or status-change
+    labels, so the dataset is generated synthetically with model prompting over coupled symptom and vital patterns and rendered as free
     text plus deltas for heart rate, respiratory rate, temperature, and blood pressure. Text-only, vitals-only,
     and late-fusion models are compared; fusing the two modalities wins, with a LightGBM model over TF-IDF text
     and vitals reaching 0.971 accuracy and 0.972 macro-F1 (Figure&nbsp;4).</p>
@@ -807,8 +812,9 @@
   <h4 class="proj">3.4.1&nbsp;&nbsp;Routing EMS Pre-Arrival Reports</h4>
   <p>When an ambulance calls ahead, the emergency department must infer, from a hurried and noisy report, which
     care area to ready and which specialty to summon. This study predicts both from EMS pre-arrival reports.
-    Real reports are short, incomplete, spoken over noise, and mangled by automatic transcription, and they are
-    almost never released, so GPT-4.1-mini generates 8,556 reports in four stylistic registers, from
+    EMS narrative NLP has been demonstrated only on private agency data, with no public corpus mapping reports to
+    care-area and specialty labels; real reports are also short, incomplete, spoken over noise, and mangled by
+    transcription, so GPT-4.1-mini generates 8,556 reports in four stylistic registers, from
     professional-and-complete to distracted handoff, over 2,139 MIMIC-IV-Ext source cases, while an audio and
     ASR pipeline injects realistic transcription noise. BioClinicalBERT and DistilBERT are trained with and
     without the noisy variants. The eighteen-way targets make this an intrinsically hard task; the key result is
@@ -833,8 +839,8 @@
   <h4 class="proj">3.4.2&nbsp;&nbsp;Reconstructing Casualty Records from Field Radio</h4>
   <p>On the battlefield only about half of casualty encounters are documented at all, and what reaches a
     hospital arrives as chaotic radio. This study reconstructs a structured twenty-field casualty record, an
-    IDF Form 101, from that traffic. Because such radio is largely unrecorded and effectively impossible to
-    collect at scale, GPT-4o, with fifty further samples from GPT-4o-mini, converts structured casualty
+    IDF Form 101, from that traffic. Because such radio is inherently private, largely unrecorded, and effectively impossible to collect at scale,
+    with no public dataset in this language, GPT-4o, with fifty further samples from GPT-4o-mini, converts structured casualty
     profiles into 500 messy Hebrew transcripts, injecting static, communication cutouts, slang, and
     self-corrections at three reliability levels and emitting the ground-truth record alongside each
     transcript. An AlephBERT multi-head classifier is compared against GPT-4 in zero- and one-shot prompting
@@ -860,8 +866,8 @@
   <h4 class="proj">3.4.3&nbsp;&nbsp;Completeness Checking of SBAR Handovers</h4>
   <p>Shift handovers are among the most error-prone moments in care, and the SBAR format exists to make them
     complete. This study detects missing or under-specified items in SBAR handover notes, turning completeness
-    itself into a supervised target. Because handover notes are internal and sensitive, it works from 5,000
-    synthetic SBAR notes produced by OpenAI batch generation over a requiredness-and-completeness schema with
+    itself into a supervised target. The SBAR literature is confined to quality-improvement studies with no public annotated corpus, and handover
+    notes are internal and sensitive, so it works from 5,000 synthetic SBAR notes produced by OpenAI batch generation over a requiredness-and-completeness schema with
     both per-item and note-level labels. A range of models is compared, from majority and style baselines and
     TF-IDF logistic regression to text-only and context-aware BioClinicalBERT, Qwen prompting, and a
     hierarchical extension that predicts requiredness before completeness (Table&nbsp;18, Figure&nbsp;7).
