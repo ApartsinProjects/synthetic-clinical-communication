@@ -385,23 +385,22 @@
 
   <!-- ================= 4 ================= -->
   <h3 id="s4">2.3&nbsp;&nbsp;Evaluating Synthetic Clinical Communication</h3>
-  <p class="lead">Evaluation is the least standardized part of the field. We organize it into four levels,
-    from surface text quality to downstream utility.</p>
-  <p>Throughout Section&nbsp;3 we report macro-averaged F1, which weights every class equally regardless of
-    frequency and is therefore the right summary for the imbalanced, safety-critical classes typical of
-    clinical communication:
-    $$\mathrm{F1}_{\text{macro}} = \frac{1}{K}\sum_{k=1}^{K}\frac{2\,P_k R_k}{P_k + R_k},$$
-    where $P_k$ and $R_k$ are the precision and recall of class $k$ over $K$ classes.</p>
+  <p class="lead">Evaluation is the least standardized part of the field. We organize it into four levels, from
+    surface text quality to downstream utility, with the concrete metrics used at each level collected in
+    Table&nbsp;4. Throughout Section&nbsp;3 the headline downstream metric is macro-averaged F1, which weights
+    every class equally and is therefore the right summary for the imbalanced, safety-critical classes typical
+    of clinical communication.</p>
 
   <div class="tablewrap">
     <table>
-      <caption><b>Table 4.</b> Four evaluation levels for synthetic clinical communication.</caption>
-      <thead><tr><th>Level</th><th>Dimensions</th><th>Representative methods</th></tr></thead>
+      <caption><b>Table 4.</b> Four levels for evaluating synthetic clinical communication, with the questions
+        they ask and the metrics typically used.</caption>
+      <thead><tr><th>Level</th><th>Question</th><th>Typical metrics</th></tr></thead>
       <tbody>
-        <tr><td>Text quality</td><td>Fluency, readability, coherence</td><td>Automatic metrics, human ratings</td></tr>
-        <tr><td>Clinical quality</td><td>Medical correctness, internal consistency, diagnostic plausibility</td><td>Clinician review, rubric scoring</td></tr>
-        <tr><td>Dataset quality</td><td>Diversity, coverage, distributional similarity, privacy</td><td>Distributional metrics, membership tests</td></tr>
-        <tr><td>Downstream utility</td><td>Model performance, generalization, transfer</td><td>Train-on-synthetic / test-on-real</td></tr>
+        <tr><td>Text quality</td><td>Is the language fluent and coherent?</td><td>Perplexity, readability indices, human fluency and coherence ratings</td></tr>
+        <tr><td>Clinical quality</td><td>Are the facts correct and internally consistent?</td><td>Clinician rubric scores, factual-agreement and contradiction rate, hallucination and omission rate</td></tr>
+        <tr><td>Dataset quality</td><td>Is the corpus diverse, faithful, and safe?</td><td>Lexical and embedding diversity, distributional distance to real text, duplication rate, membership-inference and PHI-leakage tests</td></tr>
+        <tr><td>Downstream utility</td><td>Do models trained on it work?</td><td>Macro-F1, precision and recall, AUROC, and the train-on-synthetic / test-on-real (S&rarr;R) gap</td></tr>
       </tbody>
     </table>
   </div>
@@ -500,20 +499,24 @@
     scribing<sup class="cit">[59,30]</sup>. The three studies below concentrate on the patient's side of that
     exchange: how a model can learn from, and reason over, the way patients actually speak.</p>
 
-  <h4 class="proj">3.1.1&nbsp;&nbsp;PatientSignal <span class="showtag">patient self-description</span></h4>
-  <p>PatientSignal studies diagnosis from the language patients actually use, the rambling, emotional, and
-    non-clinical self-descriptions that replace clean symptom lists in practice, over twenty-four disease
-    categories. Because large collections of naturally noisy patient narratives paired with diagnoses are
-    neither public nor easily gathered under privacy constraints, the study synthesizes them: a local
-    Llama-3.1-8B model rewrites 1,200 clean symptom descriptions into medium- and heavy-noise variants that
-    introduce repetition, digression, and personal narrative while preserving the original diagnosis label,
-    yielding 2,400 synthetic cases. Four classifiers, ranging from a TF-IDF Na&iuml;ve Bayes baseline to BERT,
-    ClinicalBERT, and FLAN-T5, are then trained and evaluated as the language grows noisier (Table&nbsp;7).
-    FLAN-T5 proves the most robust, degrading least under heavy noise where the Na&iuml;ve Bayes baseline
-    collapses, a pattern reported in the associated benchmark of LLMs on noisy patient narratives<sup class="cit">[2]</sup>.</p>
+  <h4 class="proj">3.1.1&nbsp;&nbsp;Diagnosis from Noisy Patient Self-Descriptions</h4>
+  <p>Patients rarely describe their symptoms in the tidy vocabulary of a textbook: they ramble, hedge,
+    digress, and reach for lay terms, so an intake or triage model that understands only clean descriptions
+    fails exactly where it is most needed. This study frames diagnosis as multi-class classification over
+    twenty-four disease categories from free-text self-descriptions, and asks specifically how accuracy holds
+    up as the language grows noisier. The difficulty is that large collections of naturally noisy patient
+    narratives paired with confirmed diagnoses are neither public nor easily gathered under privacy
+    constraints, so a graded-difficulty corpus cannot be assembled from real records. To build one, a local
+    Llama-3.1-8B model rewrites 1,200 clean symptom descriptions into medium- and heavy-noise variants,
+    introducing repetition, off-topic asides, and personal narrative while preserving the original diagnosis
+    label, giving 2,400 cases at controlled noise levels. Four classifiers are then trained and compared as
+    the language degrades: a TF-IDF Na&iuml;ve Bayes baseline, BERT, ClinicalBERT, and a generative FLAN-T5.
+    FLAN-T5 is the most noise-robust, degrading least under heavy noise where the Na&iuml;ve Bayes baseline
+    collapses (Table&nbsp;7); the accompanying benchmark of LLMs on noisy patient narratives reports the same
+    pattern<sup class="cit">[2]</sup>.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 7.</b> PatientSignal: diagnostic accuracy by narrative noise level.</caption>
+      <caption><b>Table 7.</b> Diagnostic accuracy by narrative noise level (synthetic test).</caption>
       <thead><tr><th>Model</th><th>Clean</th><th>Medium noise</th><th>Heavy noise</th></tr></thead>
       <tbody>
         <tr><td>Na&iuml;ve Bayes (TF-IDF)</td><td>93.8%</td><td>79.2%</td><td>77.5%</td></tr>
@@ -526,21 +529,23 @@
   <p class="mats"><a href="https://github.com/lielsheri/Natural-Language-Processing-project">Code</a>
     &middot; <a href="https://arxiv.org/abs/2509.11803">paper</a> [2].</p>
 
-  <h4 class="proj">3.1.2&nbsp;&nbsp;MedQDx <span class="showtag">diagnostic questioning</span></h4>
-  <p>MedQDx recasts diagnosis as an interactive, question-driven process in which an LLM clinician interrogates
-    an LLM patient that holds only part of a case and commits to a diagnosis after each round, testing the
-    history-taking skill that complete-information benchmarks ignore. Because recorded diagnostic conversations
-    with ground-truth outcomes are rarely released, the encounters are simulated: GPT-4o-mini instantiates
-    cases from the Symptom-Disease Prediction Dataset (132 symptoms, 41 diseases) at three information-reveal
-    tiers (Table&nbsp;8) and plays the patient. Question selection follows an information-gain objective,
-    choosing the next question $q$ that most reduces diagnostic uncertainty,
-    $q^{*} = \arg\max_{q} I(D; A_q \mid H)$, where $D$ is the diagnosis, $A_q$ the answer, and $H$ the dialogue
-    history; each round's diagnosis is scored against the ground-truth prognosis. The reveal tiers make
-    questioning efficiency measurable and anchor the diagnostic-questioning benchmark
-    line<sup class="cit">[1]</sup>.</p>
+  <h4 class="proj">3.1.2&nbsp;&nbsp;Adaptive Diagnostic Questioning under Partial Information</h4>
+  <p>Diagnosis in practice is interactive: a clinician asks a question, updates a differential, and asks
+    again, and the skill that matters is choosing the question that resolves the most uncertainty. Most
+    benchmarks bypass this by handing a model the complete case, so this study instead frames diagnosis as an
+    interactive process in which an LLM clinician interrogates an LLM patient that holds only part of a case
+    and commits to a diagnosis after each round. Recorded diagnostic conversations with ground-truth outcomes
+    are rarely released, so the encounters are simulated: GPT-4o-mini instantiates cases from the
+    Symptom-Disease Prediction Dataset (132 symptoms, 41 diseases) at three information-reveal tiers
+    (Table&nbsp;8) and plays the patient. Question selection follows an information-gain objective, choosing
+    the next question $q$ that most reduces diagnostic uncertainty, $q^{*} = \arg\max_{q} I(D; A_q \mid H)$,
+    where $D$ is the diagnosis, $A_q$ the answer, and $H$ the dialogue history; each round's diagnosis is
+    scored against the ground-truth prognosis. Because this is an evaluation benchmark rather than a trained
+    classifier, its contribution is a controllable testbed: the reveal tiers make questioning efficiency
+    measurable and anchor the diagnostic-questioning benchmark line<sup class="cit">[1]</sup>.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 8.</b> MedQDx information-reveal tiers used to probe questioning efficiency.</caption>
+      <caption><b>Table 8.</b> Information-reveal tiers used to probe diagnostic-questioning efficiency.</caption>
       <thead><tr><th>Tier</th><th>Symptoms revealed to patient agent</th><th>What it measures</th></tr></thead>
       <tbody>
         <tr><td>Full</td><td>100%</td><td>Ceiling accuracy with complete information</td></tr>
@@ -552,17 +557,19 @@
   <p class="mats"><a href="https://github.com/MaiWert/MedQDx">Code</a>
     &middot; <a href="https://www.researchsquare.com/article/rs-6999490/v1">paper</a> [1].</p>
 
-  <h4 class="proj">3.1.3&nbsp;&nbsp;LangTriage <span class="showtag">ER self-description</span></h4>
-  <p>LangTriage addresses initial emergency-department triage, sorting arriving patients into urgent and non-urgent from
-    their own first-person descriptions. As free-text arrival complaints paired with triage outcomes are
-    privacy-restricted, GPT-4 generates natural, non-clinical complaint texts that imitate how patients
-    describe their symptoms, with the original triage labels collapsed to a binary target. Among the three
-    classifiers compared (Table&nbsp;9), a fine-tuned DistilBERT attains the best accuracy and F1, while a
-    TF-IDF logistic-regression baseline retains the highest recall, a trade-off that is consequential for a
-    safety filter deliberately biased toward over-triage.</p>
+  <h4 class="proj">3.1.3&nbsp;&nbsp;Urgency Triage from Arrival Complaints</h4>
+  <p>When a patient reaches the emergency department, the first decision, made from a short account of the
+    problem, is whether the case is urgent. This study frames that decision as binary text classification,
+    urgent versus non-urgent, over first-person arrival complaints. Free-text complaints paired with triage
+    outcomes are privacy-restricted and not publicly available, so GPT-4 generates natural, non-clinical
+    complaint texts that imitate how patients describe their symptoms, with the original triage labels
+    collapsed to a binary target. Three models are compared: a TF-IDF logistic-regression baseline, a
+    fine-tuned DistilBERT encoder, and a fine-tuned T5 generator (Table&nbsp;9). DistilBERT attains the best
+    accuracy and F1, while the logistic-regression baseline retains the highest recall, a trade-off that is
+    consequential for a safety filter deliberately biased toward over-triage.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 9.</b> LangTriage: binary ER triage (synthetic test).</caption>
+      <caption><b>Table 9.</b> Binary emergency-department triage (synthetic test).</caption>
       <thead><tr><th>Model</th><th>Accuracy</th><th>F1</th><th>Recall</th></tr></thead>
       <tbody>
         <tr><td>TF-IDF + logistic regression</td><td>0.810</td><td>0.653</td><td><b>0.873</b></td></tr>
