@@ -938,14 +938,39 @@
     establish readiness for care.</p>
 
   <!-- ================= 5 Future Directions ================= -->
-  <h2 id="s9b">5&nbsp;&nbsp;Future Directions</h2>
-  <p>Several directions follow naturally. Synthetic foundation datasets could pretrain models specifically for
-    clinical communication, and agent-based patient simulation<sup class="cit">[10,56,57,58]</sup> could turn
-    static corpora into interactive environments for both training and evaluation, extending toward
-    personalized synthetic patients that reflect particular histories and communication styles. Continual
-    generation would keep such data current as guidelines and language drift; standardized, versioned
-    benchmarks would make results comparable across groups; and human-in-the-loop generation would keep
-    clinicians in control of realism and safety.</p>
+  <h2 id="s9b">5&nbsp;&nbsp;Research Frontiers and Open Problems</h2>
+  <p>The clearest opportunities cluster into a few themes. The first is <b>interactive simulation</b>. Moving
+    from static corpora toward multi-agent simulation, in which patient and clinician agents generate
+    consultations on demand and double as graded evaluation environments, fits the sequential, goal-directed
+    nature of clinical talk. Coevolving standardized-patient agents<sup class="cit">[62]</sup>, safety-focused
+    simulation-and-evaluation frameworks<sup class="cit">[101]</sup>, and multimodal clinical-agent
+    benchmarks<sup class="cit">[102]</sup> point toward environments that fold generation and evaluation into
+    one renewable loop, extending toward personalized synthetic patients<sup class="cit">[10,56,57,58]</sup>.</p>
+  <p>A second theme is <b>spoken and multi-party communication</b>. The EMS, dispatch, and verbal-handoff
+    channels are spoken first and rich in protected information, yet text-only synthesis discards the
+    acoustic-error distribution that dominates real deployment. Joint synthetic pipelines that pair generated
+    audio with transcripts and inject realistic recognition noise are a clear open space that would let
+    transcription-robust clinical NLP be trained without recording real calls.</p>
+  <p>A third is <b>privacy, fidelity, and utility, co-measured</b>. Membership-inference and canary auditing
+    now quantify leakage on the exact synthetic text behind a utility claim<sup class="cit">[79]</sup>, fidelity
+    and diversity metrics are under active and critical revision<sup class="cit">[82,83]</sup>, and
+    differentially private generators still contend with specialist clinical distributions<sup class="cit">[80]</sup>.
+    The open problem is to co-optimize and co-report privacy, clinical faithfulness, and downstream utility in a
+    single pass on one generator, rather than in separate studies.</p>
+  <p>A fourth is <b>controllable, causal, and continually current generation</b>. Explicit control over
+    uncertainty, omission, code-switching, and recognition noise, together with counterfactual variants of the
+    same encounter, would let downstream models be probed for what they actually rely on; surveys of
+    conversational data generation catalog the available levers<sup class="cit">[105]</sup>. Continual,
+    self-refining generation could keep synthetic communication current as guidelines and language drift,
+    provided recursive self-training is guarded against model collapse<sup class="cit">[104]</sup>.</p>
+  <p>Underlying all of these are <b>foundations, benchmarks, and human oversight</b>. Whether synthetic clinical
+    dialogue obeys predictable scaling laws, and where returns plateau, is an open and decision-critical
+    question<sup class="cit">[103]</sup>; shared, communication-specific fidelity benchmarks, including
+    rubric-scored and OSCE-style stations<sup class="cit">[107]</sup>, would let scaling laws, privacy audits,
+    and agent evaluations be compared across groups. Removing generator fingerprints so that models learn
+    clinical content rather than stylistic tics<sup class="cit">[106]</sup>, preference optimization toward
+    clinician-judged realism, and automated safety auditing that treats omission as seriously as
+    fabrication<sup class="cit">[84]</sup> complete an agenda in which clinician oversight remains central.</p>
 
   <!-- ================= 9 ================= -->
   <h2 id="s9">6&nbsp;&nbsp;Conclusions</h2>
@@ -1083,6 +1108,13 @@
       <li>L. Wang et al. Using natural language processing in emergency medicine health service research: A systematic review and meta-analysis. <i>Academic Emergency Medicine</i>, 2024.</li>
       <li>N. W. Sterling et al. Applications of natural language processing at emergency department triage: A narrative review. <i>PLOS ONE</i>, 2023.</li>
       <li>R. M. Cronin et al. A comparison of rule-based and machine learning approaches for classifying patient portal messages. <i>International Journal of Medical Informatics</i>, 2017.</li>
+      <li>J. Lim et al. MATRIX: Multi-Agent Simulation Framework for Safe Interactions and Contextual Clinical Conversational Evaluation. <i>arXiv:2508.19163</i>, 2025.</li>
+      <li>S. Schmidgall et al. AgentClinic: A Multimodal Agent Benchmark to Evaluate AI in Simulated Clinical Environments. <i>arXiv:2405.07960</i>, 2024.</li>
+      <li>Z. Qin et al. Scaling Laws of Synthetic Data for Language Models. <i>COLM</i> (arXiv:2503.19551), 2025.</li>
+      <li>I. Shumailov et al. The Curse of Recursion: Training on Generated Data Makes Models Forget. <i>arXiv:2305.17493</i>, 2023.</li>
+      <li>Z. Bao et al. A Survey on Recent Advances in Conversational Data Generation. <i>arXiv:2405.13003</i>, 2024.</li>
+      <li>Y. Wang et al. M4: Multi-generator, Multi-domain, and Multi-lingual Black-Box Machine-Generated Text Detection. <i>EACL</i>, 2024.</li>
+      <li>Z. Yao et al. MedQA-CS: An OSCE-Style Benchmark for Evaluating LLM Clinical Skills. <i>arXiv:2410.01553</i>, 2024.</li>
     </ol>
   </div>
 
