@@ -1,0 +1,15 @@
+Model,Target,Training Data,Test Data,Accuracy,Macro F1
+BioClinicalBERT,ED Care Area,Clean,Clean,0.671,0.319
+BioClinicalBERT,Specialty Consultation,Clean,Clean,0.657,0.506
+DistilBERT,ED Care Area,Clean,Clean,0.665,0.28
+DistilBERT,Specialty Consultation,Clean,Clean,0.607,0.344
+BioClinicalBERT,ED Care Area,Clean,Noisy ASR,0.59,0.2255
+BioClinicalBERT,Specialty Consultation,Clean,Noisy ASR,0.393,0.2774
+DistilBERT,ED Care Area,Clean,Noisy ASR,0.559,0.2387
+DistilBERT,Specialty Consultation,Clean,Noisy ASR,0.408,0.2245
+BioClinicalBERT,ED Care Area,Noisy ASR,Noisy ASR,0.6464,0.2764
+BioClinicalBERT,Specialty Consultation,Noisy ASR,Noisy ASR,0.4977,0.3121
+DistilBERT,ED Care Area,Noisy ASR,Noisy ASR,0.6246,0.2198
+DistilBERT,Specialty Consultation,Noisy ASR,Noisy ASR,0.4509,0.1982
+BioClinicalBERT,ED Care Area,Clean + Noisy ASR,Noisy ASR,0.6363,0.2916
+BioClinicalBERT,Specialty Consultation,Clean + Noisy ASR,Noisy ASR,0.525,0.3833
