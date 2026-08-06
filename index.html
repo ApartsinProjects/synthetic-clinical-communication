@@ -786,7 +786,11 @@
     critical questions to rebalance the training set, a targeted use of generation as class-balancing
     augmentation that raises the GPT-4.1 classifier's own macro-F1 from 0.78 to 0.85. A classical SVM, GPT-4.1
     in two modes, and fine-tuned BioBERT and BlueBERT are compared (Table&nbsp;15); the fine-tuned encoders are
-    strongest overall at 0.92 accuracy and 0.90 macro-F1. The study is reported in full as an analysis of
+    strongest overall at 0.92 accuracy and 0.90 macro-F1. The held-out questions here are authentic
+    patient-authored text and synthetic generation is confined to training-side rebalancing, which makes this
+    the one study in the survey whose reported metric is measured on real communication rather than on
+    held-out synthetic data; the classical SVM baseline (0.84 accuracy, 0.80 macro-F1) isolates that real-only
+    signal. The study is reported in full as an analysis of
     predicting health crises from online medication inquiries<sup class="cit">[3]</sup>.</p>
   <div class="tablewrap">
     <table>
@@ -1022,9 +1026,13 @@
     audited by an independent judge deliver both control and quality; and local, on-premises generators can
     bootstrap usable datasets without exposing any real data. These are encouraging and reusable design
     lessons, not one-off results.</p>
-  <p>They come, however, with an unmistakable caveat. Almost every study evaluates on held-out synthetic data,
-    so the decisive evidence, strong performance when a model is trained on synthetic communication and tested
-    on real communication, is still largely outstanding. Closing that gap, alongside progress on hallucination
+  <p>They come, however, with an unmistakable caveat. Almost every study evaluates on held-out synthetic data.
+    The clearest exception is the medication-question study (Section&nbsp;3.3.5), whose classifier is tested on
+    authentic patient-authored questions with synthetic generation confined to rebalancing the rare class in
+    training; two further studies ground generation in real clinical records, tracing decision extraction to
+    MedDec and MIMIC-III annotations (Section&nbsp;3.2.1) and EMS routing to MIMIC-IV cases (Section&nbsp;3.4.1).
+    Even so, the decisive evidence, strong performance when a model is trained end-to-end on synthetic
+    communication and tested on real communication, is still largely outstanding. Closing that gap, alongside progress on hallucination
     control, distributional fidelity, longitudinal consistency, and validation standards that regulators will
     accept, is the work that will decide whether synthetic clinical communication becomes durable
     infrastructure or remains a convenience. As generation quality, evaluation rigor, and privacy guarantees
