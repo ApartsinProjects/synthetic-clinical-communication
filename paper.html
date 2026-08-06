@@ -37,6 +37,24 @@
   }
   .badge:hover{background:var(--navy); color:#fff;}
 
+  /* ---- Downloads panel (top-right, screen only) ---- */
+  .downloads{
+    position:fixed; top:12px; right:12px; z-index:50;
+    display:flex; flex-direction:column; gap:5px;
+    background:rgba(255,255,255,.92); border:1px solid var(--rule);
+    border-radius:6px; padding:9px 10px;
+    box-shadow:0 1px 4px rgba(0,0,0,.08);
+  }
+  .downloads .dl-lbl{font-size:7.5pt; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); margin-bottom:1px;}
+  .downloads a{
+    display:block; font-size:8.5pt; letter-spacing:.3px; text-decoration:none;
+    color:var(--navy); border:1px solid var(--navy); border-radius:3px;
+    padding:3px 9px; text-align:center; transition:background .15s ease,color .15s ease;
+  }
+  .downloads a:hover{background:var(--navy); color:#fff;}
+  @media print{ .downloads{display:none;} }
+  @media (max-width:1100px){ .downloads{position:static; flex-direction:row; flex-wrap:wrap; margin:0 auto 18px; max-width:600px; box-shadow:none;} }
+
   /* ---- Abstract ---- */
   .abstract{max-width:600px; margin:0 auto 30px;}
   .abstract .lbl{
@@ -123,6 +141,14 @@
 </head>
 <body>
 <main class="page">
+
+  <nav class="downloads" aria-label="Download this paper">
+    <span class="dl-lbl">Download</span>
+    <a href="paper-1col.pdf">PDF &middot; 1-col</a>
+    <a href="paper-2col.pdf">PDF &middot; 2-col</a>
+    <a href="paper-1col.docx">Word &middot; 1-col</a>
+    <a href="paper-2col.docx">Word &middot; 2-col</a>
+  </nav>
 
   <h1 class="title">Clinical Communication Processing with Models Trained on LLM-Generated Synthetic Data:<br>A Structured Survey and Novel Application Case Studies</h1>
   <p class="authors">Alexander Apartsin<sup>1</sup>&nbsp;&nbsp;&nbsp;Yehudit Aperstein<sup>2</sup></p>
