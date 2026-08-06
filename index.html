@@ -1,0 +1,919 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM-Generated Synthetic Clinical Communication for Healthcare AI: A Survey and Application Studies</title>
+<style>
+  :root{
+    --ink:#111418; --soft:#2c3138; --muted:#5a626c; --navy:#14385c;
+    --rule:#d1d4d8; --codebg:#f4f5f7;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:#fff; color:var(--ink);
+    font-family:"Charter","Iowan Old Style","Source Serif Pro",Georgia,"Times New Roman",serif;
+    font-size:11pt; line-height:1.55;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  .page{max-width:720px; margin:0 auto; padding:54px 28px 80px;}
+  code,pre,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;}
+
+  /* ---- Title block ---- */
+  .title{
+    text-align:center; font-size:19pt; font-weight:600; line-height:1.25;
+    margin:0 0 14px; letter-spacing:.1px;
+  }
+  .authors{text-align:center; font-size:11pt; color:var(--soft); margin:0 0 2px;}
+  .affil{text-align:center; font-size:9.5pt; color:var(--muted); margin:0 0 4px; font-style:italic;}
+  .meta-note{text-align:center; font-size:9pt; color:var(--muted); margin:0 0 26px;}
+  .badges{text-align:center; margin:14px 0 30px;}
+  .badge{
+    display:inline-block; border:1px solid var(--navy); color:var(--navy);
+    font-size:9pt; letter-spacing:.4px; text-transform:uppercase;
+    padding:4px 12px; margin:0 4px; border-radius:3px; text-decoration:none;
+    transition:background .15s ease,color .15s ease;
+  }
+  .badge:hover{background:var(--navy); color:#fff;}
+
+  /* ---- Abstract ---- */
+  .abstract{max-width:600px; margin:0 auto 30px;}
+  .abstract .lbl{
+    text-align:center; font-variant:small-caps; letter-spacing:1px;
+    font-size:10.5pt; font-weight:700; color:var(--soft); margin:0 0 8px;
+  }
+  .abstract p{font-size:10pt; text-align:justify; hyphens:auto; text-indent:0; margin:0 0 8px;}
+
+  /* ---- Headings ---- */
+  h2{
+    font-size:13pt; font-weight:700; color:var(--ink);
+    margin:26px 0 8px; padding-bottom:3px; border-bottom:1px solid var(--rule);
+  }
+  h3{font-size:11.5pt; font-weight:700; color:var(--soft); margin:18px 0 5px;}
+  h4{font-size:10.5pt; font-weight:700; color:var(--soft); margin:13px 0 4px; font-style:italic;}
+
+  /* ---- Body paragraphs: flush-first, indented continuations ---- */
+  p{margin:0; text-indent:1.4em; text-align:justify; hyphens:auto;}
+  h2+p,h3+p,h4+p,figure+p,.tablewrap+p,.abstract+p,.lead{text-indent:0;}
+  .lead{margin-bottom:4px;}
+
+  ul,ol{margin:4px 0 8px; padding-left:1.5em;}
+  li{margin:1px 0; text-align:justify; hyphens:auto;}
+  li::marker{color:var(--muted);}
+
+  /* ---- Tables (booktabs) ---- */
+  .tablewrap{margin:16px 0; overflow-x:auto;}
+  table{border-collapse:collapse; width:100%; font-size:9.5pt;}
+  caption,.cap{
+    font-size:9.5pt; color:var(--muted); caption-side:top; text-align:left;
+    margin-bottom:5px; text-indent:0;
+  }
+  .cap b,caption b{color:var(--soft);}
+  th,td{padding:5px 9px; text-align:left; vertical-align:top;}
+  thead th{border-bottom:1px solid var(--soft);}
+  table{border-top:1.5px solid var(--ink); border-bottom:1.5px solid var(--ink);}
+  tbody tr:first-child td{padding-top:6px;}
+
+  /* ---- Figure / callout ---- */
+  figure{margin:16px 0; text-align:center;}
+  figure img{max-width:100%; height:auto; border:1px solid var(--rule); border-radius:2px;}
+  figcaption{font-size:9.5pt; color:var(--muted); margin-top:5px; text-align:left; text-indent:0;}
+  .showtag{display:none;}
+  .mats{font-size:9pt; color:var(--muted); text-indent:0; margin-top:3px;}
+  .mats a{color:var(--navy); text-decoration:none;} .mats a:hover{text-decoration:underline;}
+  h4.proj{font-style:normal; font-size:11pt; margin-top:16px;}
+  sup.cit{font-size:inherit; vertical-align:baseline; color:inherit;}
+  .mini{font-size:10pt;}
+  .katex{font-size:1em;}
+  .kv{text-indent:0; margin:3px 0;}
+  .byline{text-indent:0; margin:1px 0 5px; font-size:9.5pt; color:var(--muted); font-style:italic;}
+  .kv b{color:var(--soft);}
+  .box{
+    border:1px solid var(--rule); border-left:3px solid var(--navy);
+    background:#fbfcfd; padding:10px 14px; margin:14px 0; border-radius:2px;
+  }
+  .box .cap{margin-bottom:4px;}
+  .box p{text-indent:0;}
+
+  .stub{color:var(--muted); font-style:italic;}
+  .kw{font-variant:small-caps; letter-spacing:.3px; color:var(--soft);}
+
+  hr.sec{border:0; border-top:1px solid var(--rule); margin:30px 0;}
+
+  /* ---- References ---- */
+  .refs{font-size:9pt; line-height:1.4;}
+  .refs ol{padding-left:1.6em;}
+  .refs li{margin:3px 0; text-align:left; text-indent:0;}
+
+  footer{margin-top:40px; padding-top:12px; border-top:1px solid var(--rule);
+    font-size:9pt; color:var(--muted); text-align:center;}
+
+  /* TOC */
+  nav.toc{border:1px solid var(--rule); border-radius:3px; padding:12px 18px; margin:0 0 26px; background:#fbfcfd;}
+  nav.toc .lbl{font-variant:small-caps; letter-spacing:1px; font-size:9.5pt; font-weight:700; color:var(--soft);}
+  nav.toc ol{font-size:9.5pt; margin:6px 0 0; padding-left:1.4em;}
+  nav.toc a{color:var(--navy); text-decoration:none;}
+  nav.toc a:hover{text-decoration:underline;}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
+</head>
+<body>
+<main class="page">
+
+  <h1 class="title">LLM-Generated Synthetic Clinical Communication for Healthcare AI:<br>A Survey and Application Studies</h1>
+  <p class="authors">Alexander Apartsin<sup>1</sup>&nbsp;&nbsp;&nbsp;Yehudit Aperstein<sup>2</sup></p>
+  <p class="affil"><sup>1</sup>&thinsp;School of Computer Science, Faculty of Sciences, Holon Institute of Technology (HIT), Holon, Israel
+    &nbsp;&middot;&nbsp; <sup>2</sup>&thinsp;Intelligent Systems, Afeka Academic College of Engineering, Tel-Aviv, Israel</p>
+
+  <div class="abstract">
+    <p class="lbl">Abstract</p>
+    <p>A great deal of clinical value is locked inside unstructured communication: the spoken and written
+      exchanges through which patients describe symptoms, clinicians reason and give instructions, ambulances
+      hand over to emergency departments, and nurses pass on a shift. Natural language processing can unlock
+      this value, powering information extraction, triage, summarization, and decision support, but only if it
+      can learn from large, diverse, and well-annotated corpora of such communication. These corpora are
+      precisely what the field lacks: real clinical communication is private, fragmented across channels, and
+      costly to annotate, so it cannot be assembled at the scale that modern models require. Large language
+      models offer a way forward, because, used carefully, they can synthesize clinically plausible
+      communication together with its labels, providing a privacy-preserving substitute for real exchanges and
+      an effective source of training and test data. This paper surveys that emerging area. We review current
+      trends, research themes, and recent work on generating synthetic clinical communication, organized by
+      communication channel and by the downstream clinical natural language processing (NLP) task each
+      supports, and we present a series of application studies in which synthetic data generated by large
+      language models is used to train and evaluate clinical NLP systems across patient conversations,
+      doctor-to-patient instructions, telemedicine and portal messaging, and paramedic, dispatch, and handoff
+      communication. We close by discussing the open challenges, among them clinical realism, hallucination
+      control, distributional fidelity, and validation on real communication, and argue that synthetic
+      clinical communication is becoming a foundational resource for scalable, reproducible, and
+      privacy-preserving clinical NLP.</p>
+  </div>
+
+
+  <!-- ================= 1 ================= -->
+  <h2 id="s1">1&nbsp;&nbsp;Introduction</h2>
+
+  <h3>1.1&nbsp;&nbsp;Motivation</h3>
+  <p class="lead">Clinical care runs on communication. Before any note is filed, a patient describes
+    symptoms, a paramedic radios a pre-arrival report, a nurse hands off a shift, a dispatcher triages an
+    emergency call, and a clinician gives follow-up instructions. These exchanges carry the reasoning,
+    urgency, and intent that downstream systems most need, yet they are captured (when captured at all) as
+    noisy, unstructured, privacy-sensitive text. As data-hungry machine learning methods have matured, so has
+    the demand for large, diverse, annotated corpora of clinical communication.</p>
+  <p>Collecting and sharing such corpora remains difficult. Clinical communication is protected health information;
+    de-identification is imperfect and costly; institutional data governance constrains access and reuse;
+    expert annotation is slow and expensive; and clinically important phenomena such as rare diseases and
+    adverse events are, by definition, underrepresented. These barriers slow progress and limit the
+    reproducibility of clinical NLP research.</p>
+  <p>The emergence of instruction-following LLMs has changed what is possible. Given a scenario, a schema, or
+    a few examples, an LLM can produce clinically plausible notes, conversations, and reports on demand,
+    optionally carrying their own annotations. This capability reframes synthetic clinical communication from a
+    privacy fallback into a controllable, scalable resource for building and benchmarking healthcare AI.</p>
+
+  <h3>1.2&nbsp;&nbsp;Objectives and Contributions</h3>
+  <p>This paper pursues four objectives:</p>
+  <ul>
+    <li><b>Survey the field.</b> Consolidate the current state of LLM-generated synthetic clinical
+      communication across generation, annotation, quality assurance, and evaluation.</li>
+    <li><b>Organize the literature.</b> Provide a unified taxonomy along two axes: the communication channel
+      and the downstream clinical NLP task it supports.</li>
+    <li><b>Demonstrate practice.</b> Present application studies that translate the surveyed concepts into
+      concrete system-development choices.</li>
+    <li><b>Chart the frontier.</b> Identify the scientific and practical challenges that remain and outline
+      promising research directions.</li>
+  </ul>
+
+  <p><b>Scope.</b> We restrict attention to unstructured clinical communication generated by large language
+    models: patient&ndash;clinician conversations, doctor-to-patient instructions, telemedicine consultations,
+    paramedic-to-hospital and emergency-dispatch traffic, nurse and clinician handoffs, and, optionally,
+    patient-portal messaging. The generation of structured or tabular electronic health record data, synthetic
+    medical imaging, static clinical documentation, product reviews, and public-health social media lies
+    outside our scope except where it informs methodology.</p>
+
+  <h3>1.3&nbsp;&nbsp;Positioning: Related Reviews</h3>
+  <p>Existing reviews cluster into two camps that leave our target uncovered. Broad "LLMs in medicine"
+    surveys treat text generation as one application among many<sup class="cit">[25,26]</sup>, while
+    synthetic-clinical-text reviews pool clinical notes, tabular EHR, and time series under generic utility
+    and privacy lenses<sup class="cit">[21,22,23,24]</sup>. Even the dedicated survey of medical-dialogue
+    generation frames generated dialogue as a conversational system's output rather than as reusable
+    synthetic training data<sup class="cit">[27,28]</sup>, and stops at the patient-provider chat channel. No
+    prior review organizes the field around clinical communication as a modality spanning patient&ndash;clinician
+    dialogue and ambient scribing<sup class="cit">[30,35,36,37]</sup>, doctor-to-patient instructions,
+    telemedicine, EMS and SBAR handoff, emergency dispatch<sup class="cit">[40]</sup>, and patient-portal
+    messaging, nor pairs that taxonomy with concrete application studies and a channel-specific privacy
+    analysis<sup class="cit">[33]</sup>. This paper fills that gap: it unifies these fragmented channels, maps
+    which datasets are real versus LLM-synthetic, and shows through application studies how synthetic clinical
+    communication trains and evaluates downstream NLP where real conversational data is scarce, restricted, or
+    absent, notably the under-served EMS, dispatch, and handoff channels.</p>
+
+  <!-- ================= 2 ================= -->
+  <h2 id="s2">2&nbsp;&nbsp;Clinical Communication in Healthcare AI</h2>
+
+  <h3>2.1&nbsp;&nbsp;Modalities of Clinical Communication</h3>
+  <p class="lead">Clinical communication spans many channels, each with its own participants, register,
+    urgency, and failure modes. We organize the survey and the application studies around the following
+    channels:</p>
+  <ul>
+    <li><b>Patient&ndash;clinician conversations</b>: history-taking and diagnostic questioning, in person or by voice.</li>
+    <li><b>Doctor-to-patient instructions</b>: discharge summaries, follow-up plans, and medication guidance for the patient or the next provider.</li>
+    <li><b>Telemedicine consultations</b>: remote text or voice encounters.</li>
+    <li><b>Paramedic-to-hospital communication</b>: EMS pre-arrival voice reports handed to the emergency department.</li>
+    <li><b>Emergency dispatch communication</b>: triage of incoming calls and field casualty radio.</li>
+    <li><b>Nurse and clinician handoffs</b>: SBAR shift handovers and inter-provider transfers.</li>
+    <li><b>Patient-portal messaging</b> (optional): asynchronous, patient-initiated messages.</li>
+  </ul>
+  <p>Real reference corpora exist for a few of these channels, including large doctor&ndash;patient dialogue
+    collections<sup class="cit">[29]</sup> and ambient-scribing benchmarks that pair consultations with
+    notes<sup class="cit">[30,35,36,37]</sup>; synthetic generation targets the many channels that lack such
+    resources.</p>
+
+  <h3>2.2&nbsp;&nbsp;Knowledge and Intent Embedded in Communication</h3>
+  <p>Beyond named entities, clinical communication encodes the reasoning, urgency, and intent that make
+    individual facts actionable. A single exchange may carry symptoms and patient self-descriptions,
+    diagnoses, medications, and procedures; the urgency or severity that sets a message's triage priority;
+    decisions and instructions with timing, such as when to start, stop, or continue a treatment and when to
+    follow up; and, at handoff, the question of completeness, what is stated versus what is missing or
+    under-specified. It also carries temporal structure, emotion and distress, and patient concerns, all
+    wrapped in the reliability and noise of real channels: transcription errors, interruptions, code-switching,
+    and slang. Extracting any of these is a distinct clinical NLP task, to which we now turn.</p>
+
+  <h3>2.3&nbsp;&nbsp;Clinical NLP Tasks</h3>
+  <p>The tasks in Table&nbsp;1 recur throughout the survey and motivate the downstream-utility view of
+    synthetic clinical communication.</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 1.</b> Core clinical NLP tasks addressed by synthetic clinical communication.</caption>
+      <thead><tr><th>Task</th><th>Objective</th><th>Typical output</th></tr></thead>
+      <tbody>
+        <tr><td>Named entity recognition</td><td>Locate clinical concepts</td><td>Typed text spans</td></tr>
+        <tr><td>Relation extraction</td><td>Link entities</td><td>Entity pairs / graphs</td></tr>
+        <tr><td>Temporal extraction</td><td>Order events in time</td><td>Timelines</td></tr>
+        <tr><td>Information extraction</td><td>Populate structured fields</td><td>Records / tables</td></tr>
+        <tr><td>Summarization</td><td>Condense the record</td><td>Abstractive summaries</td></tr>
+        <tr><td>Clinical coding</td><td>Assign standard codes</td><td>ICD / SNOMED codes</td></tr>
+        <tr><td>Question answering</td><td>Answer clinical queries</td><td>Spans / free text</td></tr>
+        <tr><td>Decision support</td><td>Recommend / flag</td><td>Alerts / suggestions</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ================= 3 ================= -->
+  <h2 id="s3">3&nbsp;&nbsp;LLM-Based Synthetic Clinical Communication Generation</h2>
+
+  <h3>3.1&nbsp;&nbsp;Why Generate Synthetic Clinical Communication?</h3>
+  <p class="lead">Synthetic generation addresses several bottlenecks at once, and different motivations lead to
+    different design priorities. Foremost is privacy: text with no real patient behind it can be shared,
+    published, and reused without the consent and de-identification burdens that lock away real conversations.
+    Generation also dissolves the annotation bottleneck, because labels can be emitted alongside the text
+    rather than added by expensive expert review. It gives direct control over the long tail, so rare
+    presentations and dangerous edge cases can be sampled deliberately rather than awaited, and
+    underrepresented classes can be up-generated to correct imbalance. Finally, it enables controlled
+    experimentation and benchmark construction: versioned, reproducible evaluation sets in which difficulty and
+    distribution are set by design rather than confounded by whatever real data happened to be available.</p>
+
+  <h3>3.2&nbsp;&nbsp;Generation Approaches</h3>
+  <ul>
+    <li><b>Prompt engineering</b>: instruction and few-shot conditioning, including knowledge-infused prompting<sup class="cit">[31]</sup>.</li>
+    <li><b>Scenario-driven generation</b>: sampling from a space of patient and encounter scenarios.</li>
+    <li><b>Template-guided generation</b>: genre scaffolds (for example SOAP) constrain structure.</li>
+    <li><b>Multi-agent simulation</b>: separate patient and clinician agents produce dialogue<sup class="cit">[30]</sup>.</li>
+    <li><b>Self-refinement</b>: critique-and-revise loops improve realism and consistency<sup class="cit">[13]</sup>.</li>
+    <li><b>Retrieval-augmented generation</b>: grounding in guidelines, ontologies, or exemplars.</li>
+  </ul>
+
+  <h3>3.3&nbsp;&nbsp;Automatic Annotation</h3>
+  <p>A distinctive advantage of generative pipelines is that labels can be produced with the text rather than
+    after it. In the strongest form, embedded ground truth, the generator emits the text and its labels
+    jointly, as when a triage severity or a target action is fixed in the prompt and the message written to
+    match it. A weaker but more flexible alternative runs a second labeling pass, or a panel of model judges,
+    over already-generated text. The scenario parameters used during generation can also be retained as
+    structured metadata, and noisy programmatic signals can be aggregated as weak supervision at scale.
+    Several of the application studies in Section&nbsp;6 combine these: labels fixed at generation time, then
+    audited by an independent model judge before a record is admitted.</p>
+
+  <h3>3.4&nbsp;&nbsp;Dataset Construction</h3>
+  <p>Turning a generator into a dataset is a design problem in its own right. A useful corpus needs diversity
+    and coverage across scenarios, phrasing registers, and patient demographics; explicit difficulty control,
+    with hard and ambiguous cases included on purpose rather than by accident; and balancing across classes
+    together with deliberate long-tail sampling, so that rare but critical situations are represented. The
+    application studies that follow make these choices concretely, for example by generating messages at
+    several noise levels, across distinct writer profiles, or with channel reliability deliberately degraded.</p>
+
+  <!-- ================= 4 ================= -->
+  <h2 id="s4">4&nbsp;&nbsp;Evaluating Synthetic Clinical Communication</h2>
+  <p class="lead">Evaluation is the least standardized part of the field. We organize it into four levels,
+    from surface text quality to downstream utility.</p>
+  <p>Throughout Section&nbsp;6 we report macro-averaged F1, which weights every class equally regardless of
+    frequency and is therefore the right summary for the imbalanced, safety-critical classes typical of
+    clinical communication:
+    $$\mathrm{F1}_{\text{macro}} = \frac{1}{K}\sum_{k=1}^{K}\frac{2\,P_k R_k}{P_k + R_k},$$
+    where $P_k$ and $R_k$ are the precision and recall of class $k$ over $K$ classes.</p>
+
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 2.</b> Four evaluation levels for synthetic clinical text.</caption>
+      <thead><tr><th>Level</th><th>Dimensions</th><th>Representative methods</th></tr></thead>
+      <tbody>
+        <tr><td>Text quality</td><td>Fluency, readability, coherence</td><td>Automatic metrics, human ratings</td></tr>
+        <tr><td>Clinical quality</td><td>Medical correctness, internal consistency, diagnostic plausibility</td><td>Clinician review, rubric scoring</td></tr>
+        <tr><td>Dataset quality</td><td>Diversity, coverage, distributional similarity, privacy</td><td>Distributional metrics, membership tests</td></tr>
+        <tr><td>Downstream utility</td><td>Model performance, generalization, transfer</td><td>Train-on-synthetic / test-on-real</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The <b>train-on-synthetic, test-on-real</b> protocol is the most decisive evidence of utility, and we
+    use it as the organizing lens for the application studies in Section&nbsp;6.</p>
+  <p>Privacy deserves its own evaluation: de-identification alone can be insufficient, and synthetic notes
+    that match real utility may inherit real privacy risk<sup class="cit">[33]</sup>, which motivates
+    dedicated privacy-and-utility metrics for medical synthetic data<sup class="cit">[34]</sup>.</p>
+
+  <!-- ================= 5 ================= -->
+  <h2 id="s5">5&nbsp;&nbsp;Survey of Existing Applications</h2>
+  <p class="lead">We organize the surveyed literature by <b>downstream task</b> rather than by generation
+    technique, because the task ultimately determines which generation and evaluation choices matter. For
+    each area we summarize representative studies, the synthetic-text generation approach, the evaluation
+    methodology, key findings, and remaining limitations.</p>
+  <p>Several generic NLP problem settings, though not originally clinical, map directly onto clinical
+    conversation and recur across our showcases: recognizing entities from implicit contextual cues in
+    first-person narratives<sup class="cit">[20]</sup>, a setting also studied for noisy user-generated and
+    conversational text<sup class="cit">[41,42]</sup>; comparing text content through a question-answering
+    lens<sup class="cit">[6]</sup>, as in QA- and NLI-based consistency checking<sup class="cit">[43,44,45]</sup>;
+    extracting critical information from noisy transcribed communications<sup class="cit">[5]</sup>, paralleling
+    slot-filling from air-traffic and other radio speech<sup class="cit">[46,47]</sup>; and measuring the
+    efficiency of diagnostic questioning<sup class="cit">[1]</sup>, a problem with a deep line in symptom-
+    checking and information-seeking clinical dialogue<sup class="cit">[48,49,50,51]</sup>. Even aspect-based
+    sentiment, developed as a controlled synthetic benchmark in the education domain<sup class="cit">[11]</sup>,
+    transfers to patient-message sentiment and distress. Each was first studied in an adjacent domain, yet all
+    transfer cleanly to history-taking, handoff, dispatch, and triage; we treat them as reusable problem
+    templates throughout this section.</p>
+
+  <h3>5.1&nbsp;&nbsp;Information Extraction</h3>
+  <p>Information extraction is the most common target for synthetic clinical text, because generation can
+    emit gold spans and relations jointly with the narrative. Hybrid neural-symbolic designs pair a neural
+    span tagger with symbolic normalization to recover structured records such as follow-up
+    instructions<sup class="cit">[4]</sup>, and the same LLM-driven extraction paradigm transfers to
+    adjacent domains such as critical information extraction from maritime distress communications<sup class="cit">[5]</sup>.
+    We showcase clinical decision, casualty, and follow-up extraction in Sections&nbsp;6.3&ndash;6.5.</p>
+  <h3>5.2&nbsp;&nbsp;Clinical Summarization</h3>
+  <p>Abstractive summarization, condensing findings into a radiology impression or a discharge synopsis,
+    benefits from synthetic source-and-summary pairs and from LLM-as-judge evaluation of
+    clinical equivalence rather than surface overlap. Section&nbsp;6.9 (AutoImpress) illustrates the pattern
+    on real radiology reports scored by a model judge.</p>
+  <h3>5.3&nbsp;&nbsp;Clinical Coding</h3>
+  <p>Assigning standardized codes (ICD, SNOMED) from free text is a high-cardinality, long-tailed
+    classification problem where synthetic generation is attractive for up-sampling rare codes; robust
+    label-free ranking of candidate models<sup class="cit">[8]</sup> is especially relevant when no
+    trustworthy coded benchmark exists.</p>
+  <h3>5.4&nbsp;&nbsp;Diagnostic Reasoning</h3>
+  <p>Diagnostic reasoning stresses an LLM's ability to gather evidence and revise hypotheses. Benchmarks of
+    diagnostic-questioning efficiency in simulated patient conversations<sup class="cit">[1]</sup>,
+    of robustness to noisy layperson narratives<sup class="cit">[2]</sup>, and structured
+    hypothesis-selection via analysis of competing hypotheses<sup class="cit">[17]</sup> chart this space;
+    our PatientSignal and MedQDx showcases (Section&nbsp;6.9) build directly on this line.</p>
+  <h3>5.5&nbsp;&nbsp;Question Answering</h3>
+  <p>Clinical and document QA frameworks increasingly use explainable, comparison-based
+    formulations<sup class="cit">[6]</sup>, and studies revisiting response-generation strategies for
+    assistant systems<sup class="cit">[7]</sup> inform how synthetic dialogue should be produced and
+    judged.</p>
+  <h3>5.6&nbsp;&nbsp;Clinical Decision Support</h3>
+  <p>Decision-support systems triage, route, and flag patient-generated text. Predicting health crises from
+    online medication inquiries<sup class="cit">[3]</sup> exemplifies a privacy-sensitive, class-imbalanced
+    setting where synthetic minority cases are valuable; our triage showcases
+    (Sections&nbsp;6.6&ndash;6.7 and 6.9) span portal, postpartum, EMS, and psychosocial routing.</p>
+  <h3>5.7&nbsp;&nbsp;Medical Education and Professional Training</h3>
+  <p>LLMs increasingly train professionals through simulated practice. In education and other domains,
+    generative platforms drive deliberate teaching practice and competency
+    development<sup class="cit">[15,16]</sup>, with simulated students, negotiation partners, and classrooms as
+    practice counterparts<sup class="cit">[52,53,54]</sup>. In healthcare specifically, LLM-powered virtual
+    standardized patients now support history-taking and communication-skills training and its
+    evaluation<sup class="cit">[55,56,57,58]</sup>. Controllable simulation of imperfect
+    learners<sup class="cit">[10]</sup> offers a template for the agent-based patient simulation we return to in
+    Section&nbsp;8.</p>
+  <h3>5.8&nbsp;&nbsp;Benchmark Construction</h3>
+  <p>Finally, synthetic text is a natural substrate for controlled benchmarks: difficulty-controlled synthetic
+    ABSA corpora<sup class="cit">[11]</sup>, emotion-estimation<sup class="cit">[18]</sup> and seniority-
+    classification<sup class="cit">[19]</sup> benchmarks, epistemic-reliability probes<sup class="cit">[9]</sup>,
+    label-free model ranking<sup class="cit">[8]</sup>, and controllable simulation
+    benchmarks<sup class="cit">[10]</sup> all show that generation enables versioned, reproducible evaluation.
+    Complementary evidence on synthetic-vs-real training data<sup class="cit">[12]</sup> and on
+    quality-assured generation via adversarial multi-critic prompt debugging<sup class="cit">[13]</sup>
+    frames the methodology used throughout Section&nbsp;6.</p>
+
+  <!-- ================= 6 ================= -->
+  <h2 id="s6">6&nbsp;&nbsp;Application Studies: Synthetic Clinical Communication in Practice</h2>
+  <p class="lead">This section presents thirteen application studies, grouped by communication channel, each of
+    which synthesizes text for a clinical channel and trains models on it. For every study we discuss the
+    clinical value at stake, why real data is unavailable, how the language model produced the synthetic
+    communication, and how the resulting models compare; the exposition varies with the study, leaning on
+    prose, a results table, or a figure as best fits the material. Unless stated otherwise, models are
+    evaluated on held-out synthetic communication, and transfer to real communication is the central open
+    validation step, which we take up in Section&nbsp;8. Table&nbsp;3 summarizes all thirteen studies.</p>
+
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 3.</b> Synthetic clinical-communication application studies, by channel. Generators
+        are the LLMs used to synthesize the training text; results are the headline downstream metric.</caption>
+      <thead><tr><th>System</th><th>Channel</th><th>Synthetic generator</th><th>Headline result</th></tr></thead>
+      <tbody>
+        <tr><td>MedQDx</td><td>Patient&ndash;clinician diagnostic conversation</td><td>GPT-4o-mini (SDPD-seeded cases)</td><td>Adaptive questioning benchmark, partial-information tiers</td></tr>
+        <tr><td>PatientSignal</td><td>Patient self-description (noisy)</td><td>Llama-3.1-8B (noise rewrite)</td><td>FLAN-T5 87.1% acc under heavy noise</td></tr>
+        <tr><td>LangTriage</td><td>Patient ER self-description</td><td>GPT-4 (free-text complaints)</td><td>DistilBERT 0.96 acc / 0.83 F1</td></tr>
+        <tr><td>Cross-Lingual Decision Extraction</td><td>Discharge instructions (Hebrew)</td><td>GPT-4o-mini (518 summaries)</td><td>Reranker strict-F1 0.4273; relaxed-F1 0.9256</td></tr>
+        <tr><td>Patient Portal Triage</td><td>Patient-portal messaging</td><td>Qwen2.5-0.5B, local (2.8k)</td><td>DistilBERT 0.81 F1 vs 0.29 zero-shot</td></tr>
+        <tr><td>PMOS Priority Triage</td><td>Patient-portal messaging</td><td>GPT-4o (3k longitudinal)</td><td>ClinicalBERT + safety cascade 0.997 acc</td></tr>
+        <tr><td>C-Section Severity Triage</td><td>Postpartum patient messages</td><td>GPT-4o-mini (3k)</td><td>BioBERT cascade 0.975; GPT-4o-mini 0.98</td></tr>
+        <tr><td>Oncology Distress Classifier</td><td>Oncology patient messages</td><td>Gemma2-27B, local (1.3k)</td><td>DistilBERT distress macro-F1 0.86</td></tr>
+        <tr><td>MediGuard</td><td>Patient medication questions</td><td>GPT-4.1 (critical-case augmentation)</td><td>BioBERT / BlueBERT 0.90 macro-F1</td></tr>
+        <tr><td>Virtual Care Assistant</td><td>Home-care status messaging</td><td>GPT (symptom + vitals)</td><td>LightGBM + TF-IDF fusion 0.97 F1</td></tr>
+        <tr><td>MedAlert</td><td>Paramedic-to-ED pre-arrival</td><td>GPT-4.1-mini (8.6k, + ASR noise)</td><td>BioClinicalBERT 0.38 macro-F1 (specialty)</td></tr>
+        <tr><td>Tactical Casualty Documentation</td><td>Field casualty radio to hospital</td><td>GPT-4o (500, + noise)</td><td>AlephBERT 79.3% EM / 0.80 F1</td></tr>
+        <tr><td>SBAR Handover Completeness</td><td>Nurse and clinician handoff</td><td>OpenAI batch (5k)</td><td>ClinicalBERT class-F1 0.75; hierarchical 0.79</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== 6.1 Conversations ===== -->
+  <h3 id="s61">6.1&nbsp;&nbsp;Patient&ndash;Clinician Conversations and Self-Descriptions</h3>
+
+  <h4 class="proj">6.1.1&nbsp;&nbsp;PatientSignal <span class="showtag">patient self-description</span></h4>
+  <p>PatientSignal studies diagnosis from the language patients actually use, the rambling, emotional, and
+    non-clinical self-descriptions that replace clean symptom lists in practice, over twenty-four disease
+    categories. Because large collections of naturally noisy patient narratives paired with diagnoses are
+    neither public nor easily gathered under privacy constraints, the study synthesizes them: a local
+    Llama-3.1-8B model rewrites 1,200 clean symptom descriptions into medium- and heavy-noise variants that
+    introduce repetition, digression, and personal narrative while preserving the original diagnosis label,
+    yielding 2,400 synthetic cases. Four classifiers, ranging from a TF-IDF Na&iuml;ve Bayes baseline to BERT,
+    ClinicalBERT, and FLAN-T5, are then trained and evaluated as the language grows noisier (Table&nbsp;4).
+    FLAN-T5 proves the most robust, degrading least under heavy noise where the Na&iuml;ve Bayes baseline
+    collapses, a pattern reported in the associated benchmark of LLMs on noisy patient narratives<sup class="cit">[2]</sup>.</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 4.</b> PatientSignal: diagnostic accuracy by narrative noise level.</caption>
+      <thead><tr><th>Model</th><th>Clean</th><th>Medium noise</th><th>Heavy noise</th></tr></thead>
+      <tbody>
+        <tr><td>Na&iuml;ve Bayes (TF-IDF)</td><td>93.8%</td><td>79.2%</td><td>77.5%</td></tr>
+        <tr><td>BERT</td><td>98.3%</td><td>86.7%</td><td>79.2%</td></tr>
+        <tr><td>ClinicalBERT</td><td>97.9%</td><td>83.8%</td><td>86.2%</td></tr>
+        <tr><td>FLAN-T5</td><td>97.1%</td><td><b>92.5%</b></td><td><b>87.1%</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="mats">Code: <a href="https://github.com/lielsheri/Natural-Language-Processing-project">code</a>
+    &middot; <a href="https://arxiv.org/abs/2509.11803">paper</a> [2].</p>
+
+  <h4 class="proj">6.1.2&nbsp;&nbsp;MedQDx <span class="showtag">diagnostic questioning</span></h4>
+  <p>MedQDx recasts diagnosis as an interactive, question-driven process in which an LLM clinician interrogates
+    an LLM patient that holds only part of a case and commits to a diagnosis after each round, testing the
+    history-taking skill that complete-information benchmarks ignore. Because recorded diagnostic conversations
+    with ground-truth outcomes are rarely released, the encounters are simulated: GPT-4o-mini instantiates
+    cases from the Symptom-Disease Prediction Dataset (132 symptoms, 41 diseases) at three information-reveal
+    tiers (Table&nbsp;5) and plays the patient. Question selection follows an information-gain objective,
+    choosing the next question $q$ that most reduces diagnostic uncertainty,
+    $q^{*} = \arg\max_{q} I(D; A_q \mid H)$, where $D$ is the diagnosis, $A_q$ the answer, and $H$ the dialogue
+    history; each round's diagnosis is scored against the ground-truth prognosis. The reveal tiers make
+    questioning efficiency measurable and anchor the diagnostic-questioning benchmark
+    line<sup class="cit">[1]</sup>.</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 5.</b> MedQDx information-reveal tiers used to probe questioning efficiency.</caption>
+      <thead><tr><th>Tier</th><th>Symptoms revealed to patient agent</th><th>What it measures</th></tr></thead>
+      <tbody>
+        <tr><td>Full</td><td>100%</td><td>Ceiling accuracy with complete information</td></tr>
+        <tr><td>Partial</td><td>80%</td><td>Robustness to mild information gaps</td></tr>
+        <tr><td>Sparse</td><td>50%</td><td>Questioning efficiency under high uncertainty</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="mats">Code: <a href="https://github.com/MaiWert/MedQDx">code</a>
+    &middot; <a href="https://www.researchsquare.com/article/rs-6999490/v1">paper</a> [1].</p>
+
+  <h4 class="proj">6.1.3&nbsp;&nbsp;LangTriage <span class="showtag">ER self-description</span></h4>
+  <p>LangTriage addresses the emergency front door, sorting arriving patients into urgent and non-urgent from
+    their own first-person descriptions. As free-text arrival complaints paired with triage outcomes are
+    privacy-restricted, GPT-4 generates natural, non-clinical complaint texts that imitate how patients
+    describe their symptoms, with the original triage labels collapsed to a binary target. Among the three
+    classifiers compared (Table&nbsp;6), a fine-tuned DistilBERT attains the best accuracy and F1, while a
+    TF-IDF logistic-regression baseline retains the highest recall, a trade-off that is consequential for a
+    safety filter deliberately biased toward over-triage.</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 6.</b> LangTriage: binary ER triage (synthetic test).</caption>
+      <thead><tr><th>Model</th><th>Accuracy</th><th>F1</th><th>Recall</th></tr></thead>
+      <tbody>
+        <tr><td>TF-IDF + logistic regression</td><td>0.810</td><td>0.653</td><td><b>0.873</b></td></tr>
+        <tr><td>DistilBERT (fine-tuned)</td><td><b>0.964</b></td><td><b>0.826</b></td><td>0.594</td></tr>
+        <tr><td>T5 (fine-tuned)</td><td>0.931</td><td>0.549</td><td>0.536</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="mats">Code: <a href="https://github.com/Nofar-Kedmi/LLM-Classifier-for-Patient-Reports">code</a>.</p>
+
+  <!-- ===== 6.2 Instructions ===== -->
+  <h3 id="s62">6.2&nbsp;&nbsp;Doctor-to-Patient Instructions and Care Handover</h3>
+
+  <h4 class="proj">6.2.1&nbsp;&nbsp;Cross-Lingual Clinical Decision Extraction <span class="showtag">discharge instructions</span></h4>
+  <p>Discharge summaries are where a hospital's decisions are handed to the patient and the next provider, and
+    this study extracts them as structured drug and procedure decisions, each a four-tuple of span, type,
+    canonical concept, and action, from Hebrew summaries. The motivating obstacle is blunt: as the project
+    puts it, "Hebrew has essentially no open, labeled medical corpus," so there is no shareable discharge data
+    to learn from. GPT-4o-mini, run through the Batch API, therefore generates 518 synthetic Hebrew summaries
+    carrying 1,222 gold spans, anchored to MedDec- and MIMIC-III-derived targets by marked-span anchoring,
+    with every span validated to appear verbatim in its summary. Four systems are compared: an XLM-R BIO
+    tagger, an sklearn candidate reranker, a Gemini candidate selector, and a Qwen2.5-1.5B few-shot baseline
+    (Table&nbsp;7). The reranker is strongest under strict boundary matching and Gemini under relaxed matching,
+    and the wide gap between the two regimes indicates that errors are largely boundary misalignment rather
+    than wrong regions. Because both training and test data are synthetic, transfer to genuine Hebrew notes
+    remains the open question.</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 7.</b> Cross-Lingual decision extraction: overall F1 on the v2 test split (81 summaries).</caption>
+      <thead><tr><th>Model</th><th>Strict F1</th><th>Relaxed F1</th></tr></thead>
+      <tbody>
+        <tr><td>Qwen2.5-1.5B (few-shot)</td><td>0.206</td><td>0.650</td></tr>
+        <tr><td>XLM-R (BIO)</td><td>0.326</td><td>0.829</td></tr>
+        <tr><td>sklearn reranker</td><td><b>0.427</b></td><td>0.677</td></tr>
+        <tr><td>Gemini selector</td><td>0.318</td><td><b>0.926</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure>
+    <img src="https://raw.githubusercontent.com/ori-mor/hebrew-clinical-decision-extraction-final/main/visuals/results/comparison/model_comparison_v2_test.png" alt="Cross-lingual model comparison">
+    <figcaption><b>Figure 1.</b> Cross-Lingual decision extraction: strict vs relaxed F1 across models.</figcaption>
+  </figure>
+  <p class="mats">Code: <a href="https://github.com/ori-mor/hebrew-clinical-decision-extraction-final">code</a>.</p>
+
+  <!-- ===== 6.3 Telemedicine / portal ===== -->
+  <h3 id="s63">6.3&nbsp;&nbsp;Telemedicine and Patient-Portal Messaging</h3>
+
+  <h4 class="proj">6.3.1&nbsp;&nbsp;Patient Portal Triage <span class="showtag">portal messaging</span></h4>
+  <p>Patient-portal intake messages arrive short, informal, and error-strewn, and this study turns them into
+    administrative routing signals: an urgency level (green, yellow, or red), a set of risk factors, and a
+    judgment of whether the message carries enough information to act on, leaving the decision itself with a
+    human. Since portal messages are protected health information and none are public, the corpus is entirely
+    synthetic: a small local model, Qwen2.5-0.5B-Instruct, produces 3,000 message-and-label tasks, of which
+    2,799 parse cleanly, each message carrying its own structured labels. Three specialist DistilBERT heads are
+    then compared against the same local model prompted zero- and few-shot (Table&nbsp;8). The fine-tuned heads
+    decisively outperform the prompted model, and their composition routes reliably, a clean demonstration that
+    a small, on-premises generator can bootstrap a working triage model without any real data leaving the
+    institution.</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 8.</b> Patient Portal Triage: per-head and pipeline results (synthetic test).</caption>
+      <thead><tr><th>Component</th><th>Metric</th><th>Score</th></tr></thead>
+      <tbody>
+        <tr><td>Urgency (DistilBERT)</td><td>accuracy / macro-F1</td><td>0.810 / 0.810</td></tr>
+        <tr><td>Risk factors (DistilBERT)</td><td>micro-F1</td><td>0.879</td></tr>
+        <tr><td>Insufficient-info (DistilBERT)</td><td>accuracy</td><td>0.869</td></tr>
+        <tr><td>Qwen (zero-shot, urgency)</td><td>macro-F1</td><td>0.295</td></tr>
+        <tr><td>Composed pipeline (50 msgs)</td><td>urgency acc / risk exact-match</td><td>0.76 / 0.92</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure>
+    <img src="https://raw.githubusercontent.com/Dor444/-LLM-triage-project/main/visuals/model_results_summary.png" alt="Patient portal triage results summary">
+    <figcaption><b>Figure 2.</b> Patient Portal Triage: fine-tuned heads versus zero/few-shot LLM.</figcaption>
+  </figure>
+  <p class="mats">Code: <a href="https://github.com/Dor444/-LLM-triage-project">code</a>.</p>
+
+  <h4 class="proj">6.3.2&nbsp;&nbsp;C-Section Severity Triage <span class="showtag">postpartum messages</span></h4>
+  <p>After a caesarean section, patients message their care team with concerns spanning routine soreness to
+    hemorrhage, and this study triages those messages by Manchester severity through a two-stage cascade that
+    first separates urgent from routine and then scores severity. No labeled corpus of postpartum triage
+    messages exists and the content is sensitive, so GPT-4o-mini, sampled at temperature 1.3 for diversity,
+    generates roughly 3,000 messages in which writer profiles and the target severity are fixed in the prompt,
+    making the labels correct by construction. A BioBERT cascade and a Bi-LSTM cascade are compared against
+    zero-shot GPT-4o-mini (Table&nbsp;9). Notably, the zero-shot model matches the fine-tuned BioBERT cascade,
+    and both far exceed the Bi-LSTM, whose errors concentrate in the middle severities where the clinical
+    distinctions are finest.</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 9.</b> C-Section Severity Triage: full four-class results (synthetic test, n=750).</caption>
+      <thead><tr><th>Model</th><th>Accuracy</th><th>Macro-F1</th></tr></thead>
+      <tbody>
+        <tr><td>BioBERT cascade</td><td>0.975</td><td>0.974</td></tr>
+        <tr><td>GPT-4o-mini (zero-shot)</td><td><b>0.980</b></td><td><b>0.980</b></td></tr>
+        <tr><td>Bi-LSTM cascade</td><td>0.836</td><td>0.839</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure>
+    <img src="https://raw.githubusercontent.com/1600noa/C-SecSeverity/main/PLOTS/gpt_confusion_matrix.png" alt="C-Section GPT-4o-mini confusion matrix">
+    <figcaption><b>Figure 3.</b> C-Section Severity Triage: GPT-4o-mini zero-shot confusion matrix.</figcaption>
+  </figure>
+  <p class="mats">Code: <a href="https://github.com/1600noa/C-SecSeverity">code</a>.</p>
+
+  <h4 class="proj">6.3.3&nbsp;&nbsp;PMOS Priority Triage <span class="showtag">portal messaging</span></h4>
+  <p>PMOS priority triage sorts patient-portal messages into clinical risk categories while holding a difficult
+    balance between missed emergencies and alert fatigue. Because, in the project's words, "no off-the-shelf
+    public dataset maps to the PMOS multi-system criteria," GPT-4o generates 3,000 longitudinal cases from
+    structured clinical attributes and varied linguistic profiles, deliberately seeding "confidently wrong"
+    edge cases to stress the classifier. A Bio_ClinicalBERT model wrapped in a conversational safety cascade
+    attains near-perfect accuracy with perfect recall on emergencies, far above both a plain fine-tuned
+    baseline and zero-shot models, which misclassify the high-risk class badly (Table&nbsp;10). The result
+    illustrates how a safety-oriented layer trained on adversarial synthetic cases can turn a competent
+    classifier into a dependable one.</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 10.</b> PMOS Priority Triage: accuracy (synthetic test).</caption>
+      <thead><tr><th>Model</th><th>Accuracy</th></tr></thead>
+      <tbody>
+        <tr><td>Zero-shot Qwen / Mistral-7B / BART-MNLI</td><td>0.34&ndash;0.42</td></tr>
+        <tr><td>DistilBERT (fine-tuned)</td><td>0.817</td></tr>
+        <tr><td>Bio_ClinicalBERT (baseline)</td><td>0.828</td></tr>
+        <tr><td>Bio_ClinicalBERT + safety cascade</td><td><b>0.997</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="mats">Code: <a href="https://github.com/AlinaKapelovich/Retrospective-PMOS-Clinical-Priority-Triage-Using-LLMs">code</a>.</p>
+
+  <h4 class="proj">6.3.4&nbsp;&nbsp;Oncology Distress Classifier <span class="showtag">oncology messages</span></h4>
+  <p>This study reads a single oncology patient message and infers both the dominant psychosocial response,
+    over seven categories, and an ordinal distress level, so that emotional state can be triaged at scale for
+    support teams. As the project observes, "there is no public labeled dataset for this framing, and emotional
+    labels are subjective and expensive to annotate." A local Gemma2-27B therefore generates 1,273 examples
+    whose text never names the target label, a deliberate leakage control, and a dual-model judge (GPT-4o-mini
+    and Qwen2.5-32B) assigns a quality tier to each. A fine-tuned DistilBERT leads on the ordinal distress
+    task, reaching a linear-weighted $\kappa$ of 0.851, while a TF-IDF baseline edges ahead on the nominal
+    response task; both far surpass zero-shot BART (Table&nbsp;11).</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 11.</b> Oncology Distress Classifier: macro-F1 by task (synthetic test).</caption>
+      <thead><tr><th>Task</th><th>TF-IDF + LR</th><th>DistilBERT</th><th>BART zero-shot</th></tr></thead>
+      <tbody>
+        <tr><td>Psychosocial response (7-way)</td><td><b>0.856</b></td><td>0.834</td><td>0.732</td></tr>
+        <tr><td>Distress level (3-level)</td><td>0.805</td><td><b>0.864</b></td><td>0.468</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="mats">Code: <a href="https://github.com/K21K30/nlp-oncology-psychosocial-response">code</a>.</p>
+
+  <h4 class="proj">6.3.5&nbsp;&nbsp;MediGuard <span class="showtag">medication questions</span></h4>
+  <p>MediGuard triages patient medication questions as critical or general, a filter for emerging drug-safety
+    and interaction risks. Critical cases are intrinsically rare, producing severe class imbalance in any real
+    collection, so after two reviewers label 5,000 real forum questions, GPT-4.1 generates additional synthetic
+    critical questions to rebalance the training set, a step that raises the GPT-4.1 classifier's own macro-F1
+    from 0.78 to 0.85. Fine-tuned BioBERT and BlueBERT are the strongest models overall (Table&nbsp;12), and
+    the augmentation narrows much of the gap for the generative classifier. The study is reported in full as an
+    analysis of predicting health crises from online medication inquiries<sup class="cit">[3]</sup>.</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 12.</b> MediGuard: critical-vs-general triage.</caption>
+      <thead><tr><th>Model</th><th>Accuracy</th><th>Macro-F1</th></tr></thead>
+      <tbody>
+        <tr><td>SVM (TF-IDF)</td><td>0.84</td><td>0.80</td></tr>
+        <tr><td>GPT-4.1 (classify only)</td><td>0.87</td><td>0.78</td></tr>
+        <tr><td>GPT-4.1 (generate + classify)</td><td>0.89</td><td>0.85</td></tr>
+        <tr><td>BioBERT</td><td><b>0.92</b></td><td><b>0.90</b></td></tr>
+        <tr><td>BlueBERT</td><td><b>0.92</b></td><td><b>0.90</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="mats">Code: <a href="https://github.com/Dvora-coder/LLM-Medication-QA-Risk-Classifier">code</a>
+    &middot; <a href="https://arxiv.org/abs/2509.11802">paper</a> [3].</p>
+
+  <h4 class="proj">6.3.6&nbsp;&nbsp;Virtual Care Assistant <span class="showtag">home-care telemonitoring</span></h4>
+  <p>In home care, where no clinician is physically present, early signs of deterioration surface in the
+    messages patients send and in their vital-sign trends. This study predicts whether a patient's status is
+    unchanged, improving, or deteriorating from home-care symptom messages together with vital-sign deltas.
+    Such message-and-vitals streams with labeled outcomes are not publicly available, so the dataset is
+    generated synthetically with model prompting over coupled symptom and vital patterns and rendered as free
+    text plus deltas for heart rate, respiratory rate, temperature, and blood pressure. Text-only, vitals-only,
+    and late-fusion models are compared; fusing the two modalities wins, with a LightGBM model over TF-IDF text
+    and vitals reaching 0.971 accuracy and 0.972 macro-F1 (Figure&nbsp;4).</p>
+  <figure>
+    <img src="https://raw.githubusercontent.com/gabriellem28/LLM-project/main/assets/PHOTO-2025-06-03-10-56-49.jpg" alt="Virtual Care Assistant per-class recall of top fusion models">
+    <figcaption><b>Figure 4.</b> Virtual Care Assistant: per-class recall of the top fusion models.</figcaption>
+  </figure>
+  <p class="mats">Code: <a href="https://github.com/gabriellem28/LLM-project">code</a>.</p>
+
+  <!-- ===== 6.4 Paramedic / dispatch / handoff ===== -->
+  <h3 id="s64">6.4&nbsp;&nbsp;Paramedic-to-Hospital, Dispatch, and Handoff</h3>
+
+  <h4 class="proj">6.4.1&nbsp;&nbsp;MedAlert <span class="showtag">EMS pre-arrival</span></h4>
+  <p>When an ambulance calls ahead, the emergency department must infer, from a hurried and noisy report, which
+    care area to ready and which specialty to summon. MedAlert predicts both from EMS pre-arrival reports.
+    Real reports are short, incomplete, spoken over noise, and mangled by automatic transcription, and they are
+    almost never released, so GPT-4.1-mini generates 8,556 reports in four stylistic registers, from
+    professional-and-complete to distracted handoff, over 2,139 MIMIC-IV-Ext source cases, while an audio and
+    ASR pipeline injects realistic transcription noise. BioClinicalBERT and DistilBERT are trained with and
+    without the noisy variants. The eighteen-way targets keep absolute macro-F1 modest, but the informative
+    result is that training on noisy synthetic reports improves robustness: removing the noisy variants lowers
+    macro-F1 by 6.6 points on care area and 10.6 on specialty (Table&nbsp;13, Figure&nbsp;5). Deliberately
+    degraded synthetic communication is thus valuable in its own right, not merely abundant.</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 13.</b> MedAlert: BioClinicalBERT macro-F1 (%) with and without noisy synthetic training.</caption>
+      <thead><tr><th>Target</th><th>Train on clean + noisy</th><th>Train on clean only</th></tr></thead>
+      <tbody>
+        <tr><td>ED care area</td><td><b>29.2</b></td><td>22.6</td></tr>
+        <tr><td>Specialty consultation</td><td><b>38.3</b></td><td>27.7</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure>
+    <img src="https://raw.githubusercontent.com/nofarGIT1/medalert-llm-ems-voice-ed-classification/main/visuals/bioclinicalbert_macro_f1_training_setups.png" alt="MedAlert macro-F1 across training setups">
+    <figcaption><b>Figure 5.</b> MedAlert: macro-F1 across training setups; noisy synthetic data helps.</figcaption>
+  </figure>
+  <p class="mats">Code: <a href="https://github.com/nofarGIT1/medalert-llm-ems-voice-ed-classification">code</a>.</p>
+
+  <h4 class="proj">6.4.2&nbsp;&nbsp;Tactical Casualty Documentation <span class="showtag">field casualty radio</span></h4>
+  <p>On the battlefield only about half of casualty encounters are documented at all, and what reaches a
+    hospital arrives as chaotic radio. This study reconstructs a structured twenty-field casualty record, an
+    IDF Form 101, from that traffic. Because such radio is largely unrecorded and effectively impossible to
+    collect at scale, GPT-4o, with fifty further samples from GPT-4o-mini, converts structured casualty
+    profiles into 500 messy Hebrew transcripts, injecting static, communication cutouts, slang, and
+    self-corrections at three reliability levels and emitting the ground-truth record alongside each
+    transcript. An AlephBERT multi-head classifier is compared against GPT-4 in zero- and one-shot prompting
+    and a QLoRA-fine-tuned Phi-3-mini (Table&nbsp;14, Figure&nbsp;6). The fine-tuned Hebrew encoder leads on
+    exact-match and macro-F1, while the small fine-tuned Phi-3 produces the fewest hallucinations, a property
+    of real value when the output is a casualty record.</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 14.</b> Tactical Casualty Documentation: field reconstruction (synthetic test, n=100).</caption>
+      <thead><tr><th>Model</th><th>Exact-match</th><th>Macro-F1</th><th>Hallucinations</th></tr></thead>
+      <tbody>
+        <tr><td>AlephBERT (multi-head)</td><td><b>79.3%</b></td><td><b>0.802</b></td><td>16</td></tr>
+        <tr><td>GPT-4 (zero-shot)</td><td>68.6%</td><td>0.698</td><td>24</td></tr>
+        <tr><td>Phi-3-mini (QLoRA)</td><td>63.1%</td><td>0.632</td><td><b>7</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure>
+    <img src="https://raw.githubusercontent.com/TheEliyahu/Tactical-NLP-Documentation-Reconstruction/main/reports/model_comparison.png" alt="Tactical casualty model comparison">
+    <figcaption><b>Figure 6.</b> Tactical Casualty Documentation: accuracy, F1, and hallucination counts.</figcaption>
+  </figure>
+  <p class="mats">Code: <a href="https://github.com/TheEliyahu/Tactical-NLP-Documentation-Reconstruction">code</a>.</p>
+
+  <h4 class="proj">6.4.3&nbsp;&nbsp;SBAR Handover Completeness <span class="showtag">nurse handoff</span></h4>
+  <p>Shift handovers are among the most error-prone moments in care, and the SBAR format exists to make them
+    complete. This study detects missing or under-specified items in SBAR handover notes, turning completeness
+    itself into a supervised target. Because handover notes are internal and sensitive, it works from 5,000
+    synthetic SBAR notes produced by OpenAI batch generation over a requiredness-and-completeness schema with
+    both per-item and note-level labels. A range of models is compared, from majority and style baselines and
+    TF-IDF logistic regression to text-only and context-aware BioClinicalBERT, Qwen prompting, and a
+    hierarchical extension that predicts requiredness before completeness (Table&nbsp;15, Figure&nbsp;7).
+    Fine-tuned encoders outperform prompting by a wide margin, and the requiredness-first structure lifts class
+    macro-F1 further to 0.791, offering a reusable recipe for handoff auditing.</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 15.</b> SBAR Handover Completeness: note-level completeness (synthetic test).</caption>
+      <thead><tr><th>Model</th><th>Accuracy</th><th>Class macro-F1</th><th>Safety-missing recall</th></tr></thead>
+      <tbody>
+        <tr><td>TF-IDF logistic regression</td><td>0.725</td><td>0.711</td><td>0.742</td></tr>
+        <tr><td>BioClinicalBERT (text-only)</td><td>0.758</td><td>0.745</td><td>0.756</td></tr>
+        <tr><td>Qwen (zero-shot)</td><td>0.489</td><td>0.408</td><td>&ndash;</td></tr>
+        <tr><td>Hierarchical (requiredness-first)</td><td>&ndash;</td><td><b>0.791</b></td><td>&ndash;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure>
+    <img src="https://raw.githubusercontent.com/ilay620/SBAR-Project/main/sbar_handover_completeness/final_submission_package/presentation_figures/01_final_class_macro_f1.png" alt="SBAR class macro-F1 comparison">
+    <figcaption><b>Figure 7.</b> SBAR Handover Completeness: class macro-F1 across models.</figcaption>
+  </figure>
+  <p class="mats">Code: <a href="https://github.com/ilay620/SBAR-Project">code</a>.</p>
+
+  <!-- ================= 7 ================= -->
+  <h2 id="s7">7&nbsp;&nbsp;Cross-Cutting Lessons</h2>
+  <p class="lead">Reading the literature and the thirteen application studies together, a set of practical
+    lessons recurs. Table&nbsp;16 states each lesson with the evidence that supports it.</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 16.</b> Cross-cutting lessons and the evidence from the application studies.</caption>
+      <thead><tr><th>Lesson</th><th>Evidence across the studies</th></tr></thead>
+      <tbody>
+        <tr><td>Small fine-tuned encoders beat zero-shot LLMs</td><td>On triage and extraction, fine-tuned BERT-family models trained on synthetic text outperform zero-shot prompting of larger models (Patient Portal 0.81 vs 0.29 F1; PMOS 0.997 vs 0.34&ndash;0.42; SBAR, Tactical).</td></tr>
+        <tr><td>Zero-shot LLMs are competitive when the task is generic</td><td>On well-posed severity triage, zero-shot GPT-4o-mini matched a fine-tuned cascade (C-Section 0.98 vs 0.975).</td></tr>
+        <tr><td>Deliberately noisy synthetic data improves robustness</td><td>Training on ASR-degraded reports raised macro-F1 by 6.6&ndash;10.6 points (MedAlert).</td></tr>
+        <tr><td>Label-by-construction plus an independent judge controls quality</td><td>Fixing labels in the prompt and auditing with a second model gives high consistency and prevents leakage (Oncology dual-judge; Medical-device-style audits).</td></tr>
+        <tr><td>Symbolic structure beats free generation for precise fields</td><td>Deterministic normalization and linking outperform generative decoding on dates and relations (follow-up extraction, discussed in&nbsp;5.1).</td></tr>
+        <tr><td>Realism versus controllability is a dial to set on purpose</td><td>Generators trade natural messiness against label fidelity<sup class="cit">[14]</sup>; each study picks a point deliberately.</td></tr>
+        <tr><td>Local generators can suffice and keep data on-premises</td><td>Small local models (Qwen-0.5B, Gemma2-27B) bootstrapped usable corpora without sending data off-site (Patient Portal, Oncology).</td></tr>
+        <tr><td>Synthetic-only evaluation is the main caveat</td><td>Most studies test on held-out synthetic data; validation on real communication is the key next step (Section&nbsp;8).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ================= 8 ================= -->
+  <h2 id="s8">8&nbsp;&nbsp;Challenges and Future Directions</h2>
+
+  <h3>8.1&nbsp;&nbsp;Technical Challenges</h3>
+  <ul>
+    <li>Clinical hallucinations and factual control.</li>
+    <li>Rare conditions and long-tail fidelity.</li>
+    <li>Distribution shift relative to real data.</li>
+    <li>Longitudinal consistency across a record.</li>
+    <li>Evaluation metrics that predict downstream utility.</li>
+  </ul>
+
+  <h3>8.2&nbsp;&nbsp;Practical Challenges</h3>
+  <ul>
+    <li>Regulatory acceptance and validation standards.</li>
+    <li>Ethical considerations and disclosure.</li>
+    <li>Dataset sharing and licensing.</li>
+    <li>Reproducibility of generation pipelines.</li>
+  </ul>
+
+  <h3>8.3&nbsp;&nbsp;Future Opportunities</h3>
+  <p>Several directions follow naturally. Synthetic foundation datasets could pretrain models specifically for
+    clinical communication, and agent-based patient simulation<sup class="cit">[10,56,57,58]</sup> could turn
+    static corpora into interactive environments for both training and evaluation, extending toward
+    personalized synthetic patients that reflect particular histories and communication styles. Continual
+    generation would keep such data current as guidelines and language drift; standardized, versioned
+    benchmarks would make results comparable across groups; and human-in-the-loop generation would keep
+    clinicians in control of realism and safety.</p>
+
+  <!-- ================= 9 ================= -->
+  <h2 id="s9">9&nbsp;&nbsp;Conclusions</h2>
+  <p class="lead">LLM-generated synthetic clinical text has evolved from a privacy-preserving substitute for
+    real records into a versatile resource for developing, evaluating, and benchmarking clinical NLP systems.
+    By combining a systematic survey with original application studies, this paper offers both a consolidated
+    view of the field and practical guidance for researchers seeking to leverage synthetic text in future
+    healthcare AI. As generation quality, evaluation rigor, and validation standards mature together, we
+    expect synthetic clinical text to become a foundational, reusable asset for scalable and reproducible
+    clinical AI research.</p>
+
+  <hr class="sec">
+  <h2 id="ack">Acknowledgments</h2>
+  <p class="lead">We warmly thank the students of the <b>LLMs in Healthcare</b> course in the
+    <b>Digital Healthcare department at the Holon Institute of Technology (HIT)</b>, across the
+    <b>2024&ndash;2025</b> and <b>2025&ndash;2026</b> academic years. Their course projects motivated this
+    survey and supplied the application studies in Section&nbsp;6, showing hands-on that LLM-generated
+    synthetic clinical communication can drive real clinical NLP systems. We thank the whole cohort
+    collectively for their creativity and rigor. Any errors in our reinterpretation of these projects are our
+    own.</p>
+
+  <hr class="sec">
+  <div class="refs">
+    <h2 style="border:0;margin-bottom:4px;">References</h2>
+    <ol>
+      <li>M. Werthaim, M. Kimhi, A. Apartsin, Y. Aperstein. A benchmark for evaluating diagnostic questioning efficiency of LLMs in patient conversations. <i>Scientific Reports</i>, 2026.</li>
+      <li>E. Mama, L. Sheri, Y. Aperstein, A. Apartsin. From Fuzzy Speech to Medical Insight: Benchmarking LLMs on Noisy Patient Narratives. <i>arXiv:2509.11803</i>, 2025.</li>
+      <li>D. Goncharok, A. Shifman, A. Apartsin, Y. Aperstein. When Curiosity Signals Danger: Predicting Health Crises Through Online Medication Inquiries. <i>arXiv:2509.11802</i>, 2025.</li>
+      <li>M. Laufer, Y. Aperstein, A. Apartsin. Reliable Extraction of Clinical Follow-Up Instructions: A Hybrid Neural-Symbolic Pipeline. <i>arXiv:2605.26560</i>, 2026.</li>
+      <li>T. Atia, Y. Aperstein, A. Apartsin. SeaAlert: Critical Information Extraction From Maritime Distress Communications with Large Language Models. <i>IEEE Access</i>, 2026.</li>
+      <li>Y. Aperstein, A. Gottlib, G. Benita, A. Apartsin. Explainable Semantic Text Relations: A Question-Answering Framework for Comparing Document Content. <i>Information</i>, 16(12):1090, 2025.</li>
+      <li>I. Bolshinsky, S. Kupiec, A. Sasson, Y. Aperstein, A. Apartsin. Do Large Language Models Need Intent? Revisiting Response Generation Strategies for Service Assistant. <i>arXiv:2509.05006</i>, 2025.</li>
+      <li>A. Apartsin, Y. Aperstein. CoEval: Ranking Language Models for Custom Tasks Without Labeled Data or Trustworthy Benchmarks. <i>arXiv:2606.03650</i>, 2026.</li>
+      <li>G. Shapira, A. Apartsin. SPINE: A Benchmark for Measuring the Epistemic Backbone of Large Language Models. <i>Harvard Dataverse</i>, 2026.</li>
+      <li>A. Apartsin, O. Sason, Y. Aperstein. Toward a Benchmark for Controllable Simulation of Imperfect Students with Large Language Models. <i>arXiv:2605.25601</i>, 2026.</li>
+      <li>Y. Aperstein, A. Apartsin. A Controlled Synthetic Benchmark for Educational Aspect-Based Sentiment Analysis. <i>arXiv:2605.25502</i>, 2026.</li>
+      <li>Y. Cohen, D. Ohayon, R. Somkin, Y. Aperstein, A. Apartsin. Code Review Without Borders: Evaluating Synthetic vs. Real Data for Review Recommendation. <i>arXiv:2509.04810</i>, 2025.</li>
+      <li>A. Apartsin, Y. Aperstein. SynSmith: Adversarial Multi-Critic Prompt Debugging for Synthetic Data Generation. Working paper, 2026.</li>
+      <li>Y. Aperstein, L. Halifa, S. Bar, A. Apartsin. LLM-guided headline rewriting for clickability enhancement without clickbait. <i>arXiv:2603.22459</i>, 2026.</li>
+      <li>Y. Aperstein, Y. Cohen, A. Apartsin. Generative AI-Based Platform for Deliberate Teaching Practice: A Review and a Suggested Framework. <i>Education Sciences</i>, 2025.</li>
+      <li>A. Apartsin, Y. Aperstein. Framing, Judging, Steering: An Assessable Competency Model for Teaching Students to Reason With Generative AI. <i>arXiv:2606.05983</i>, 2026.</li>
+      <li>Y. Aperstein, B. Remez, A. Apartsin. Evidence Matrix Reasoning: Structured Hypothesis Selection via Analysis of Competing Hypotheses. Working paper, 2026.</li>
+      <li>S. Dahary, A. Edana, A. Apartsin, Y. Aperstein. From Joy to Fear: A Benchmark of Emotion Estimation in Pop Song Lyrics. <i>arXiv:2509.05617</i>, 2025.</li>
+      <li>M. Cohen, S. Shani, E. Menahem, Y. Aperstein, A. Apartsin. Reading Between the Lines: Classifying Resume Seniority with Large Language Models. <i>arXiv:2509.09229</i>, 2025.</li>
+      <li>Y. Aperstein, E. Moran, A. Apartsin. IRC-Bench: Recognizing Entities from Contextual Cues in First-Person Reminiscences. <i>Machine Learning and Knowledge Extraction</i>, 2026.</li>
+      <li>B. Alshaikhdeeb et al. Generation of Synthetic Clinical Text: A Systematic Review. <i>arXiv:2507.18451</i>, 2025.</li>
+      <li>Rao, Liu, et al. A Scoping Review of Synthetic Data Generation by Language Models in Biomedical Research and Application. <i>Journal of Healthcare Informatics Research</i> (arXiv:2506.16594), 2026.</li>
+      <li>A review on generative AI models for synthetic medical text, time series, and longitudinal data. <i>npj Digital Medicine</i>, 2024.</li>
+      <li>Generative AI for Synthetic Data Across Multiple Medical Modalities: A Systematic Review. <i>arXiv:2407.00116</i>, 2024.</li>
+      <li>H. Zhou et al. A Survey on Medical Large Language Models. <i>arXiv:2406.03712</i>, 2024.</li>
+      <li>A Systematic Review of Large Language Models in Medical Specialties: Applications, Challenges and Future Directions. <i>Information</i>, 16(6):489, 2025.</li>
+      <li>Knowledge-Grounded Dialogue Generation for Medical Conversations: A Survey. Bournemouth University, 2024.</li>
+      <li>Natural Language Generation in Healthcare: A Review of Methods and Applications. <i>arXiv:2505.04073</i>, 2025.</li>
+      <li>G. Zeng et al. MedDialog: Large-scale Medical Dialogue Datasets. <i>EMNLP</i>, 2020.</li>
+      <li>J. Wang et al. NoteChat: A Dataset of Synthetic Patient-Physician Conversations Conditioned on Clinical Notes. <i>Findings of ACL</i> (arXiv:2310.15959), 2024.</li>
+      <li>R. Xu et al. Knowledge-Infused Prompting: Assessing and Advancing Clinical Text Data Generation with LLMs (ClinGen). <i>arXiv:2311.00287</i>, 2023.</li>
+      <li>A Survey on Data Synthesis and Augmentation for Large Language Models. <i>arXiv:2410.12896</i>, 2024.</li>
+      <li>De-identification is not enough: a comparison between de-identified and synthetic clinical notes. <i>Scientific Reports</i> (arXiv:2402.00179), 2024.</li>
+      <li>A scoping review of privacy and utility metrics in medical synthetic data. <i>npj Digital Medicine</i>, 2024.</li>
+      <li>W. Yim et al. ACI-BENCH: a Novel Ambient Clinical Intelligence Dataset for Benchmarking Automatic Visit Note Generation. <i>Scientific Data</i> (arXiv:2306.02022), 2023.</li>
+      <li>A. Ben Abacha et al. An Empirical Study of Clinical Note Generation from Doctor-Patient Encounters (MTS-Dialog). <i>EACL</i>, 2023.</li>
+      <li>A. Papadopoulos Korfiatis, F. Moramarco, et al. PriMock57: A Dataset of Primary Care Mock Consultations. <i>ACL</i> (arXiv:2204.00333), 2022.</li>
+      <li>Synthetic data generation in healthcare: A scoping review of reviews on domains, motivations, and future applications. 2024 (PubMed 39719743).</li>
+      <li>Two Directions for Clinical Data Generation with Large Language Models: Data-to-Label and Label-to-Data. <i>Findings of EMNLP</i> (PMC10782150), 2023.</li>
+      <li>Using NLP in facilitating pre-hospital telephone triage of emergency calls. 2022 (PMC9662158).</li>
+      <li>A. Ritter, S. Clark, Mausam, O. Etzioni. Named Entity Recognition in Tweets: An Experimental Study. <i>EMNLP</i>, 2011.</li>
+      <li>L. Derczynski, E. Nichols, M. van Erp, N. Limsopatham. Results of the WNUT2017 Shared Task on Novel and Emerging Entity Recognition. <i>W-NUT@EMNLP</i>, 2017.</li>
+      <li>A. Wang, K. Cho, M. Lewis. Asking and Answering Questions to Evaluate the Factual Consistency of Summaries (QAGS). <i>ACL</i>, 2020.</li>
+      <li>T. Scialom et al. QuestEval: Summarization Asks for Fact-based Evaluation. <i>EMNLP</i>, 2021.</li>
+      <li>W. Yin, D. Radev, C. Xiong. DocNLI: A Large-scale Dataset for Document-level Natural Language Inference. <i>Findings of ACL-IJCNLP</i>, 2021.</li>
+      <li>J. Zuluaga-Gomez et al. ATCO2 corpus: A Large-Scale Dataset for Research on ASR and NLU of Air Traffic Control Communications. <i>arXiv:2211.04054</i>, 2023.</li>
+      <li>K. Sun et al. Speech-based Slot Filling using Large Language Models. <i>arXiv:2311.07418</i>, 2023.</li>
+      <li>H.-C. Kao, K.-F. Tang, E. Y. Chang. Context-Aware Symptom Checking for Disease Diagnosis Using Hierarchical Reinforcement Learning. <i>AAAI</i>, 2018.</li>
+      <li>Z. Wei et al. Task-oriented Dialogue System for Automatic Diagnosis. <i>ACL</i>, 2018.</li>
+      <li>S. Li et al. MediQ: Question-Asking LLMs and a Benchmark for Reliable Interactive Clinical Reasoning. <i>NeurIPS</i> (arXiv:2406.00922), 2024.</li>
+      <li>T. Tu et al. Towards conversational diagnostic artificial intelligence (AMIE). <i>Nature</i>, 2025.</li>
+      <li>J. Markel, S. Opferman, J. Landay, C. Piech. GPTeach: Interactive TA Training with GPT-based Students. <i>ACM Learning@Scale</i>, 2023.</li>
+      <li>R. Shea et al. ACE: A LLM-based Negotiation Coaching System. <i>arXiv:2410.01555</i>, 2024.</li>
+      <li>Z. Zhang et al. Simulating Classroom Education with LLM-Empowered Agents. <i>arXiv:2406.19226</i>, 2024.</li>
+      <li>F. Holderried et al. A Generative Pretrained Transformer (GPT)-Powered Chatbot as a Simulated Patient to Practice History Taking. <i>JMIR Medical Education</i>, 2024.</li>
+      <li>S. Johri et al. An evaluation framework for clinical use of large language models in patient interaction tasks (CRAFT-MD). <i>Nature Medicine</i>, 2025.</li>
+      <li>Embracing the Future of Medical Education With Large Language Model-Based Virtual Patients: Scoping Review. <i>Journal of Medical Internet Research</i>, 2025.</li>
+      <li>Large Language Model-Based Virtual Patient Systems for History-Taking in Medical Education: A Comprehensive Systematic Review. <i>JMIR Medical Informatics</i>, 2026.</li>
+    </ol>
+  </div>
+
+  <footer>
+    LLM-Generated Synthetic Clinical Communication for Healthcare AI &middot; A Survey and Application Studies
+  </footer>
+
+</main>
+</body>
+</html>
