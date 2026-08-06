@@ -146,9 +146,7 @@
       thirteen novel application case studies that build clinical NLP systems for communication channels and
       languages with no labeled real-world data, spanning EMS pre-arrival reports, field-radio casualty
       documentation, nurse handoffs, patient-portal triage, and low-resource discharge communication, and
-      showing that synthetic communication can bootstrap systems that could not otherwise be trained. A study
-      is in scope when its generated output is a communication artifact used by a downstream model, whatever
-      the format of the source it was generated from.
+      showing that synthetic communication can bootstrap systems that could not otherwise be trained.
       Recurring observations include the competitiveness of fine-tuned encoder models over evaluated zero-shot
       baselines and the value of deliberately degraded communication for robustness. The central limitation is
       that most studies evaluate on held-out synthetic communication, with train-on-synthetic,
@@ -943,8 +941,9 @@
     real text in ways that held-out synthetic evaluation cannot detect. Longitudinal consistency compounds the
     problem, since a patient's story must remain coherent across a conversation, a handoff, and a discharge,
     yet independently sampled turns readily contradict one another. Beneath all of these lies a measurement
-    gap, the absence of evaluation metrics that reliably predict downstream utility, current fidelity and diversity measures being demonstrably
-    imperfect<sup class="cit">[80,81]</sup>, which is why the train-on-synthetic, test-on-real protocol, still uncommon in the studies surveyed here, remains the field's
+    gap: evaluation metrics that reliably predict downstream utility are absent, and current fidelity and
+    diversity measures are demonstrably imperfect<sup class="cit">[80,81]</sup>. This is why the
+    train-on-synthetic, test-on-real protocol, still uncommon in the studies surveyed here, remains the field's
     most trustworthy yardstick.</p>
 
   <h3>4.2&nbsp;&nbsp;Practical and Ethical Caveats</h3>
@@ -1062,7 +1061,7 @@
       <li>Y. Aperstein, A. Gottlib, G. Benita, A. Apartsin. Explainable Semantic Text Relations: A Question-Answering Framework for Comparing Document Content. <i>Information</i>, 16(12):1090, 2025.</li>
       <li>I. Bolshinsky, S. Kupiec, A. Sasson, Y. Aperstein, A. Apartsin. Do Large Language Models Need Intent? Revisiting Response Generation Strategies for Service Assistant. <i>arXiv:2509.05006</i>, 2025.</li>
       <li>A. Apartsin, Y. Aperstein. CoEval: Ranking Language Models for Custom Tasks Without Labeled Data or Trustworthy Benchmarks. <i>arXiv:2606.03650</i>, 2026.</li>
-      <li>G. Shapira, A. Apartsin. SPINE: A Benchmark for Measuring the Epistemic Backbone of Large Language Models. <i>Harvard Dataverse</i>, 2026.</li>
+      <li>G. Shapira, A. Apartsin. SPINE: A Benchmark for Measuring the Epistemic Backbone of Large Language Models. <i>Harvard Dataverse</i>, 2026. <a href="https://doi.org/10.7910/DVN/CG9X6D">doi:10.7910/DVN/CG9X6D</a></li>
       <li>A. Apartsin, O. Sason, Y. Aperstein. Toward a Benchmark for Controllable Simulation of Imperfect Students with Large Language Models. <i>arXiv:2605.25601</i>, 2026.</li>
       <li>Y. Aperstein, A. Apartsin. A Controlled Synthetic Benchmark for Educational Aspect-Based Sentiment Analysis. <i>arXiv:2605.25502</i>, 2026.</li>
       <li>Y. Cohen, D. Ohayon, R. Somkin, Y. Aperstein, A. Apartsin. Code Review Without Borders: Evaluating Synthetic vs. Real Data for Review Recommendation. <i>arXiv:2509.04810</i>, 2025.</li>
@@ -1138,8 +1137,8 @@
       <li>E. Asgari, N. Monta&ntilde;a-Brown, M. Dubois, et al. A framework to assess clinical safety and hallucination rates of LLMs for medical text summarisation. <i>npj Digital Medicine</i>, 2025.</li>
       <li>S. Bedrick, A. S. Do&#287;ru&#246;z, S. Nisioi. A Typology of Synthetic Datasets for Dialogue Processing in Clinical Contexts. <i>LREC</i> (arXiv:2505.03025), 2026.</li>
       <li>J. R. Hampton, M. J. G. Harrison, J. R. A. Mitchell, J. S. Prichard, C. Seymour. Relative contributions of history-taking, physical examination, and laboratory investigation to diagnosis and management of medical outpatients. <i>British Medical Journal</i>, 2(5969):486&ndash;489, 1975.</li>
-      <li>CRICO Strategies. Malpractice Risks in Communication Failures: 2015 Annual Benchmarking Report. Cambridge, MA, 2015.</li>
-      <li>The Joint Commission. Sentinel Event Statistics (annual root-cause reports). Oakbrook Terrace, IL.</li>
+      <li>CRICO Strategies. Malpractice Risks in Communication Failures: 2015 Annual Benchmarking Report. Cambridge, MA, 2015. <a href="https://www.candello.com/Insights/Candello-Reports">candello.com/Insights/Candello-Reports</a></li>
+      <li>The Joint Commission. Sentinel Event Data Summary (annual root-cause reports). Oakbrook Terrace, IL. <a href="https://www.jointcommission.org/resources/sentinel-event/sentinel-event-data-summary/">jointcommission.org/resources/sentinel-event/sentinel-event-data-summary</a></li>
       <li>R. Iedema et al. Clinical handover between paramedics and emergency department staff: the SBAR and IMIST-AMBO acronyms. <i>International Journal of Paramedic Practice</i>.</li>
       <li>T. M. Seinen, J. A. Kors, E. M. van Mulligen, et al. Using Structured Codes and Free-Text Notes to Measure Information Complementarity in Electronic Health Records. <i>Journal of Medical Internet Research</i>, 2025.</li>
       <li>B. Nath et al. Patient Portal Message Volume and Time Spent on the EHR: An Observational Study of Primary Care Clinicians. <i>Journal of General Internal Medicine</i>, 2024.</li>
@@ -1158,7 +1157,7 @@
       <li>Z. Bao et al. A Survey on Recent Advances in Conversational Data Generation. <i>arXiv:2405.13003</i>, 2024.</li>
       <li>Y. Wang et al. M4: Multi-generator, Multi-domain, and Multi-lingual Black-Box Machine-Generated Text Detection. <i>EACL</i>, 2024.</li>
       <li>Z. Yao et al. MedQA-CS: An OSCE-Style Benchmark for Evaluating LLM Clinical Skills. <i>arXiv:2410.01553</i>, 2024.</li>
-      <li>N. Barman. Symptom2Disease. Kaggle dataset, 2023.</li>
+      <li>N. Barman. Symptom2Disease. Kaggle dataset, 2023. <a href="https://www.kaggle.com/datasets/niyarrbarman/symptom2disease">kaggle.com/datasets/niyarrbarman/symptom2disease</a></li>
       <li>Y. Elhalimi et al. MedDec: A Dataset for Extracting Clinical Decisions from Discharge Summaries. <i>Findings of ACL</i> / PhysioNet, 2024.</li>
       <li>A. Johnson et al. MIMIC-IV-ED (v2.2). <i>PhysioNet</i>, 2023.</li>
       <li>Medical Triage as Pairwise Ranking (PMR-Bench). <i>arXiv:2601.13178</i>, 2026.</li>
