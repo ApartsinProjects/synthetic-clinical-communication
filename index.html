@@ -264,13 +264,38 @@
     of synthetic clinical dialogue datasets<sup class="cit">[83]</sup>, but it organizes by generation method
     and treats dialogue as a single undifferentiated category, without the channel structure, the
     under-covered EMS, dispatch, handoff, and portal channels, or the paired application studies offered
-    here.</p>
+    here. Table&nbsp;1 sets this survey against the closest prior reviews.</p>
+
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 1.</b> Coverage of the closest prior reviews. No prior review organizes the field by clinical-communication channel across the full set, and none pairs the survey with its own application studies.</caption>
+      <thead><tr><th>Review</th><th>Channels covered</th><th>Maps real vs synthetic?</th><th>Own application studies?</th></tr></thead>
+      <tbody>
+        <tr><td>Loni et al. [21]</td><td>Text as one generic modality</td><td>Partial</td><td>No</td></tr>
+        <tr><td>Ibrahim et al. [22]</td><td>Text among several modalities</td><td>No</td><td>No</td></tr>
+        <tr><td>Liu et al. [25]</td><td>Patient&ndash;clinician dialogue only</td><td>No</td><td>No</td></tr>
+        <tr><td>Rujas et al. [36]</td><td>Review of reviews; no channel structure</td><td>No</td><td>No</td></tr>
+        <tr><td>Bedrick et al. [83]</td><td>Dialogue and counseling only</td><td>Yes (typology)</td><td>No</td></tr>
+        <tr><td><b>This survey</b></td><td><b>Patient&ndash;clinician, doctor-to-patient, telemedicine and portal, EMS, dispatch, SBAR handoff</b></td><td><b>Yes</b></td><td><b>Yes (13 studies)</b></td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <!-- ================= 2 ================= -->
   <h2 id="s2">2&nbsp;&nbsp;Literature Review</h2>
   <p class="lead">This section reviews the field in four parts: the modalities of clinical communication and
     the tasks they support (2.1); how large language models generate synthetic clinical communication (2.2);
     how such data is evaluated (2.3); and what the literature reports, organized by downstream task (2.4).</p>
+  <p><b>Scope and method.</b> This is a structured narrative review rather than a systematic one. We gathered
+    work through targeted searches of arXiv, PubMed/MEDLINE, and the ACL Anthology, supplemented by forward and
+    backward citation tracing and by browsing recent issues of the venues where this work concentrates (npj
+    Digital Medicine, JAMIA, JMIR, Nature Medicine, and the ACL family). The emphasis is on 2020 through 2026,
+    the period in which instruction-following LLMs made open-ended clinical text generation practical. A study
+    is included when its LLM-generated output is a communication artifact used by a downstream model, under the
+    inclusion rule stated in Section&nbsp;1; work whose output is synthetic tabular records, signals, or images,
+    or which only classifies existing text without generating communication, is excluded. The application
+    studies in Section&nbsp;3 were selected from graduate coursework to span the communication channels below,
+    and are presented as feasibility demonstrations rather than a systematic sample.</p>
   <p>Efforts to unlock the value in clinical communication predate synthetic data. Ambient systems that turn a
     recorded consultation into a note, together with their benchmarks and shared tasks<sup class="cit">[27,33,34,58]</sup>,
     are now moving into practice as clinician-facing scribes<sup class="cit">[93]</sup>. Information extraction
@@ -296,11 +321,11 @@
     spoken over noise, burdened further by automatic-speech-recognition errors and, in the field, by radio
     dropouts. Nurse and clinician handoffs, epitomized by the SBAR format, are structured precisely because
     omissions at transfer are a leading source of harm. Patient-portal messaging, finally, is asynchronous and
-    patient-initiated, arriving in short, informal, error-strewn bursts. Table&nbsp;1 sets these channels
+    patient-initiated, arriving in short, informal, error-strewn bursts. Table&nbsp;2 sets these channels
     against the dimensions that matter for generation and modeling.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 1.</b> Modalities of clinical communication and their defining properties; the final
+      <caption><b>Table 2.</b> Modalities of clinical communication and their defining properties; the final
         column links each channel to the application studies in Section&nbsp;3.</caption>
       <thead><tr><th>Channel</th><th>Participants</th><th>Medium</th><th>Register / urgency</th><th>Characteristic difficulty</th><th>Studies</th></tr></thead>
       <tbody>
@@ -340,11 +365,11 @@
     communication conveys more than facts; the same clinical event surfaces very differently depending on who
     says it and how. The structured order &ldquo;stop warfarin,&rdquo; for instance, may arrive as
     &ldquo;don't take your blood thinner tonight,&rdquo; forcing a model to resolve the reference, the timing,
-    the speaker, and whether the instruction is active. Table&nbsp;2 catalogs the recurring communication
+    the speaker, and whether the instruction is active. Table&nbsp;3 catalogs the recurring communication
     phenomena and the downstream difficulty each creates.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 2.</b> Communication-specific phenomena and the downstream difficulty they create.</caption>
+      <caption><b>Table 3.</b> Communication-specific phenomena and the downstream difficulty they create.</caption>
       <thead><tr><th>Phenomenon</th><th>Example</th><th>Downstream difficulty</th></tr></thead>
       <tbody>
         <tr><td>Implicit reference</td><td>&ldquo;the small white pill&rdquo;</td><td>concept resolution</td></tr>
@@ -362,11 +387,11 @@
   </div>
 
   <h4>2.1.3&nbsp;&nbsp;Clinical NLP Tasks</h4>
-  <p>The tasks in Table&nbsp;3 recur throughout the survey and motivate the downstream-utility view of
+  <p>The tasks in Table&nbsp;4 recur throughout the survey and motivate the downstream-utility view of
     synthetic clinical communication.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 3.</b> Core clinical NLP tasks addressed by synthetic clinical communication.</caption>
+      <caption><b>Table 4.</b> Core clinical NLP tasks addressed by synthetic clinical communication.</caption>
       <thead><tr><th>Task</th><th>Objective</th><th>Typical output</th></tr></thead>
       <tbody>
         <tr><td>Named entity recognition</td><td>Locate clinical concepts</td><td>Typed text spans</td></tr>
@@ -445,13 +470,13 @@
   <h3 id="s4">2.3&nbsp;&nbsp;Evaluating Synthetic Clinical Communication</h3>
   <p class="lead">Evaluation is the least standardized part of the field. We organize it into four levels, from
     surface text quality to downstream utility, with the concrete metrics used at each level collected in
-    Table&nbsp;4. Throughout Section&nbsp;3 the headline downstream metric is macro-averaged F1, which weights
+    Table&nbsp;5. Throughout Section&nbsp;3 the headline downstream metric is macro-averaged F1, which weights
     every class equally and is therefore the right summary for the imbalanced, safety-critical classes typical
     of clinical communication.</p>
 
   <div class="tablewrap">
     <table>
-      <caption><b>Table 4.</b> Four levels for evaluating synthetic clinical communication, with the questions
+      <caption><b>Table 5.</b> Four levels for evaluating synthetic clinical communication, with the questions
         they ask and the metrics typically used.</caption>
       <thead><tr><th>Level</th><th>Question</th><th>Typical metrics</th></tr></thead>
       <tbody>
@@ -466,9 +491,18 @@
     label each study by its evaluation regime: <i>S&rarr;S</i> (train and test on synthetic data),
     <i>S&rarr;R</i> (train on synthetic, test on real), <i>R+S&rarr;R</i> (train on real plus synthetic, test on
     real), and <i>R&rarr;R</i> (a real-data baseline), with cross-generator (<i>S&#8321;&rarr;S&#8322;</i>) and
-    human-written (<i>S&rarr;H</i>) variants as stronger tests. As Section&nbsp;3 makes explicit, almost all of
-    the application studies surveyed here operate in the <i>S&rarr;S</i> regime, which is why transfer to
-    authentic communication remains the field's central open question.</p>
+    human-written (<i>S&rarr;H</i>) variants as stronger tests. Across the thirteen application studies in
+    Section&nbsp;3, twelve evaluate in the <i>S&rarr;S</i> regime and one (Section&nbsp;3.3.5) reports results on
+    authentic patient-authored text; of the twelve, five generate from real clinical records or datasets
+    (Sections&nbsp;3.1.1, 3.1.2, 3.1.3, 3.2.1, and 3.4.1) and seven are synthetic end to end.</p>
+  <p>The broader literature nonetheless shows that models trained on synthetic clinical text can transfer to
+    authentic text. A model distilled entirely on LLM-generated question-answer pairs matched, and sometimes
+    exceeded, its far larger teacher on the real i2b2 2018 clinical-trial-eligibility benchmark<sup class="cit">[79]</sup>,
+    and clinical entity recognizers trained on synthetic notes reach strict F1 within a point of models trained
+    on the natural corpus, with real-plus-synthetic training exceeding both<sup class="cit">[109]</sup>. This
+    <i>S&rarr;R</i> evidence is concentrated in extraction and note-level tasks; for the spoken and handoff
+    channels this survey highlights, it remains largely untested, which is the central open problem taken up in
+    Section&nbsp;5.</p>
   <p>Privacy deserves its own evaluation: de-identification alone can be insufficient, and synthetic notes
     that match real utility may inherit real privacy risk<sup class="cit">[31]</sup>, which motivates
     dedicated privacy-and-utility metrics for medical synthetic data<sup class="cit">[32]</sup>.</p>
@@ -491,11 +525,11 @@
     transfer cleanly to history-taking, handoff, dispatch, and triage; we treat them as reusable problem
     templates throughout this section.</p>
 
-  <p>Table&nbsp;5 summarizes the surveyed tasks, the role synthetic communication plays in each, and
+  <p>Table&nbsp;6 summarizes the surveyed tasks, the role synthetic communication plays in each, and
     representative work; the transferable settings noted above recur across several of them.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 5.</b> Downstream clinical NLP tasks supported by synthetic clinical communication. Bracketed entries [n] cite surveyed literature; &sect; entries point to the application studies in Section&nbsp;3.</caption>
+      <caption><b>Table 6.</b> Downstream clinical NLP tasks supported by synthetic clinical communication. Bracketed entries [n] cite surveyed literature; &sect; entries point to the application studies in Section&nbsp;3.</caption>
       <thead><tr><th>Task</th><th>Role of synthetic communication</th><th>Representative references</th></tr></thead>
       <tbody>
         <tr><td>Information extraction (entities, relations, time)</td><td>Emit gold spans and relations with the text; recover decisions, follow-ups, and casualty fields; distil small extractors from large teachers</td><td>[4], [5], [18], [39], [40], [44], [45], [71], [79] &middot; &sect;3.2.1, &sect;3.4.2</td></tr>
@@ -525,11 +559,11 @@
     varies with the study, leaning on prose, a results table, or a figure as best fits the material. Almost
     every study evaluates in the <i>S&rarr;S</i> regime (Section&nbsp;2.3), that is, on held-out synthetic
     communication, so transfer to authentic communication remains the central open validation step, which we
-    take up in Section&nbsp;4. Table&nbsp;6 summarizes all thirteen studies.</p>
+    take up in Section&nbsp;4. Table&nbsp;7 summarizes all thirteen studies.</p>
 
   <div class="tablewrap">
     <table>
-      <caption><b>Table 6.</b> Clinical-communication processing studies, by channel, using models trained on
+      <caption><b>Table 7.</b> Clinical-communication processing studies, by channel, using models trained on
         LLM-generated synthetic data. Generators are the LLMs used to synthesize the training text; results are
         the headline downstream metric.</caption>
       <thead><tr><th>#</th><th>Study (&sect;)</th><th>Channel</th><th>Synthetic generator</th><th>Headline result</th></tr></thead>
@@ -574,11 +608,11 @@
     label, giving 2,400 cases at controlled noise levels. Four classifiers are then trained and compared as
     the language degrades: a TF-IDF Na&iuml;ve Bayes baseline, BERT, ClinicalBERT, and a generative FLAN-T5.
     FLAN-T5 is the most noise-robust, degrading least under heavy noise where the Na&iuml;ve Bayes baseline
-    collapses (Table&nbsp;7); the accompanying benchmark of LLMs on noisy patient narratives reports the same
+    collapses (Table&nbsp;8); the accompanying benchmark of LLMs on noisy patient narratives reports the same
     pattern<sup class="cit">[2]</sup>.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 7.</b> Diagnostic accuracy by narrative noise level (synthetic test).</caption>
+      <caption><b>Table 8.</b> Diagnostic accuracy by narrative noise level (synthetic test).</caption>
       <thead><tr><th>Model</th><th>Clean</th><th>Medium noise</th><th>Heavy noise</th></tr></thead>
       <tbody>
         <tr><td>Na&iuml;ve Bayes (TF-IDF)</td><td>93.8%</td><td>79.2%</td><td>77.5%</td></tr>
@@ -598,7 +632,7 @@
     recast exam vignettes into partial-information questioning, but organic diagnostic conversations with
     ground-truth outcomes are rarely released, so the encounters are simulated: GPT-4o-mini instantiates cases from the
     Symptom-Disease Prediction Dataset (132 symptoms, 41 diseases) at three information-reveal tiers
-    (Table&nbsp;8) and plays the patient. Question selection follows an information-gain objective, choosing
+    (Table&nbsp;9) and plays the patient. Question selection follows an information-gain objective, choosing
     the next question $q$ that most reduces diagnostic uncertainty, $q^{*} = \arg\max_{q} I(D; A_q \mid H)$,
     where $D$ is the diagnosis, $A_q$ the answer, and $H$ the dialogue history; each round's diagnosis is
     scored against the ground-truth prognosis. Because this is an evaluation benchmark rather than a trained
@@ -606,7 +640,7 @@
     measurable and anchor the diagnostic-questioning benchmark line<sup class="cit">[1]</sup>.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 8.</b> Information-reveal tiers used to probe diagnostic-questioning efficiency.</caption>
+      <caption><b>Table 9.</b> Information-reveal tiers used to probe diagnostic-questioning efficiency.</caption>
       <thead><tr><th>Tier</th><th>Symptoms revealed to patient agent</th><th>What it measures</th></tr></thead>
       <tbody>
         <tr><td>Full</td><td>100%</td><td>Ceiling accuracy with complete information</td></tr>
@@ -623,12 +657,12 @@
     telegraphic chief-complaint field with a five-level acuity, but it is access-gated and lacks first-person
     prose, so GPT-4 generates natural, non-clinical complaint texts that imitate how patients describe their symptoms, with the original triage labels
     collapsed to a binary target. Three models are compared: a TF-IDF logistic-regression baseline, a
-    fine-tuned DistilBERT encoder, and a fine-tuned T5 generator (Table&nbsp;9). DistilBERT attains the best
+    fine-tuned DistilBERT encoder, and a fine-tuned T5 generator (Table&nbsp;10). DistilBERT attains the best
     accuracy and F1, while the logistic-regression baseline retains the highest recall, a trade-off that is
     consequential for a safety filter deliberately biased toward over-triage.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 9.</b> Binary emergency-department triage (synthetic test).</caption>
+      <caption><b>Table 10.</b> Binary emergency-department triage (synthetic test).</caption>
       <thead><tr><th>Model</th><th>Accuracy</th><th>F1</th><th>Recall</th></tr></thead>
       <tbody>
         <tr><td>TF-IDF + logistic regression</td><td>0.810</td><td>0.653</td><td><b>0.873</b></td></tr>
@@ -660,13 +694,13 @@
     gold spans, anchored to MedDec- and MIMIC-III-derived clinical targets by marked-span anchoring, with every
     span validated to appear verbatim in its summary so that the labels are recoverable by construction. Four
     systems are then compared: an XLM-R BIO tagger, an sklearn candidate reranker, a Gemini candidate selector,
-    and a Qwen2.5-1.5B few-shot baseline (Table&nbsp;10, Figure&nbsp;1). The reranker is strongest under strict
+    and a Qwen2.5-1.5B few-shot baseline (Table&nbsp;11, Figure&nbsp;1). The reranker is strongest under strict
     boundary matching (0.427) and Gemini under relaxed matching (0.926); the wide relaxed-minus-strict gap
     shows that errors are largely boundary misalignment rather than wrong regions. Because both training and
     test data are synthetic, transfer to genuine Hebrew notes remains the open question.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 10.</b> Clinical-decision extraction from Hebrew discharge summaries: overall F1 (v2 test, 81 summaries).</caption>
+      <caption><b>Table 11.</b> Clinical-decision extraction from Hebrew discharge summaries: overall F1 (v2 test, 81 summaries).</caption>
       <thead><tr><th>Model</th><th>Strict F1</th><th>Relaxed F1</th></tr></thead>
       <tbody>
         <tr><td>Qwen2.5-1.5B (few-shot)</td><td>0.206</td><td>0.650</td></tr>
@@ -701,12 +735,12 @@
   <p>The corpus is therefore entirely synthetic: a small local model, Qwen2.5-0.5B-Instruct, produces 3,000
     message-and-label tasks, of which 2,799 parse cleanly, each message carrying its own structured labels.
     Three specialist DistilBERT heads, one per sub-task, are then compared against the same local model prompted
-    zero- and few-shot (Table&nbsp;11, Figure&nbsp;2). The fine-tuned heads decisively outperform the prompted
+    zero- and few-shot (Table&nbsp;12, Figure&nbsp;2). The fine-tuned heads decisively outperform the prompted
     model, and their composition routes reliably, indicating that a small, on-premises generator can bootstrap
     a competent triage model in a controlled setting without any real data leaving the institution.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 11.</b> Portal-message triage: per-head and pipeline results (synthetic test).</caption>
+      <caption><b>Table 12.</b> Portal-message triage: per-head and pipeline results (synthetic test).</caption>
       <thead><tr><th>Component</th><th>Metric</th><th>Score</th></tr></thead>
       <tbody>
         <tr><td>Urgency (DistilBERT)</td><td>accuracy / macro-F1</td><td>0.810 / 0.810</td></tr>
@@ -731,13 +765,13 @@
   <p>GPT-4o-mini, sampled at temperature 1.3 for diversity, therefore generates roughly 3,000 messages in which
     a writer profile and the target severity are fixed in the prompt, so the intended labels come from the
     source scenario, though their agreement with the generated message still requires validation. A BioBERT
-    cascade and a Bi-LSTM cascade are compared against zero-shot GPT-4o-mini (Table&nbsp;12, Figure&nbsp;3).
+    cascade and a Bi-LSTM cascade are compared against zero-shot GPT-4o-mini (Table&nbsp;13, Figure&nbsp;3).
     Notably, the zero-shot model matches the fine-tuned BioBERT cascade (0.98 versus 0.975 macro-F1), and both
     far exceed the Bi-LSTM (0.839), whose errors concentrate in the middle severities where the clinical
     distinctions are finest.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 12.</b> Postpartum severity triage: four-class results (synthetic test, n=750).</caption>
+      <caption><b>Table 13.</b> Postpartum severity triage: four-class results (synthetic test, n=750).</caption>
       <thead><tr><th>Model</th><th>Accuracy</th><th>Macro-F1</th></tr></thead>
       <tbody>
         <tr><td>BioBERT cascade</td><td>0.975</td><td>0.974</td></tr>
@@ -760,14 +794,14 @@
   <p>GPT-4o generates 3,000 longitudinal cases from structured clinical attributes and varied linguistic
     profiles, deliberately seeding "confidently wrong" edge cases to stress the classifier. Zero-shot LLMs, a
     fine-tuned DistilBERT, and a Bio_ClinicalBERT baseline are compared against a Bio_ClinicalBERT model wrapped
-    in a conversational safety cascade (Table&nbsp;13); the cascaded model attains near-perfect accuracy (0.997)
+    in a conversational safety cascade (Table&nbsp;14); the cascaded model attains near-perfect accuracy (0.997)
     with perfect recall on emergencies, far above the alternatives (0.34&ndash;0.42 for zero-shot LLMs, 0.828
     for the plain encoder), which misclassify the high-risk class. The result shows how a safety-oriented layer
     trained on adversarial synthetic cases strengthens a classifier's handling of the high-risk class in this
     controlled evaluation.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 13.</b> Clinical-priority triage of portal messages: accuracy (synthetic test).</caption>
+      <caption><b>Table 14.</b> Clinical-priority triage of portal messages: accuracy (synthetic test).</caption>
       <thead><tr><th>Model</th><th>Accuracy</th></tr></thead>
       <tbody>
         <tr><td>Zero-shot Qwen / Mistral-7B / BART-MNLI</td><td>0.34&ndash;0.42</td></tr>
@@ -788,12 +822,12 @@
   <p>A local Gemma2-27B therefore generates 1,273 examples whose text never names the target label, a
     deliberate leakage control, after which a dual-model judge (GPT-4o-mini and Qwen2.5-32B) assigns a quality
     tier to each. A fine-tuned DistilBERT, a TF-IDF logistic-regression baseline, and zero-shot BART are
-    compared (Table&nbsp;14). DistilBERT leads on the ordinal distress task, reaching a linear-weighted
+    compared (Table&nbsp;15). DistilBERT leads on the ordinal distress task, reaching a linear-weighted
     $\kappa$ of 0.851, while the TF-IDF baseline edges ahead on the nominal response task; both far surpass
     zero-shot BART.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 14.</b> Psychosocial-response and distress classification in oncology messages: macro-F1 by task (synthetic test).</caption>
+      <caption><b>Table 15.</b> Psychosocial-response and distress classification in oncology messages: macro-F1 by task (synthetic test).</caption>
       <thead><tr><th>Task</th><th>TF-IDF + LR</th><th>DistilBERT</th><th>BART zero-shot</th></tr></thead>
       <tbody>
         <tr><td>Psychosocial response (7-way)</td><td><b>0.856</b></td><td>0.834</td><td>0.732</td></tr>
@@ -811,7 +845,7 @@
   <p>Two reviewers first label 5,000 real forum questions; GPT-4.1 then generates additional synthetic
     critical questions to rebalance the training set, a targeted use of generation as class-balancing
     augmentation that raises the GPT-4.1 classifier's own macro-F1 from 0.78 to 0.85. A classical SVM, GPT-4.1
-    in two modes, and fine-tuned BioBERT and BlueBERT are compared (Table&nbsp;15); the fine-tuned encoders are
+    in two modes, and fine-tuned BioBERT and BlueBERT are compared (Table&nbsp;16); the fine-tuned encoders are
     strongest overall at 0.92 accuracy and 0.90 macro-F1. The held-out questions here are authentic
     patient-authored text and synthetic generation is confined to training-side rebalancing, which makes this
     the one study in the survey whose reported metric is measured on real communication rather than on
@@ -820,7 +854,7 @@
     predicting health crises from online medication inquiries<sup class="cit">[3]</sup>.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 15.</b> Critical-versus-general triage of medication questions.</caption>
+      <caption><b>Table 16.</b> Critical-versus-general triage of medication questions.</caption>
       <thead><tr><th>Model</th><th>Accuracy</th><th>Macro-F1</th></tr></thead>
       <tbody>
         <tr><td>SVM (TF-IDF)</td><td>0.84</td><td>0.80</td></tr>
@@ -870,11 +904,11 @@
     transcription noise. BioClinicalBERT and DistilBERT are trained with and without the noisy variants. The
     eighteen-way targets make this an intrinsically hard task, so absolute macro-F1 is low, but the informative
     result is that training on noisy synthetic reports improves robustness: removing the noisy variants lowers
-    macro-F1 by 6.6 points on care area and 10.6 on specialty (Table&nbsp;16, Figure&nbsp;5). Deliberately
+    macro-F1 by 6.6 points on care area and 10.6 on specialty (Table&nbsp;17, Figure&nbsp;5). Deliberately
     degraded synthetic communication thus earns its value through realism as much as volume.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 16.</b> EMS report routing: BioClinicalBERT macro-F1 (%) with and without noisy synthetic training.</caption>
+      <caption><b>Table 17.</b> EMS report routing: BioClinicalBERT macro-F1 (%) with and without noisy synthetic training.</caption>
       <thead><tr><th>Target</th><th>Train on clean + noisy</th><th>Train on clean only</th></tr></thead>
       <tbody>
         <tr><td>ED care area</td><td><b>29.2</b></td><td>22.6</td></tr>
@@ -897,12 +931,12 @@
     Hebrew transcripts, injecting static, communication cutouts, slang, and self-corrections at three
     reliability levels and emitting the ground-truth record alongside each transcript. An AlephBERT multi-head
     classifier is compared against GPT-4 in zero- and one-shot prompting and a QLoRA-fine-tuned Phi-3-mini
-    (Table&nbsp;17, Figure&nbsp;6). The fine-tuned Hebrew encoder leads on exact-match (79.3%) and macro-F1
+    (Table&nbsp;18, Figure&nbsp;6). The fine-tuned Hebrew encoder leads on exact-match (79.3%) and macro-F1
     (0.802), while the small fine-tuned Phi-3 produces the fewest hallucinations (7), a property of real value
     when the output is a casualty record.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 17.</b> Casualty-record reconstruction from field radio (synthetic test, n=100).</caption>
+      <caption><b>Table 18.</b> Casualty-record reconstruction from field radio (synthetic test, n=100).</caption>
       <thead><tr><th>Model</th><th>Exact-match</th><th>Macro-F1</th><th>Hallucinations</th></tr></thead>
       <tbody>
         <tr><td>AlephBERT (multi-head)</td><td><b>79.3%</b></td><td><b>0.802</b></td><td>16</td></tr>
@@ -925,13 +959,13 @@
   <p>OpenAI batch generation produces 5,000 synthetic SBAR notes over a requiredness-and-completeness schema
     with both per-item and note-level labels. A range of models is compared, from majority and style baselines
     and TF-IDF logistic regression to text-only and context-aware BioClinicalBERT, Qwen prompting, and a
-    hierarchical extension that predicts requiredness before completeness (Table&nbsp;18, Figure&nbsp;7).
+    hierarchical extension that predicts requiredness before completeness (Table&nbsp;19, Figure&nbsp;7).
     Fine-tuned encoders outperform prompting by a wide margin (0.745 versus 0.408 class macro-F1), and the
     requiredness-first structure lifts class macro-F1 further to 0.791, offering a reusable recipe for handoff
     auditing.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 18.</b> SBAR handover completeness: note-level results (synthetic test).</caption>
+      <caption><b>Table 19.</b> SBAR handover completeness: note-level results (synthetic test).</caption>
       <thead><tr><th>Model</th><th>Accuracy</th><th>Class macro-F1</th><th>Safety-missing recall</th></tr></thead>
       <tbody>
         <tr><td>TF-IDF logistic regression</td><td>0.725</td><td>0.711</td><td>0.742</td></tr>
@@ -1045,11 +1079,11 @@
     conversations and doctor-to-patient instructions to telemedicine and portal messaging and the under-served
     paramedic, dispatch, and handoff channels, and around the downstream tasks each supports, grounding that
     organization in thirteen application studies that generate synthetic communication and train models on it.</p>
-  <p>Read together, those studies surface a small set of reusable design patterns (Table&nbsp;19) that recur
+  <p>Read together, those studies surface a small set of reusable design patterns (Table&nbsp;20) that recur
     across channels and tasks rather than one-off results, and that answer RQ7 directly.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 19.</b> Reusable design patterns recurring across the thirteen application studies (RQ7).</caption>
+      <caption><b>Table 20.</b> Reusable design patterns recurring across the thirteen application studies (RQ7).</caption>
       <thead><tr><th>Pattern</th><th>What it does</th><th>Studies</th></tr></thead>
       <tbody>
         <tr><td>Fine-tuned encoders over zero-shot LLMs</td><td>A small encoder fine-tuned on synthetic data outperforms the evaluated zero-shot LLM baselines on the downstream task</td><td>&sect;3.1.1, &sect;3.1.3, &sect;3.3.1, &sect;3.3.4, &sect;3.3.5, &sect;3.4.1, &sect;3.4.3</td></tr>
@@ -1060,6 +1094,9 @@
       </tbody>
     </table>
   </div>
+  <p>The first pattern is not confined to synthetic evaluation: on authentic clinical text a fine-tuned encoder
+    reached F1 0.84 on symptom extraction against 0.45 for a zero-shot LLM<sup class="cit">[110]</sup>,
+    corroborating the small-model advantage the studies here observe on synthetic data.</p>
   <p>They come, however, with an unmistakable caveat. Almost every study evaluates on held-out synthetic data.
     The clearest exception is the medication-question study (Section&nbsp;3.3.5), whose classifier is tested on
     authentic patient-authored questions with synthetic generation confined to rebalancing the rare class in
@@ -1173,7 +1210,7 @@
       <li>P. Mishra et al. SYNFAC-EDIT: Synthetic Imitation Edit Feedback for Factual Alignment in Clinical Summarization. <i>arXiv:2402.13919</i>, 2024.</li>
       <li>The Canary's Echo: Auditing Privacy Risks of LLM-Generated Synthetic Text. <i>arXiv:2502.14921</i>, 2025.</li>
       <li>Y. Sun, V. Schlegel, S. Nandakumar, et al. Evaluating Differentially Private Generation of Domain-Specific Text. <i>arXiv:2508.20452</i>, 2025.</li>
-      <li>S. Nayak et al. Synthetic data distillation enables the extraction of clinical information at scale. <i>npj Digital Medicine</i>, 2025.</li>
+      <li>E. Woo, M. Burkhart, E. Alsentzer, B. Beaulieu-Jones. Synthetic data distillation enables the extraction of clinical information at scale. <i>npj Digital Medicine</i>, 8, 2025.</li>
       <li>G. Iglesias, G. Bello-Orgaz, M. Navas-Loro, et al. Fidelity, Diversity, and Privacy: A Multi-Dimensional LLM Evaluation for Clinical Data Augmentation. <i>arXiv:2604.27014</i>, 2026.</li>
       <li>O. R&auml;is&auml;, B. van Breugel, M. van der Schaar. Position: All Current Generative Fidelity and Diversity Metrics are Flawed. <i>arXiv:2505.22450</i>, 2025.</li>
       <li>E. Asgari, N. Monta&ntilde;a-Brown, M. Dubois, et al. A framework to assess clinical safety and hallucination rates of LLMs for medical text summarisation. <i>npj Digital Medicine</i>, 2025.</li>
@@ -1203,6 +1240,8 @@
       <li>Y. Elhalimi et al. MedDec: A Dataset for Extracting Clinical Decisions from Discharge Summaries. <i>Findings of ACL</i> / PhysioNet, 2024.</li>
       <li>A. Johnson et al. MIMIC-IV-ED (v2.2). <i>PhysioNet</i>, 2023.</li>
       <li>Medical Triage as Pairwise Ranking (PMR-Bench). <i>arXiv:2601.13178</i>, 2026.</li>
+      <li>J. Li, Y. Zhou, X. Jiang, K. Natarajan, et al. Are synthetic clinical notes useful for real natural language processing tasks: A case study on clinical entity recognition. <i>Journal of the American Medical Informatics Association</i>, 28(10):2193&ndash;2201, 2021.</li>
+      <li>J. Diaz Ochoa, N. Layer, J. Mahr, F. Mustafa, et al. Optimized BERT-based NLP outperforms zero-shot methods for automated symptom detection in clinical practice. <i>Frontiers in Digital Health</i>, 2025.</li>
     </ol>
   </div>
 
