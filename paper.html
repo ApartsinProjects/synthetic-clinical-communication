@@ -53,6 +53,12 @@
   }
   .downloads a:hover{background:var(--navy); color:#fff;}
   @media print{ .downloads{display:none;} }
+
+  /* ---- Recipe / protocol box ---- */
+  .recipe{border:1px solid var(--rule); border-radius:6px; padding:12px 18px 14px; margin:20px 0; background:#fafbfc;}
+  .recipe .rh{font-weight:700; margin:0 0 8px;}
+  .recipe ol{margin:0; padding-left:20px;}
+  .recipe li{margin:4px 0;}
   @media (max-width:1100px){ .downloads{position:static; flex-direction:row; flex-wrap:wrap; margin:0 auto 18px; max-width:600px; box-shadow:none;} }
 
   /* ---- Abstract ---- */
@@ -223,16 +229,22 @@
     generation inputs, not the downstream textual modality studied here. Inclusion is therefore determined by
     the generated language and its downstream use, not by the format of the source. The organizing pipeline is
     accordingly <i>clinical source &rarr; LLM-generated communication &rarr; downstream healthcare NLP
-    model</i>. Our object of study is that final stage: NLP systems that process clinical communication and are
+    model</i> (Figure&nbsp;1). Our object of study is that final stage: NLP systems that process clinical communication and are
     trained, wholly or in part, on such synthetic data. The word <i>synthetic</i> qualifies the training data,
     not the real communication these systems are ultimately built to serve.</p>
+  <figure>
+    <img src="figures/fig0_landscape.png" alt="Four-stage pipeline: clinical sources, LLM generation with controlled properties, synthetic clinical communication across channels, and downstream NLP evaluated by regime">
+    <figcaption><b>Figure 1.</b> The organizing pipeline of this survey. A clinical source of any format is realized by an LLM, under controlled communication properties, into synthetic communication across channels, on which a downstream model is trained and then evaluated in the S&rarr;S regime or, less often, by transfer to real text (S&rarr;R).</figcaption>
+  </figure>
   <p>Within this scope we include patient&ndash;clinician conversations, doctor-to-patient instructions,
     telemedicine consultations, paramedic-to-hospital and emergency-dispatch traffic, nurse and clinician
     handoffs, and patient-portal messaging, whatever the source from which they are generated. We exclude work
     whose output is synthetic structured or tabular records, signals, or images; internal documentation with
     no communicative function; and studies in which an LLM only classifies existing text without generating
     communication. A discharge summary, for instance, is in scope when it functions as communication to the
-    patient or the next provider, and out of scope when treated purely as an archival record.</p>
+    patient or the next provider, and out of scope when treated purely as an archival record. Likewise, an LLM
+    that generates portal messages for a triage classifier to learn from is in scope, whereas an LLM that only
+    labels existing real messages is not, since it produces no communication.</p>
   <p>This paper is a structured narrative survey complemented by application case studies, organized to answer
     seven questions: (RQ1) which forms of written and transcribed spoken clinical communication are generated
     with LLMs; (RQ2) which clinical source representations are transformed into them; (RQ3) which communication
@@ -545,6 +557,25 @@
       </tbody>
     </table>
   </div>
+  <p>Counted across these task rows, the surveyed work concentrates in patient simulation and professional
+    training (fourteen representative works), summarization (ten), and information extraction and benchmark
+    construction (nine each), with privacy, augmentation, and distillation cutting across (twelve); triage and
+    routing, clinical coding, and handoff are comparatively sparse (five, two, and one). The application studies
+    of Section&nbsp;3 deliberately populate that sparse end. By channel, real conversational corpora fall off
+    sharply, from patient&ndash;clinician dialogue, where some public datasets exist, through portal messaging,
+    where they are scarce, to EMS, dispatch, and handoff, where they are effectively absent; nine of the
+    thirteen studies target portal messaging and these pre-hospital and handoff channels, and all but one
+    (Section&nbsp;3.3.5) evaluate in the S&rarr;S regime.</p>
+  <div class="recipe">
+    <p class="rh">Building a system for a new channel: a recipe distilled from the recurring patterns</p>
+    <ol>
+      <li>Choose a clinical source that fixes the facts (records, labels, a schema, or scenarios), preferring one grounded in real data so later transfer can be tested.</li>
+      <li>Generate communication with explicit control over role, intent, uncertainty, missingness, style, and channel noise, and emit the gold labels together with the text.</li>
+      <li>Audit those labels with an independent judge, and inject graded noise or omissions to match the target deployment.</li>
+      <li>Develop and select models on held-out synthetic data (S&rarr;S), taking a fine-tuned encoder as a strong and inexpensive baseline.</li>
+      <li>Validate by transfer to whatever authentic text exists (S&rarr;R), and disclose the synthetic provenance of any corpus that is shared.</li>
+    </ol>
+  </div>
 
   <!-- ================= 6 ================= -->
   <h2 id="s6">3&nbsp;&nbsp;Application Studies</h2>
@@ -696,7 +727,7 @@
     gold spans, anchored to MedDec- and MIMIC-III-derived clinical targets by marked-span anchoring, with every
     span validated to appear verbatim in its summary so that the labels are recoverable by construction. Four
     systems are then compared: an XLM-R BIO tagger, an sklearn candidate reranker, a Gemini candidate selector,
-    and a Qwen2.5-1.5B few-shot baseline (Table&nbsp;11, Figure&nbsp;1). The reranker is strongest under strict
+    and a Qwen2.5-1.5B few-shot baseline (Table&nbsp;11, Figure&nbsp;2). The reranker is strongest under strict
     boundary matching (0.427) and Gemini under relaxed matching (0.926); the wide relaxed-minus-strict gap
     shows that errors are largely boundary misalignment rather than wrong regions. Because both training and
     test data are synthetic, transfer to genuine Hebrew notes remains the open question.</p>
@@ -714,7 +745,7 @@
   </div>
   <figure>
     <img src="figures/fig1_crosslingual_f1.png" alt="Model comparison for clinical-decision extraction">
-    <figcaption><b>Figure 1.</b> Clinical-decision extraction: strict versus relaxed F1 across models.</figcaption>
+    <figcaption><b>Figure 2.</b> Clinical-decision extraction: strict versus relaxed F1 across models.</figcaption>
   </figure>
 
   <!-- ===== 6.3 Telemedicine / portal ===== -->
@@ -737,7 +768,7 @@
   <p>The corpus is therefore entirely synthetic: a small local model, Qwen2.5-0.5B-Instruct, produces 3,000
     message-and-label tasks, of which 2,799 parse cleanly, each message carrying its own structured labels.
     Three specialist DistilBERT heads, one per sub-task, are then compared against the same local model prompted
-    zero- and few-shot (Table&nbsp;12, Figure&nbsp;2). The fine-tuned heads decisively outperform the prompted
+    zero- and few-shot (Table&nbsp;12, Figure&nbsp;3). The fine-tuned heads decisively outperform the prompted
     model, and their composition routes reliably, indicating that a small, on-premises generator can bootstrap
     a competent triage model in a controlled setting without any real data leaving the institution.</p>
   <div class="tablewrap">
@@ -755,7 +786,7 @@
   </div>
   <figure>
     <img src="figures/fig2_portal_triage.png" alt="Portal-message triage results summary">
-    <figcaption><b>Figure 2.</b> Portal-message triage: fine-tuned heads versus zero- and few-shot prompting.</figcaption>
+    <figcaption><b>Figure 3.</b> Portal-message triage: fine-tuned heads versus zero- and few-shot prompting.</figcaption>
   </figure>
 
   <h4 class="proj">3.3.2&nbsp;&nbsp;Severity Triage of Postpartum Messages</h4>
@@ -767,7 +798,7 @@
   <p>GPT-4o-mini, sampled at temperature 1.3 for diversity, therefore generates roughly 3,000 messages in which
     a writer profile and the target severity are fixed in the prompt, so the intended labels come from the
     source scenario, though their agreement with the generated message still requires validation. A BioBERT
-    cascade and a Bi-LSTM cascade are compared against zero-shot GPT-4o-mini (Table&nbsp;13, Figure&nbsp;3).
+    cascade and a Bi-LSTM cascade are compared against zero-shot GPT-4o-mini (Table&nbsp;13, Figure&nbsp;4).
     Notably, the zero-shot model matches the fine-tuned BioBERT cascade (0.98 versus 0.975 macro-F1), and both
     far exceed the Bi-LSTM (0.839), whose errors concentrate in the middle severities where the clinical
     distinctions are finest.</p>
@@ -784,7 +815,7 @@
   </div>
   <figure>
     <img src="figures/fig3_csection_confusion.png" alt="Postpartum severity-triage confusion matrix">
-    <figcaption><b>Figure 3.</b> Postpartum severity triage: GPT-4o-mini zero-shot confusion matrix.</figcaption>
+    <figcaption><b>Figure 4.</b> Postpartum severity triage: GPT-4o-mini zero-shot confusion matrix.</figcaption>
   </figure>
 
   <h4 class="proj">3.3.3&nbsp;&nbsp;Clinical-Priority Triage of Longitudinal Portal Messages</h4>
@@ -877,11 +908,11 @@
   <p>The dataset is therefore generated synthetically, with model prompting over coupled symptom and vital
     patterns, rendered as free text plus deltas for heart rate, respiratory rate, temperature, and blood
     pressure. Text-only (TF-IDF, BERT), vitals-only (XGBoost, LightGBM), and late-fusion models are compared
-    (Figure&nbsp;4); fusing the two modalities wins, with a LightGBM model over TF-IDF text and vitals reaching
+    (Figure&nbsp;5); fusing the two modalities wins, with a LightGBM model over TF-IDF text and vitals reaching
     0.971 accuracy and 0.972 macro-F1, confirming that the message adds signal beyond the vitals alone.</p>
   <figure>
     <img src="figures/fig4_homecare_recall.png" alt="Per-class recall of top fusion models">
-    <figcaption><b>Figure 4.</b> Home-care status detection: per-class recall of the top fusion models.</figcaption>
+    <figcaption><b>Figure 5.</b> Home-care status detection: per-class recall of the top fusion models.</figcaption>
   </figure>
 
   <!-- ===== 6.4 Paramedic / dispatch / handoff ===== -->
@@ -906,7 +937,7 @@
     transcription noise. BioClinicalBERT and DistilBERT are trained with and without the noisy variants. The
     eighteen-way targets make this an intrinsically hard task, so absolute macro-F1 is low, but the informative
     result is that training on noisy synthetic reports improves robustness: removing the noisy variants lowers
-    macro-F1 by 6.6 points on care area and 10.6 on specialty (Table&nbsp;17, Figure&nbsp;5). Deliberately
+    macro-F1 by 6.6 points on care area and 10.6 on specialty (Table&nbsp;17, Figure&nbsp;6). Deliberately
     degraded synthetic communication thus earns its value through realism as much as volume.</p>
   <div class="tablewrap">
     <table>
@@ -920,7 +951,7 @@
   </div>
   <figure>
     <img src="figures/fig5_medalert_macrof1.png" alt="Macro-F1 across training setups">
-    <figcaption><b>Figure 5.</b> EMS report routing: macro-F1 across training setups; noisy synthetic data helps.</figcaption>
+    <figcaption><b>Figure 6.</b> EMS report routing: macro-F1 across training setups; noisy synthetic data helps.</figcaption>
   </figure>
 
   <h4 class="proj">3.4.2&nbsp;&nbsp;Reconstructing Casualty Records from Field Radio</h4>
@@ -933,7 +964,7 @@
     Hebrew transcripts, injecting static, communication cutouts, slang, and self-corrections at three
     reliability levels and emitting the ground-truth record alongside each transcript. An AlephBERT multi-head
     classifier is compared against GPT-4 in zero- and one-shot prompting and a QLoRA-fine-tuned Phi-3-mini
-    (Table&nbsp;18, Figure&nbsp;6). The fine-tuned Hebrew encoder leads on exact-match (79.3%) and macro-F1
+    (Table&nbsp;18, Figure&nbsp;7). The fine-tuned Hebrew encoder leads on exact-match (79.3%) and macro-F1
     (0.802), while the small fine-tuned Phi-3 produces the fewest hallucinations (7), a property of real value
     when the output is a casualty record.</p>
   <div class="tablewrap">
@@ -949,7 +980,7 @@
   </div>
   <figure>
     <img src="figures/fig6_casualty_reconstruction.png" alt="Casualty-record reconstruction model comparison">
-    <figcaption><b>Figure 6.</b> Casualty-record reconstruction: accuracy, F1, and hallucination counts.</figcaption>
+    <figcaption><b>Figure 7.</b> Casualty-record reconstruction: accuracy, F1, and hallucination counts.</figcaption>
   </figure>
 
   <h4 class="proj">3.4.3&nbsp;&nbsp;Completeness Checking of SBAR Handovers</h4>
@@ -961,7 +992,7 @@
   <p>OpenAI batch generation produces 5,000 synthetic SBAR notes over a requiredness-and-completeness schema
     with both per-item and note-level labels. A range of models is compared, from majority and style baselines
     and TF-IDF logistic regression to text-only and context-aware BioClinicalBERT, Qwen prompting, and a
-    hierarchical extension that predicts requiredness before completeness (Table&nbsp;19, Figure&nbsp;7).
+    hierarchical extension that predicts requiredness before completeness (Table&nbsp;19, Figure&nbsp;8).
     Fine-tuned encoders outperform prompting by a wide margin (0.745 versus 0.408 class macro-F1), and the
     requiredness-first structure lifts class macro-F1 further to 0.791, offering a reusable recipe for handoff
     auditing.</p>
@@ -979,7 +1010,7 @@
   </div>
   <figure>
     <img src="figures/fig7_sbar_macrof1.png" alt="SBAR class macro-F1 comparison">
-    <figcaption><b>Figure 7.</b> SBAR handover completeness: class macro-F1 across models.</figcaption>
+    <figcaption><b>Figure 8.</b> SBAR handover completeness: class macro-F1 across models.</figcaption>
   </figure>
 
   <!-- ================= 7 ================= -->
@@ -1015,7 +1046,9 @@
   <h3>4.2&nbsp;&nbsp;Practical and Ethical Caveats</h3>
   <p>Beyond the technical lie institutional and ethical hurdles. Regulatory acceptance is immature: it is not
     yet settled what validation a synthetic corpus must pass before a model trained on it may be used in care,
-    nor which bodies should certify that validation. The ethics cut in two directions. Synthetic data is often
+    nor which bodies should certify that validation. No current medical-device framework treats a synthetic
+    training corpus as a distinct regulated object, which leaves provenance records and disclosure of synthetic
+    origin as the practical interim controls. The ethics cut in two directions. Synthetic data is often
     justified on privacy grounds, yet the assumption that it is automatically safe is unfounded, because
     synthetic notes that match real utility can inherit real privacy risk<sup class="cit">[31]</sup>, a risk that
     membership-inference audits now make measurable<sup class="cit">[77]</sup> and that differentially private
@@ -1037,6 +1070,15 @@
     decisive test. Synthetic data is best understood as a scaffold: indispensable for building and
     stress-testing systems, and complemented by the real communication and real patients that ultimately
     establish readiness for care.</p>
+
+  <h3>4.4&nbsp;&nbsp;Scope of This Review</h3>
+  <p>This review has its own boundaries. It is narrative rather than systematic, so its coverage reflects
+    targeted search and citation tracing rather than an exhaustive protocol, and fast-moving preprint work will
+    continue to appear after writing. The application studies are drawn from a single graduate program and are
+    weighted toward English with one Hebrew case, so they demonstrate feasibility across channels rather than a
+    representative sample of methods or languages. The channel taxonomy is a deliberate organizing choice; other
+    cuts, by generation method, by clinical specialty, or by data governance regime, would group the same work
+    differently and are complementary to the one taken here.</p>
 
   <!-- ================= 5 Future Directions ================= -->
   <h2 id="s9b">5&nbsp;&nbsp;Research Frontiers and Open Problems</h2>
