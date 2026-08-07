@@ -1,0 +1,19 @@
+# Dependencies for the per-study reproduce.py scripts.
+# Classical studies need only the first block; encoder studies add the second.
+#
+#   /c/Python314/python -m pip install -r requirements-reproduce.txt
+#
+# Core (all studies)
+scikit-learn>=1.3
+pandas>=2.0
+numpy>=1.24
+openpyxl>=3.1          # .xlsx data (medication, postpartum)
+lightgbm>=4.0          # home-care fusion (GradientBoosting fallback if absent)
+imbalanced-learn>=0.11 # optional; SMOTE (medication); class_weight fallback if absent
+
+# Encoder / deep-learning studies (admin, clinical-priority, ems, postpartum-BioBERT,
+# casualty retrain, hebrew retrain). GPU recommended; scripts run --smoke on CPU.
+torch>=2.1
+transformers>=4.40
+datasets>=2.18
+accelerate>=0.29

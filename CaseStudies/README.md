@@ -11,6 +11,12 @@ size and row count recorded in the folder's README. Model weights, presentations
 are not redistributed. Each dataset is student coursework and should be redistributed only as the
 source repository permits (see each folder's Notes / license section).
 
+**Reproducing results.** Every study folder carries a self-contained `reproduce.py` that retrains and
+re-evaluates the study's model on the shipped synthetic data (no data regeneration, no network or LLM
+calls), printing each metric next to the paper's value. Install `requirements-reproduce.txt`, then run a
+study's `reproduce.py` (add `--smoke` for a fast check) or `run_all.py --smoke` to exercise all thirteen.
+See [REPRODUCE.md](REPRODUCE.md) for the per-study reproduction table and caveats.
+
 | # | Folder | Paper section | One-line description |
 |---|--------|:---:|----------------------|
 | 1 | [diagnosis-from-noisy-self-descriptions](diagnosis-from-noisy-self-descriptions/) | 3.1.1 | Diagnosis from noisy self-descriptions (Llama-3.1-8B noise rewrite; FLAN-T5) |
