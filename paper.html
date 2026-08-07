@@ -559,7 +559,9 @@
     varies with the study, leaning on prose, a results table, or a figure as best fits the material. Almost
     every study evaluates in the <i>S&rarr;S</i> regime (Section&nbsp;2.3), that is, on held-out synthetic
     communication, so transfer to authentic communication remains the central open validation step, which we
-    take up in Section&nbsp;4. Table&nbsp;7 summarizes all thirteen studies.</p>
+    take up in Section&nbsp;4. The reported metrics are single-run point estimates offered as feasibility
+    evidence rather than multi-seed benchmarks: they establish that a channel can be served, not a ranking
+    among methods. Table&nbsp;7 summarizes all thirteen studies.</p>
 
   <div class="tablewrap">
     <table>
@@ -1097,7 +1099,24 @@
   <p>The first pattern is not confined to synthetic evaluation: on authentic clinical text a fine-tuned encoder
     reached F1 0.84 on symptom extraction against 0.45 for a zero-shot LLM<sup class="cit">[110]</sup>,
     corroborating the small-model advantage the studies here observe on synthetic data.</p>
-  <p>They come, however, with an unmistakable caveat. Almost every study evaluates on held-out synthetic data.
+  <p>Set against these patterns are recurring failure modes (Table&nbsp;21) that the studies and the wider
+    literature expose, and that any reuse of synthetic clinical communication must guard against; together the
+    two tables answer the design-pattern and failure-mode halves of RQ7.</p>
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 21.</b> Recurring failure modes when reusing synthetic clinical communication, and where each is guarded.</caption>
+      <thead><tr><th>Failure mode</th><th>How it shows up</th><th>Guard / where addressed</th></tr></thead>
+      <tbody>
+        <tr><td>Clinical hallucination</td><td>Fluent but medically wrong content that passes surface checks and corrupts the labels a model learns from</td><td>Grounding, constrained decoding, safety auditing that treats omission as seriously as fabrication<sup class="cit">[82]</sup></td></tr>
+        <tr><td>Auto-annotation label noise</td><td>Labels emitted by the generator inherit its errors, silently degrading supervision</td><td>Labels fixed at generation and audited by an independent judge (&sect;3.1.2, &sect;3.3.4)</td></tr>
+        <tr><td>Distribution shift</td><td>Aggregate lexical statistics and class balance diverge from real communication; held-out synthetic evaluation cannot detect it</td><td>Train-on-synthetic, test-on-real evaluation (&sect;2.3)</td></tr>
+        <tr><td>Generator fingerprints</td><td>Models learn stylistic tics of the generator rather than clinical content</td><td>Fingerprint removal so models learn content, not style<sup class="cit">[103]</sup></td></tr>
+        <tr><td>Longitudinal inconsistency</td><td>Independently sampled turns contradict one another across a conversation, handoff, and discharge</td><td>Whole-encounter generation and consistency constraints</td></tr>
+        <tr><td>Rare-tail infidelity</td><td>The rare, dangerous cases that motivate synthetic data are the hardest to render faithfully</td><td>Targeted validation and clinician review of high-stakes classes</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>One caveat is nonetheless decisive. Almost every study evaluates on held-out synthetic data.
     The clearest exception is the medication-question study (Section&nbsp;3.3.5), whose classifier is tested on
     authentic patient-authored questions with synthetic generation confined to rebalancing the rare class in
     training; two further studies ground generation in real clinical records, tracing decision extraction to
