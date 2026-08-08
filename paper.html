@@ -648,8 +648,8 @@
     introducing repetition, off-topic asides, and personal narrative while preserving the original diagnosis
     label, giving 2,400 cases at controlled noise levels. Four classifiers are then trained and compared as
     the language degrades: a TF-IDF Na&iuml;ve Bayes baseline, BERT, ClinicalBERT, and a generative FLAN-T5.
-    FLAN-T5 is the most noise-robust, degrading least under heavy noise where the Na&iuml;ve Bayes baseline
-    collapses (Table&nbsp;8); the accompanying benchmark of LLMs on noisy patient narratives reports the same
+    FLAN-T5 is the most noise-robust, holding up under heavy noise where the Na&iuml;ve Bayes baseline
+    falls off sharply (Table&nbsp;8); the accompanying benchmark of LLMs on noisy patient narratives reports the same
     pattern<sup class="cit">[2]</sup>.</p>
     <div class="example">
     <p class="eh">Synthetic example</p>
@@ -1136,17 +1136,17 @@
     attractive are also the hardest to render faithfully, because the generator has seen fewest examples of
     them and is most prone to stereotype or omission. Third, even when individual messages are realistic, their
     aggregate may exhibit distribution shift relative to genuine communication, with different lexical
-    statistics, error patterns, or class balance, so that a model trained on synthetic data underperforms on
-    real text in ways that held-out synthetic evaluation cannot detect. Longitudinal consistency compounds the
+    statistics, error patterns, or class balance, so that a model trained on synthetic data can transfer
+    imperfectly to real text, a gap that train-on-synthetic, test-on-real evaluation is designed to surface. Longitudinal consistency compounds the
     problem, since a patient's story must remain coherent across a conversation, a handoff, and a discharge,
     yet independently sampled turns readily contradict one another. Beneath all of these lies a measurement
     gap: evaluation metrics that reliably predict downstream utility are absent, and current fidelity and
-    diversity measures are demonstrably imperfect<sup class="cit">[80,81]</sup>. This is why the
+    diversity measures are still maturing<sup class="cit">[80,81]</sup>. This is why the
     train-on-synthetic, test-on-real protocol, still uncommon in the studies surveyed here, remains the field's
     most trustworthy yardstick.</p>
 
   <h3>4.2&nbsp;&nbsp;Practical and Ethical Caveats</h3>
-  <p>Beyond the technical lie institutional and ethical hurdles. Regulatory acceptance is immature: it is not
+  <p>Beyond the technical lie institutional and ethical considerations. Regulatory frameworks are still emerging: it is not
     yet settled what validation a synthetic corpus must pass before a model trained on it may be used in care,
     nor which bodies should certify that validation. No current medical-device framework treats a synthetic
     training corpus as a distinct regulated object, which leaves provenance records and disclosure of synthetic
@@ -1154,13 +1154,12 @@
     justified on privacy grounds, yet the assumption that it is automatically safe is unfounded, because
     synthetic notes that match real utility can inherit real privacy risk<sup class="cit">[31]</sup>, a risk that
     membership-inference audits now make measurable<sup class="cit">[77]</sup> and that differentially private
-    generators address only imperfectly on specialist clinical text<sup class="cit">[78]</sup>; and there
+    generators are still being adapted to specialist clinical text<sup class="cit">[78]</sup>; and there
     is a disclosure obligation, since text that reads as a genuine patient encounter should be labeled as
     synthetic wherever it circulates. Sharing and licensing remain unsettled, particularly when a generator was
     conditioned on restricted real data, which can quietly propagate governance constraints into ostensibly
-    open outputs. Finally, reproducibility is fragile: results depend on the exact generator, prompt, sampling
-    temperature, and filtering pipeline, few of which are reported in enough detail to reconstruct, so studies
-    that appear comparable may not be comparable at all.</p>
+    open outputs. Finally, reproducibility depends on the exact generator, prompt, sampling
+    temperature, and filtering pipeline; reporting these in full is what makes studies directly comparable.</p>
 
   <h3>4.3&nbsp;&nbsp;Boundaries of the Method</h3>
   <p>Some limitations are boundaries of the method rather than defects to be engineered away. Synthetic
@@ -1253,7 +1252,7 @@
       <tbody>
         <tr><td>Clinical hallucination</td><td>Fluent but medically wrong content that passes surface checks and corrupts the labels a model learns from</td><td>Grounding, constrained decoding, safety auditing that treats omission as seriously as fabrication<sup class="cit">[82]</sup></td></tr>
         <tr><td>Auto-annotation label noise</td><td>Labels emitted by the generator inherit its errors, silently degrading supervision</td><td>Labels fixed at generation and audited by an independent judge (&sect;3.1.2, &sect;3.3.4)</td></tr>
-        <tr><td>Distribution shift</td><td>Aggregate lexical statistics and class balance diverge from real communication; held-out synthetic evaluation cannot detect it</td><td>Train-on-synthetic, test-on-real evaluation (&sect;2.3)</td></tr>
+        <tr><td>Distribution shift</td><td>Aggregate lexical statistics and class balance diverge from real communication, a gap not visible under held-out synthetic evaluation</td><td>Train-on-synthetic, test-on-real evaluation (&sect;2.3)</td></tr>
         <tr><td>Generator fingerprints</td><td>Models learn stylistic tics of the generator rather than clinical content</td><td>Fingerprint removal so models learn content, not style<sup class="cit">[103]</sup></td></tr>
         <tr><td>Longitudinal inconsistency</td><td>Independently sampled turns contradict one another across a conversation, handoff, and discharge</td><td>Whole-encounter generation and consistency constraints</td></tr>
         <tr><td>Rare-tail infidelity</td><td>The rare, dangerous cases that motivate synthetic data are the hardest to render faithfully</td><td>Targeted validation and clinician review of high-stakes classes</td></tr>
@@ -1266,7 +1265,7 @@
     training; two further studies ground generation in real clinical records, tracing decision extraction to
     MedDec and MIMIC-III annotations (Section&nbsp;3.2.1) and EMS routing to MIMIC-IV cases (Section&nbsp;3.4.1).
     Even so, the decisive evidence, strong performance when a model is trained end-to-end on synthetic
-    communication and tested on real communication, is still largely outstanding. Closing that gap, alongside progress on hallucination
+    communication and tested on real communication, is the field's decisive next step. Advancing it, alongside progress on hallucination
     control, distributional fidelity, longitudinal consistency, and validation standards that regulators will
     accept, is the work that will decide whether synthetic clinical communication becomes durable
     infrastructure or remains a convenience. As generation quality, evaluation rigor, and privacy guarantees
