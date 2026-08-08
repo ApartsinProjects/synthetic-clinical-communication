@@ -54,6 +54,14 @@
   .downloads a:hover{background:var(--navy); color:#fff;}
   @media print{ .downloads{display:none;} }
 
+
+  /* ---- Synthetic-example box ---- */
+  .example{border:1px solid var(--rule); border-left:3px solid var(--navy); border-radius:5px; padding:9px 14px 11px; margin:16px 0; background:#fbfcfd;}
+  .example .eh{font-weight:700; font-size:8.5pt; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin:0 0 6px;}
+  .example p{margin:4px 0; font-size:10pt; line-height:1.4;}
+  .example .el{display:inline-block; min-width:120px; font-weight:700; color:var(--navy); vertical-align:top;}
+  .example .gen{font-style:italic;}
+
   /* ---- Recipe / protocol box ---- */
   .recipe{border:1px solid var(--rule); border-radius:6px; padding:12px 18px 14px; margin:20px 0; background:#fafbfc;}
   .recipe .rh{font-weight:700; margin:0 0 8px;}
@@ -643,6 +651,13 @@
     FLAN-T5 is the most noise-robust, degrading least under heavy noise where the Na&iuml;ve Bayes baseline
     collapses (Table&nbsp;8); the accompanying benchmark of LLMs on noisy patient narratives reports the same
     pattern<sup class="cit">[2]</sup>.</p>
+    <div class="example">
+    <p class="eh">Synthetic example</p>
+    <p><span class="el">Source</span> <span>Diagnostic label: Varicose Veins</span></p>
+    <p><span class="el">Generated description</span> <span class="gen">&ldquo;I am overweight and have noticed that my legs are swollen and the blood vessels are visible. My legs have swollen and I can see a stream of swollen veins on my calves.&rdquo;</span></p>
+    <p><span class="el">Gold label</span> <span>Varicose Veins (1 of 24 diseases)</span></p>
+  </div>
+
   <div class="tablewrap">
     <table>
       <caption><b>Table 8.</b> Diagnostic accuracy by narrative noise level (synthetic test).</caption>
@@ -671,6 +686,13 @@
     scored against the ground-truth prognosis. Because this is an evaluation benchmark rather than a trained
     classifier, its contribution is a controllable testbed: the reveal tiers make questioning efficiency
     measurable and anchor the diagnostic-questioning benchmark line<sup class="cit">[1]</sup>.</p>
+    <div class="example">
+    <p class="eh">Synthetic example</p>
+    <p><span class="el">Source</span> <span>Diagnosis Chickenpox; symptom set partially revealed (50%)</span></p>
+    <p><span class="el">Generated vignette</span> <span class="gen">&ldquo;A 28-year-old female presented to the emergency department with a history of fatigue and mild fever. She reported a loss of appetite over the past week and had noticed a few swollen lymph nodes in her neck. She described a general sense of malaise, and on examination a mild rash was observed on her arms.&rdquo;</span></p>
+    <p><span class="el">Gold label</span> <span>Chickenpox</span></p>
+  </div>
+
   <div class="tablewrap">
     <table>
       <caption><b>Table 9.</b> Information-reveal tiers used to probe diagnostic-questioning efficiency.</caption>
@@ -693,6 +715,13 @@
     fine-tuned DistilBERT encoder, and a fine-tuned T5 generator (Table&nbsp;10). DistilBERT attains the best
     accuracy and F1, while the logistic-regression baseline retains the highest recall, a trade-off that is
     consequential for a safety filter deliberately biased toward over-triage.</p>
+    <div class="example">
+    <p class="eh">Synthetic example</p>
+    <p><span class="el">Source</span> <span>Structured cardiac record (chest-pain type, rhythm, vitals)</span></p>
+    <p><span class="el">Generated complaint</span> <span class="gen">&ldquo;I&rsquo;m a 49-year-old female. My chest feels tight, like someone&rsquo;s pushing on it. I can&rsquo;t relax. Lately I&rsquo;ve been getting lightheaded out of nowhere, like I&rsquo;m about to faint. It feels like my heart is doing its own thing, completely out of rhythm.&rdquo;</span></p>
+    <p><span class="el">Gold label</span> <span>Urgent</span></p>
+  </div>
+
   <div class="tablewrap">
     <table>
       <caption><b>Table 10.</b> Binary emergency-department triage (synthetic test).</caption>
@@ -731,6 +760,14 @@
     boundary matching (0.427) and Gemini under relaxed matching (0.926); the wide relaxed-minus-strict gap
     shows that errors are largely boundary misalignment rather than wrong regions. Because both training and
     test data are synthetic, transfer to genuine Hebrew notes remains the open question.</p>
+    <div class="example">
+    <p class="eh">Synthetic example</p>
+    <p><span class="el">Source</span> <span>MIMIC-III discharge summary (ulcerative colitis)</span></p>
+    <p><span class="el">Generated summary</span> <span class="gen">&ldquo;החולה אושפז עם אבחנה של קוליטיס כיבית … הוחל טיפול ב-Pantoprazole 40 mg פעם ביום.&rdquo;</span></p>
+    <p><span class="el">Translation</span> <span class="gen">&ldquo;The patient was admitted with a diagnosis of ulcerative colitis &hellip; Treatment with Pantoprazole 40 mg once daily was started.&rdquo;</span></p>
+    <p><span class="el">Gold label</span> <span>Clinical-decision span: drug_decision: start Pantoprazole 40 mg</span></p>
+  </div>
+
   <div class="tablewrap">
     <table>
       <caption><b>Table 11.</b> Clinical-decision extraction from Hebrew discharge summaries: overall F1 (v2 test, 81 summaries).</caption>
@@ -771,6 +808,13 @@
     zero- and few-shot (Table&nbsp;12, Figure&nbsp;3). The fine-tuned heads decisively outperform the prompted
     model, and their composition routes reliably, indicating that a small, on-premises generator can bootstrap
     a competent triage model in a controlled setting without any real data leaving the institution.</p>
+    <div class="example">
+    <p class="eh">Synthetic example</p>
+    <p><span class="el">Source</span> <span>Generated patient-portal message</span></p>
+    <p><span class="el">Generated message</span> <span class="gen">&ldquo;I&rsquo;m super worried about this rash on my arm. It&rsquo;s been really itchy and it keeps getting bigger. I feel like something bad might be happening. Should I just ignore it or should I go see a doctor?&rdquo;</span></p>
+    <p><span class="el">Gold label</span> <span>Urgency: Yellow &middot; risk factor: severe infection &middot; information sufficient</span></p>
+  </div>
+
   <div class="tablewrap">
     <table>
       <caption><b>Table 12.</b> Portal-message triage: per-head and pipeline results (synthetic test).</caption>
@@ -802,6 +846,13 @@
     Notably, the zero-shot model matches the fine-tuned BioBERT cascade (0.98 versus 0.975 macro-F1), and both
     far exceed the Bi-LSTM (0.839), whose errors concentrate in the middle severities where the clinical
     distinctions are finest.</p>
+    <div class="example">
+    <p class="eh">Synthetic example</p>
+    <p><span class="el">Source</span> <span>Generated postpartum message (post C-section)</span></p>
+    <p><span class="el">Generated message</span> <span class="gen">&ldquo;Hi, I had my C-section a few days ago. My incision looks kind of red, and there is this yucky stuff leaking. Also, I feel hot but not past 38.5&deg;C. Is this normal? I am worried about it. Should I come to see you soon?&rdquo;</span></p>
+    <p><span class="el">Gold label</span> <span>Triage level 2 (of 0&ndash;3)</span></p>
+  </div>
+
   <div class="tablewrap">
     <table>
       <caption><b>Table 13.</b> Postpartum severity triage: four-class results (synthetic test, n=750).</caption>
@@ -832,6 +883,13 @@
     for the plain encoder), which misclassify the high-risk class. The result shows how a safety-oriented layer
     trained on adversarial synthetic cases strengthens a classifier's handling of the high-risk class in this
     controlled evaluation.</p>
+    <div class="example">
+    <p class="eh">Synthetic example</p>
+    <p><span class="el">Source</span> <span>Prior record: Dermatology, oily skin</span></p>
+    <p><span class="el">Generated message</span> <span class="gen">&ldquo;Hey doc, I&rsquo;m breaking out like crazy! It&rsquo;s so embarrassing and I can&rsquo;t even wear a shirt without getting covered up. Can you help me fix this? Also, could there be any connection to my weight gain from eating too much junk food?&rdquo;</span></p>
+    <p><span class="el">Gold label</span> <span>Priority: MEDIUM</span></p>
+  </div>
+
   <div class="tablewrap">
     <table>
       <caption><b>Table 14.</b> Clinical-priority triage of portal messages: accuracy (synthetic test).</caption>
@@ -858,6 +916,13 @@
     compared (Table&nbsp;15). DistilBERT leads on the ordinal distress task, reaching a linear-weighted
     $\kappa$ of 0.851, while the TF-IDF baseline edges ahead on the nominal response task; both far surpass
     zero-shot BART.</p>
+    <div class="example">
+    <p class="eh">Synthetic example</p>
+    <p><span class="el">Source</span> <span>Target emotion and distress: anxiety, high</span></p>
+    <p><span class="el">Generated message</span> <span class="gen">&ldquo;He&rsquo;s in remission, they said. Like it&rsquo;s some kind of victory parade. But I can&rsquo;t stop seeing that hospital bed, the way his face went white when they brought the news. What if it comes back? I haven&rsquo;t slept in days. The fear, it&rsquo;s a vise squeezing my chest so tight I can barely breathe.&rdquo;</span></p>
+    <p><span class="el">Gold label</span> <span>Response: anxiety &middot; distress: high</span></p>
+  </div>
+
   <div class="tablewrap">
     <table>
       <caption><b>Table 15.</b> Psychosocial-response and distress classification in oncology messages: macro-F1 by task (synthetic test).</caption>
@@ -885,6 +950,13 @@
     held-out synthetic data; the classical SVM baseline (0.84 accuracy, 0.80 macro-F1) isolates that real-only
     signal. The study is reported in full as an analysis of
     predicting health crises from online medication inquiries<sup class="cit">[3]</sup>.</p>
+    <div class="example">
+    <p class="eh">Representative example (authentic test item)</p>
+    <p><span class="el">Source</span> <span>Real MedInfo2019 consumer question; synthetic Critical questions augment the training set (not redistributed)</span></p>
+    <p><span class="el">Question</span> <span class="gen">&ldquo;how does rivastigmine and otc sleep medicine interact&rdquo;</span></p>
+    <p><span class="el">Gold label</span> <span>Critical</span></p>
+  </div>
+
   <div class="tablewrap">
     <table>
       <caption><b>Table 16.</b> Critical-versus-general triage of medication questions.</caption>
@@ -910,6 +982,14 @@
     pressure. Text-only (TF-IDF, BERT), vitals-only (XGBoost, LightGBM), and late-fusion models are compared
     (Figure&nbsp;5); fusing the two modalities wins, with a LightGBM model over TF-IDF text and vitals reaching
     0.971 accuracy and 0.972 macro-F1, confirming that the message adds signal beyond the vitals alone.</p>
+    <div class="example">
+    <p class="eh">Synthetic example</p>
+    <p><span class="el">Source</span> <span>Diagnosis: diarrhea</span></p>
+    <p><span class="el">Generated, day 1</span> <span class="gen">&ldquo;Today hasn&rsquo;t been too good. I&rsquo;ve been back and forth to the bathroom a lot and feel so tired. It&rsquo;s like I can&rsquo;t keep anything in me.&rdquo;</span></p>
+    <p><span class="el">Generated, day 2</span> <span class="gen">&ldquo;Things have gotten a bit rougher today. My stomach aches more and I feel weaker. I also noticed I&rsquo;m a bit dizzy when I stand up.&rdquo; (HR 102)</span></p>
+    <p><span class="el">Gold label</span> <span>Status: deterioration</span></p>
+  </div>
+
   <figure>
     <img src="figures/fig4_homecare_recall.png" alt="Per-class recall of top fusion models">
     <figcaption><b>Figure 5.</b> Home-care status detection: per-class recall of the top fusion models.</figcaption>
@@ -939,6 +1019,13 @@
     result is that training on noisy synthetic reports improves robustness: removing the noisy variants lowers
     macro-F1 by 6.6 points on care area and 10.6 on specialty (Table&nbsp;17, Figure&nbsp;6). Deliberately
     degraded synthetic communication thus earns its value through realism as much as volume.</p>
+    <div class="example">
+    <p class="eh">Synthetic example</p>
+    <p><span class="el">Source</span> <span>MIMIC-IV-Ext-CDS emergency-department case</span></p>
+    <p><span class="el">Generated report</span> <span class="gen">&ldquo;69-year-old male with abdominal pain worsening since last night, now with shortness of breath and new bilateral shoulder pain with breathing. One episode of vomiting noted. Respirations elevated at 26.&rdquo;</span></p>
+    <p><span class="el">Gold label</span> <span>ED care area: monitored bed &middot; specialty: gastroenterology</span></p>
+  </div>
+
   <div class="tablewrap">
     <table>
       <caption><b>Table 17.</b> EMS report routing: BioClinicalBERT macro-F1 (%) with and without noisy synthetic training.</caption>
@@ -967,6 +1054,14 @@
     (Table&nbsp;18, Figure&nbsp;7). The fine-tuned Hebrew encoder leads on exact-match (79.3%) and macro-F1
     (0.802), while the small fine-tuned Phi-3 produces the fewest hallucinations (7), a property of real value
     when the output is a casualty record.</p>
+    <div class="example">
+    <p class="eh">Synthetic example</p>
+    <p><span class="el">Source</span> <span>Field-radio casualty report (high noise), medic</span></p>
+    <p><span class="el">Generated transcript</span> <span class="gen">&ldquo;קשר מפקד, יש לנו פצוע קשה, קטיעה! יד ימין – קטיעה מוחלטת. דחוף, תוציאו פינוי דחוף! … הלב – דופק חלש … נשימה קשה … שמונים וחמש!&rdquo;</span></p>
+    <p><span class="el">Translation</span> <span class="gen">&ldquo;Command, we have a serious casualty, amputation! Right arm &ndash; complete amputation. Urgent, get evacuation, urgent! &hellip; Heart &ndash; weak pulse &hellip; breathing labored &hellip; eighty-five!&rdquo;</span></p>
+    <p><span class="el">Gold label</span> <span>Mechanism: amputation &middot; site: right arm &middot; evac: immediate &middot; SpO&#8322; 85% &middot; pulse: weak</span></p>
+  </div>
+
   <div class="tablewrap">
     <table>
       <caption><b>Table 18.</b> Casualty-record reconstruction from field radio (synthetic test, n=100).</caption>
@@ -996,6 +1091,13 @@
     Fine-tuned encoders outperform prompting by a wide margin (0.745 versus 0.408 class macro-F1), and the
     requiredness-first structure lifts class macro-F1 further to 0.791, offering a reusable recipe for handoff
     auditing.</p>
+    <div class="example">
+    <p class="eh">Synthetic example</p>
+    <p><span class="el">Source</span> <span>SBAR handover, post laparoscopic cholecystectomy</span></p>
+    <p><span class="el">Generated SBAR</span> <span class="gen">&ldquo;Patient is a 68-year-old female post laparoscopic cholecystectomy. Vital signs show mild tachycardia and low-grade fever. Oxygen via nasal cannula 2 L/min. Wound sites clean with slight redness. Enoxaparin started for DVT prophylaxis. Labs and imaging pending. Fall risk moderate. Family informed.&rdquo;</span></p>
+    <p><span class="el">Gold label</span> <span>Completeness: low (incomplete) &middot; missing required items: code status, allergies, anticoagulation monitoring plan</span></p>
+  </div>
+
   <div class="tablewrap">
     <table>
       <caption><b>Table 19.</b> SBAR handover completeness: note-level results (synthetic test).</caption>
