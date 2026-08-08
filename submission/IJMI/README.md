@@ -21,7 +21,7 @@ version of the paper lives on GitHub Pages; the reproducibility data/code are on
 - Elsevier "Your Paper Your Way": a single line-numbered Word/PDF is acceptable for the initial (refereeing) submission; strict Elsevier formatting is only required at acceptance.
 
 ## VERIFY before submitting (placeholders filled with reasonable defaults)
-- **CRediT roles** — currently: Apartsin (Conceptualization, Methodology, Software, Writing – original draft, Supervision); Aperstein (Conceptualization, Writing – review & editing, Supervision). Adjust to reflect actual contributions.
+- **CRediT / contributions** — both authors are marked as **equal contributors** (Conceptualization, Methodology, Software, Writing, Supervision), with a byline note "contributed equally to this work." Adjust if not accurate.
 - **Funding** — currently "no specific external funding." Update if applicable.
 - **Competing interests** — currently "none."
 - **Corresponding author** contact details (email, full postal address) — add in Editorial Manager.

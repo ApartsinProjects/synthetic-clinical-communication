@@ -28,6 +28,6 @@ Built from `paper.html` via the `html2doc` skill (`review-manuscript` profile). 
 ## VERIFY before submitting
 - **Reference style** — CONFIRMED: JHIR uses numbered citations in square brackets `[n]`, which the manuscript already uses. No conversion needed.
 - The introduction now frames the work across JHIR's three tracks (analytics / systems / human-centered computing).
-- **CRediT / Author contributions** wording — adjust to actual contributions.
+- **Author contributions** — both authors are marked as **equal contributors**, with a byline note "contributed equally to this work." Adjust if not accurate.
 - **Funding / Competing interests / Ethics** — currently "none / not applicable"; update if needed.
 - **Corresponding author** contact details — add in the submission interface.
