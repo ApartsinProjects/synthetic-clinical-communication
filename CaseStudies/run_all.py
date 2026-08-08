@@ -17,15 +17,12 @@ STUDIES = [
     "diagnosis-from-noisy-self-descriptions",
     "adaptive-diagnostic-questioning",
     "urgency-triage-from-complaints",
-    "clinical-decision-extraction-hebrew-discharge",
     "administrative-portal-message-triage",
-    "clinical-priority-portal-triage",
     "postpartum-severity-triage",
     "oncology-distress-classification",
     "medication-question-risk-classification",
     "home-care-status-detection",
     "ems-report-routing",
-    "casualty-record-reconstruction",
     "sbar-completeness-checking",
 ]
 

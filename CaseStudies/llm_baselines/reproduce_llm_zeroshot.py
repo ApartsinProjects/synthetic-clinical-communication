@@ -79,13 +79,6 @@ def main():
     golds = list(s["completeness_class"])
     res.append(run("sbar(sample)", "qwen/qwen-2.5-7b-instruct", prompts, golds, ["low", "medium", "high"]))
 
-    # clinical-priority: Qwen zero-shot HIGH/MEDIUM/LOW (sample 400) (paper zero-shot ~0.34-0.42)
-    c = pd.read_csv(os.path.join(CS, "clinical-priority-portal-triage", "synthetic_data.csv")).fillna("").sample(400, random_state=42)
-    prompts = [f"Given the patient's history and portal message, assign clinical priority as HIGH, MEDIUM, or LOW.\n"
-               f"History: {h}\nMessage: \"{m}\"\nReply with one word: HIGH, MEDIUM, or LOW."
-               for h, m in zip(c["past_medical_history"].astype(str), c["current_portal_message"].astype(str))]
-    golds = list(c["clinical_priority"])
-    res.append(run("clinical-priority(sample400)", "qwen/qwen-2.5-7b-instruct", prompts, golds, ["HIGH", "MEDIUM", "LOW"]))
 
     print("\nRESULTS_JSON " + json.dumps(res))
 

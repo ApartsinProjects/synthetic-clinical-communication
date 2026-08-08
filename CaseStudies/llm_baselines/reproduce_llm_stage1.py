@@ -60,28 +60,5 @@ res["medication(gpt-4.1,655)"] = {"acc": round(accuracy_score([g for _,g in pair
                                   "paper_note":"paper LLM baseline used GPT-4.1+RAG; classical SVM 0.84, BioBERT 0.92"}
 print(res["medication(gpt-4.1,655)"], flush=True)
 
-# ---- casualty gpt-4o JSON extraction, 100 ----
-rows=[json.loads(l) for l in open(os.path.join(CS,"casualty-record-reconstruction","test.jsonl"),encoding="utf-8")]
-fields=list(rows[0]["ground_truth"].keys())
-def cp(tr): return ("Extract the following fields from this military casualty radio transcript into a JSON object. "
-                    "Use \"unknown\" for any field not stated. Fields: "+", ".join(fields)+
-                    f'.\nTranscript: "{tr}"\nReply with ONLY the JSON object.')
-resp = par(lambda o: call("openai/gpt-4o", cp(o["transcript"]), max_tokens=600), rows, workers=6)
-def pj(r):
-    try:
-        s=re.search(r"\{.*\}", r or "", re.DOTALL); return json.loads(s.group(0)) if s else {}
-    except Exception: return {}
-tot=corr=hall=0
-for o,r in zip(rows,resp):
-    pred=pj(r); gt=o["ground_truth"]
-    for f in fields:
-        g=gt.get(f,"unknown"); pv=pred.get(f,"unknown")
-        gset = norm(g if not isinstance(g,list) else ("unknown" if not g else g[0]))
-        pvn = norm(pv if not isinstance(pv,list) else ("unknown" if not pv else pv[0]))
-        tot+=1
-        if gset==pvn: corr+=1
-        if gset=="unknown" and pvn not in ("unknown","","none","na"): hall+=1
-res["casualty(gpt-4o,100)"]={"exact_match_acc": round(corr/tot,3), "hallucinations": hall, "paper":"GPT-4 zero-shot 0.686 EM / 24 halluc"}
-print(res["casualty(gpt-4o,100)"], flush=True)
 
 print("\nRESULTS_JSON "+json.dumps(res))
