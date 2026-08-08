@@ -26,7 +26,8 @@ Built from `paper.html` via the `html2doc` skill (`review-manuscript` profile). 
 - Springer's exact Word template (zip) sits behind a JS-gated page: https://www.springer.com/gp/authors-editors/journal-author/word-template-zip-154-kb-/22044 — the built manuscript already follows Springer's plain-format requirements, so the .dotx is optional.
 
 ## VERIFY before submitting
-- **Reference style** — the manuscript uses numbered [n] references. Confirm JHIR's required style on the live submission guidelines (Springer CS journals use either numbered or author-date); tell me if it needs conversion to author-date.
+- **Reference style** — CONFIRMED: JHIR uses numbered citations in square brackets `[n]`, which the manuscript already uses. No conversion needed.
+- The introduction now frames the work across JHIR's three tracks (analytics / systems / human-centered computing).
 - **CRediT / Author contributions** wording — adjust to actual contributions.
 - **Funding / Competing interests / Ethics** — currently "none / not applicable"; update if needed.
 - **Corresponding author** contact details — add in the submission interface.
