@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Clinical Communication Processing with Models Trained on LLM-Generated Synthetic Data: A Framework, Structured Survey, and Ten Application Case Studies</title>
+<title>Clinical Communication Processing with LLM-Generated Synthetic Data: A Framework, Structured Survey, and Ten Application Case Studies</title>
 <style>
   :root{
     --ink:#111418; --soft:#2c3138; --muted:#5a626c; --navy:#14385c;
@@ -170,7 +170,7 @@
     <a href="https://link.springer.com/journal/41666" target="_blank" rel="noopener">Journal &#8599;</a>
   </nav>
 
-  <h1 class="title">Clinical Communication Processing with Models Trained on LLM-Generated Synthetic Data:<br>A Framework, Structured Survey, and Ten Application Case Studies</h1>
+  <h1 class="title">Clinical Communication Processing with LLM-Generated Synthetic Data:<br>A Framework, Structured Survey, and Ten Application Case Studies</h1>
   <p class="authors">Alexander Apartsin<sup>1</sup>&nbsp;&nbsp;&nbsp;Yehudit Aperstein<sup>2</sup></p>
   <p class="affil"><sup>1</sup>&thinsp;School of Computer Science, Faculty of Sciences, Holon Institute of Technology (HIT), Holon, Israel
     &nbsp;&middot;&nbsp; <sup>2</sup>&thinsp;Intelligent Systems, Afeka Academic College of Engineering, Tel-Aviv, Israel</p>
@@ -194,12 +194,11 @@
       form and participants, generation method, and downstream task. We instantiate and stress-test the framework through ten
       application case studies that build clinical NLP systems for communication channels and languages where
       labeled real-world data is scarce, restricted, or absent, spanning EMS pre-arrival reports, nurse handoffs, and patient-portal triage, and
-      showing that synthetic communication can bootstrap systems that could not otherwise be trained.
+      showing that synthetic communication can bootstrap systems for channels and languages that real labeled data does not reach.
       Recurring observations include the competitiveness of fine-tuned encoder models over evaluated zero-shot
       baselines and the value of deliberately degraded communication for robustness. The ten studies span a graded real-world-grounding spectrum: one augments labeled real training data with
       synthetic critical cases and evaluates on authentic patient-authored text (a medication-question classifier,
-      our real-test augmentation anchor, an <i>R+S&rarr;R</i> result); four seed generation from real structured
-      data; and the rest evaluate on held-out synthetic communication. None of the ten is a pure
+      our real-test augmentation anchor, an <i>R+S&rarr;R</i> result); four seed generation from real datasets or clinical records; and the rest evaluate on held-out synthetic communication. None of the ten is a pure
       train-on-synthetic, test-on-real (<i>S&rarr;R</i>) demonstration, so establishing that evidence is the
       clearly marked next step rather than a hidden gap. We conclude that synthetic clinical communication is
       becoming a practical research resource; establishing it as reusable clinical infrastructure will build on
@@ -248,11 +247,11 @@
     the generated language and its downstream use, not by the format of the source. The organizing pipeline is
     accordingly <i>clinical source &rarr; LLM-generated communication &rarr; downstream healthcare NLP
     model</i> (Figure&nbsp;1). Our object of study is that final stage: NLP systems that process clinical communication and are
-    trained, wholly or in part, on such synthetic data. The word <i>synthetic</i> qualifies the training data,
+    trained, augmented, or evaluated, wholly or in part, on such synthetic data. The word <i>synthetic</i> qualifies the training data,
     not the real communication these systems are ultimately built to serve.</p>
   <figure>
     <img src="figures/fig0_landscape.png" alt="Four-stage pipeline: clinical sources, LLM generation with controlled properties, synthetic clinical communication across channels, and downstream NLP evaluated by regime">
-    <figcaption><b>Figure 1.</b> The organizing pipeline of this survey. A clinical source of any format is realized by an LLM, under controlled communication properties, into synthetic communication across channels, on which a downstream model is trained and then evaluated in the S&rarr;S regime or, less often, by transfer to real text (S&rarr;R).</figcaption>
+    <figcaption><b>Figure 1.</b> The organizing pipeline of this survey. A clinical source of any format is realized by an LLM, under controlled communication properties, into synthetic communication across channels, on which a downstream model is trained, augmented, or evaluated, and assessed in the <i>S&rarr;S</i>, <i>R+S&rarr;R</i>, or <i>S&rarr;R</i> regime (Section&nbsp;2.3).</figcaption>
   </figure>
   <p>Read as a framework rather than a diagram, the pipeline exposes six decision dimensions, each of which forces
     a concrete design choice: (i)&nbsp;<b>source grounding</b>, how tightly generation is tied to real records,
@@ -516,7 +515,7 @@
   <h3 id="s4">2.3&nbsp;&nbsp;Evaluating Synthetic Clinical Communication</h3>
   <p class="lead">Evaluation is the least standardized part of the field. We organize it into four levels, from
     surface text quality to downstream utility, with the concrete metrics used at each level collected in
-    Table&nbsp;5. Throughout Section&nbsp;3 the headline downstream metric is macro-averaged F1, which weights
+    Table&nbsp;5. Across most Section&nbsp;3 studies the principal classification metric is macro-averaged F1, which weights
     every class equally and is therefore the right summary for the imbalanced, safety-critical classes typical
     of clinical communication.</p>
 
@@ -622,7 +621,7 @@
 
   <div class="tablewrap">
     <table>
-      <caption><b>Table 7.</b> Clinical-communication processing studies, by channel, using models trained on
+      <caption><b>Table 7.</b> Clinical-communication processing studies, by channel, using models trained, augmented, or evaluated on
         LLM-generated synthetic data. Generators are the LLMs used to synthesize the training text; results are
         the headline downstream metric.</caption>
       <thead><tr><th>#</th><th>Study (&sect;)</th><th>Channel</th><th>Synthetic generator</th><th>Headline result</th></tr></thead>
@@ -742,7 +741,7 @@
     required because staff cannot read every incoming message in time, so models must triage, route, and
     prioritize them. Portal messaging is now studied both as a generation target, synthesizing realistic
     messages from a small de-identified seed<sup class="cit">[66]</sup>, and as a triage and routing
-    problem<sup class="cit">[67]</sup>. The six studies below span triage, severity scoring, distress
+    problem<sup class="cit">[67]</sup>. The five studies below span triage, severity scoring, distress
     classification, and home-care status monitoring.</p>
 
   <h4 class="proj">3.2.1&nbsp;&nbsp;Administrative Triage of Patient-Portal Messages</h4>
@@ -919,7 +918,7 @@
     its structure must be recovered before information is lost. These channels are the least resourced and the
     most recently addressed: synthetic multi-party EMS dialogue<sup class="cit">[62]</sup>, dispatch
     simulation<sup class="cit">[63]</sup>, and LLM-generated handoff notes<sup class="cit">[65]</sup> have all
-    appeared only lately, and dedicated synthetic SBAR corpora remain largely absent. The three studies below
+    appeared only lately, and dedicated synthetic SBAR corpora remain largely absent. The two studies below
     target EMS pre-arrival and SBAR handover.</p>
 
   <h4 class="proj">3.3.1&nbsp;&nbsp;Routing EMS Pre-Arrival Reports</h4>
@@ -1147,9 +1146,9 @@
       <caption><b>Table 18.</b> Reusable design patterns recurring across the ten application studies (RQ7).</caption>
       <thead><tr><th>Pattern</th><th>What it does</th><th>Studies</th></tr></thead>
       <tbody>
-        <tr><td>Fine-tuned encoders over zero-shot LLMs</td><td>A small encoder fine-tuned on synthetic data outperforms the evaluated zero-shot LLM baselines on the downstream task</td><td>&sect;3.1.1, &sect;3.1.3, &sect;3.2.1, &sect;3.2.3, &sect;3.2.4, &sect;3.3.1, &sect;3.3.2</td></tr>
-        <tr><td>Deliberate degradation for robustness</td><td>Injecting noise, recognition errors, or omissions into the synthetic text trains models that hold up on degraded real-world input</td><td>&sect;3.1.1, &sect;3.3.1, &sect;3.3.2</td></tr>
-        <tr><td>Labels fixed at generation, audited by a judge</td><td>Gold labels are emitted with the text and an independent LLM judge audits quality, giving both control and label reliability</td><td>&sect;3.1.2, &sect;3.2.3</td></tr>
+        <tr><td>Fine-tuned encoders often beat evaluated zero-shot baselines</td><td>A small encoder fine-tuned on synthetic data often outperforms the evaluated zero-shot LLM baseline, though not universally (the postpartum study, &sect;3.2.2, is a counterexample)</td><td>&sect;3.2.1, &sect;3.2.3, &sect;3.2.4, &sect;3.3.2</td></tr>
+        <tr><td>Deliberate degradation for robustness</td><td>Injecting noise, recognition errors, or omissions into the synthetic text trains models that hold up on held-out degraded synthetic input intended to mimic real-world noise</td><td>&sect;3.1.1, &sect;3.3.1, &sect;3.3.2</td></tr>
+        <tr><td>Source-fixed labels, audited where a judge is used</td><td>Gold labels are emitted with or derived from the source scenario; where used, an LLM judge audits label quality, giving both control and reliability</td><td>&sect;3.1.2, &sect;3.2.3</td></tr>
         <tr><td>Synthetic augmentation of rare classes</td><td>Generation up-samples the rare, high-stakes classes that real collections underrepresent, correcting severe imbalance</td><td>&sect;3.2.2, &sect;3.2.4</td></tr>
         <tr><td>Local, on-premises generation for privacy</td><td>A local generator bootstraps a usable dataset without sending any clinical content to a hosted model</td><td>&sect;3.2.1</td></tr>
       </tbody>
@@ -1190,8 +1189,8 @@
 
   <hr class="sec">
   <h2 id="data">Data and Code Availability</h2>
-  <p class="lead">The datasets, generation scripts, and model configurations for all ten application
-    studies in Section&nbsp;3 are shared publicly in the paper's repository under <code>CaseStudies/</code> and
+  <p class="lead">The publicly shareable datasets and artifacts, generation scripts, and model configurations for the ten
+    application studies in Section&nbsp;3 are provided in the paper's repository under <code>CaseStudies/</code> and
     archived at Zenodo (<a href="https://doi.org/10.5281/zenodo.21820227">doi:10.5281/zenodo.21820227</a>), organized as one directory per study, each with a README documenting
     its motivation, data-generation protocol, data files, models, and results. The regenerated result figures are distributed with the paper's source. Each study's reproducible pipeline can be re-run across random seeds through a <code>REPRODUCE_SEED</code> control, and a five-seed sweep confirms the reproduced metrics are stable to seed, with standard deviations typically below 0.05; the per-seed results ship with the code. Where a study
     reused a restricted real dataset for evaluation, only the synthetic artifacts and code are redistributed,
@@ -1219,7 +1218,7 @@
         <tr><td>4</td><td>Administrative portal-message triage (3.2.1)</td><td>Qwen2.5-0.5B (local)</td><td>DistilBERT heads</td><td>80/20, seed 42</td><td><i>S&rarr;S</i></td><td>sample + reproduce.py</td></tr>
         <tr><td>5</td><td>Postpartum severity triage (3.2.2)</td><td>GPT-4o-mini</td><td>BioBERT cascade (vs Bi-LSTM)</td><td>80/20, seed 12345</td><td><i>S&rarr;S</i></td><td>full data + reproduce.py</td></tr>
         <tr><td>6</td><td>Oncology distress classification (3.2.3)</td><td>Gemma2-27B (local)</td><td>DistilBERT (vs TF-IDF+LR)</td><td>fixed shipped split, seed 42</td><td><i>S&rarr;S</i></td><td>sample + reproduce.py</td></tr>
-        <tr><td>7</td><td>Medication-question risk classification (3.2.4)</td><td>GPT-4.1 (critical-case augmentation)</td><td>BioBERT / BlueBERT (vs SVM)</td><td>80/20, seed 42</td><td><b><i>R+S&rarr;R</i></b></td><td>real labels + synthetic augmentation + reproduce.py</td></tr>
+        <tr><td>7</td><td>Medication-question risk classification (3.2.4)</td><td>GPT-4.1 (critical-case augmentation)</td><td>BioBERT / BlueBERT (vs SVM)</td><td>80/20, seed 42</td><td><b><i>R+S&rarr;R</i></b></td><td>reproduce.py + real-labeled test set; synthetic augmentation not redistributed</td></tr>
         <tr><td>8</td><td>Home-care status detection (3.2.5)</td><td>GPT (symptom + vitals)</td><td>LightGBM (TF-IDF + vitals fusion)</td><td>80/20, seed 42</td><td><i>S&rarr;S</i></td><td>full data + reproduce.py</td></tr>
         <tr><td>9</td><td>EMS report routing (3.3.1)</td><td>GPT-4.1-mini (MIMIC-IV-Ext, + ASR noise)</td><td>BioClinicalBERT</td><td>80/20, seed 42</td><td><i>S&rarr;S</i></td><td>sample + reproduce.py</td></tr>
         <tr><td>10</td><td>SBAR completeness checking (3.3.2)</td><td>OpenAI batch</td><td>BioClinicalBERT / hierarchical</td><td>80/20, seed 42</td><td><i>S&rarr;S</i></td><td>sample + reproduce.py</td></tr>
