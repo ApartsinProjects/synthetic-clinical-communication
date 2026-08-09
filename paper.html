@@ -191,15 +191,16 @@
     <p>Our central contribution is an organizing framework for this emerging area: a
       source-to-communication-to-model pipeline paired with a taxonomy of clinical-communication channels,
       which we develop into a structured narrative survey organized by source representation, communication
-      form and participants, generation method, and downstream task. We validate the framework through ten
-      application case studies that build clinical NLP systems for communication channels and languages with no
-      labeled real-world data, spanning EMS pre-arrival reports, nurse handoffs, and patient-portal triage, and
+      form and participants, generation method, and downstream task. We instantiate and stress-test the framework through ten
+      application case studies that build clinical NLP systems for communication channels and languages where
+      labeled real-world data is scarce, restricted, or absent, spanning EMS pre-arrival reports, nurse handoffs, and patient-portal triage, and
       showing that synthetic communication can bootstrap systems that could not otherwise be trained.
       Recurring observations include the competitiveness of fine-tuned encoder models over evaluated zero-shot
-      baselines and the value of deliberately degraded communication for robustness. The ten studies form a graded validation ladder: one reports its headline metric on
-      authentic patient-authored text, a medication-question classifier that serves as our proof of
-      synthetic-to-real transfer; four seed generation from real structured data; and the rest evaluate on
-      held-out synthetic communication, so broadening train-on-synthetic, test-on-authentic evidence is the
+      baselines and the value of deliberately degraded communication for robustness. The ten studies span a graded real-world-grounding spectrum: one augments labeled real training data with
+      synthetic critical cases and evaluates on authentic patient-authored text (a medication-question classifier,
+      our real-test augmentation anchor, an <i>R+S&rarr;R</i> result); four seed generation from real structured
+      data; and the rest evaluate on held-out synthetic communication. None of the ten is a pure
+      train-on-synthetic, test-on-real (<i>S&rarr;R</i>) demonstration, so establishing that evidence is the
       clearly marked next step rather than a hidden gap. We conclude that synthetic clinical communication is
       becoming a practical research resource; establishing it as reusable clinical infrastructure will build on
       authentic-data transfer together with attention to safety, privacy, and external validation.</p>
@@ -272,9 +273,10 @@
     authentic communication; and (RQ7) which reusable design patterns and failure modes recur across the case
     studies. Our primary contribution is an organizing framework, the source-to-communication-to-model pipeline paired
     with a taxonomy of clinical-communication channels, around which a fragmented literature is unified; within
-    it we survey recent generation and evaluation methods, validate the framework through ten novel application
-    case studies that build clinical NLP for communication channels and languages lacking any labeled real-world
-    data (demonstrating feasibility where models could not otherwise be trained), and distill from them reusable
+    it we survey recent generation and evaluation methods, instantiate and stress-test the framework through ten
+    application case studies that build clinical NLP for communication channels and languages where labeled
+    real-world data is scarce, restricted, or absent (demonstrating feasibility where models could not otherwise
+    be trained), and distill from them reusable
     design patterns and open problems in an emergent field. Because these systems ultimately mediate communication with patients and care teams, the work speaks directly to human-centered health informatics: triage that respects how patients phrase their symptoms, handoffs that protect the next clinician, and portals that route messages safely.</p>
 
   <p>Existing reviews cluster into two camps that leave our target uncovered. Broad "LLMs in medicine"
@@ -519,8 +521,9 @@
     <i>S&rarr;R</i> (train on synthetic, test on real), <i>R+S&rarr;R</i> (train on real plus synthetic, test on
     real), and <i>R&rarr;R</i> (a real-data baseline), with cross-generator (<i>S&#8321;&rarr;S&#8322;</i>) and
     human-written (<i>S&rarr;H</i>) variants as stronger tests. Across the ten application studies in
-    Section&nbsp;3, nine evaluate in the <i>S&rarr;S</i> regime and one (Section&nbsp;3.2.4) reports results on
-    authentic patient-authored text; of the nine, four generate from real clinical records or datasets
+    Section&nbsp;3, nine evaluate in the <i>S&rarr;S</i> regime and one (Section&nbsp;3.2.4) uses real-plus-synthetic
+    training with authentic patient-authored testing (<i>R+S&rarr;R</i>); none provides a pure <i>S&rarr;R</i>
+    evaluation. Of the nine <i>S&rarr;S</i> studies, four generate from real clinical records or datasets
     (Sections&nbsp;3.1.1, 3.1.2, 3.1.3, and 3.3.1) and five are synthetic end to end.</p>
   <p>The broader literature nonetheless shows that models trained on synthetic clinical text can transfer to
     authentic text. A model distilled entirely on LLM-generated question-answer pairs matched, and sometimes
@@ -584,9 +587,9 @@
   <p class="lead">This section presents ten application case studies, grouped by communication channel,
     each of which transforms a clinical source into synthetic communication and trains or evaluates models on
     it. They are illustrative rather than exhaustive, selected to span the channels of Section&nbsp;2 rather than through systematic sampling.
-    Each is a novel contribution in its own right: it builds a working system for a channel or language where
-    labeled real-world data is unavailable, making synthetic communication the enabling resource rather than a
-    mere convenience.
+    Each builds a working system for a channel or language where
+    labeled real-world data is scarce or unavailable, making synthetic communication the enabling resource rather than a
+    mere convenience; they are worked instantiations of the framework used for cross-case synthesis, not standalone empirical studies.
     For every study we discuss the clinical value at stake, the source and why authentic data is unavailable,
     how the language model produced the communication, and how the resulting models compare; the exposition
     varies with the study, leaning on prose, a results table, or a figure as best fits the material. Almost
@@ -840,9 +843,10 @@
     augmentation that raises the GPT-4.1 classifier's own macro-F1 from 0.78 to 0.85. A classical SVM, GPT-4.1
     in two modes, and fine-tuned BioBERT and BlueBERT are compared (Table&nbsp;14); the fine-tuned encoders are
     strongest overall at 0.92 accuracy and 0.90 macro-F1. The held-out questions here are authentic
-    patient-authored text and synthetic generation is confined to training-side rebalancing, which makes this
+    patient-authored text while training combines real labeled questions with synthetic critical cases, which makes this
     the one study in the survey whose reported metric is measured on real communication rather than on
-    held-out synthetic data; the classical SVM baseline (0.84 accuracy, 0.80 macro-F1) isolates that real-only
+    held-out synthetic data, a real-plus-synthetic training, test-on-real (<i>R+S&rarr;R</i>) result rather than a
+    synthetic-only transfer test; the classical SVM baseline (0.84 accuracy, 0.80 macro-F1) isolates the real-only
     signal. The study is reported in full as an analysis of
     predicting health crises from online medication inquiries<sup class="cit">[3]</sup>.</p>
     <div class="example">
@@ -975,21 +979,23 @@
   <h3 id="s65">3.4&nbsp;&nbsp;Real-World Grounding of the Studies</h3>
   <p>Because external validity is the decisive question for any synthetic-data method, Table&nbsp;17 states, for
     each study, how much authentic data it touches and what its reported metric is measured on. The studies fall
-    into three grounding levels. One study evaluates its headline metric on authentic patient-authored text: the
-    medication-question classifier (&sect;3.2.4) is tested on real consumer questions, with generation confined to
-    training-side class rebalancing, so its number is a genuine train-on-synthetic-augmented, test-on-real
-    (<i>S&rarr;R</i>) result. Four studies seed generation from real structured data, case distributions and
-    diagnostic labels drawn from public datasets or de-identified records (Symptom2Disease, the Symptom-Disease
-    Prediction Dataset, MIMIC-IV-ED, and MIMIC-IV-Ext), so their labels and clinical content are anchored in
-    reality even though the communication text and the test set are synthetic. The remaining five studies are
-    fully synthetic in source, text, and test. Stating this distribution explicitly is deliberate: it shows that
-    the survey demonstrates channel feasibility broadly while genuine real-text validation is so far established
-    at one point, which is the boundary Section&nbsp;4 examines and the frontier Section&nbsp;5 prioritizes.</p>
+    into three real-world-grounding levels, which are not equivalent validation levels. One study evaluates its
+    headline metric on authentic patient-authored text: the medication-question classifier (&sect;3.2.4) trains on
+    labeled real questions plus synthetic critical cases and is tested on real consumer questions, so its number is
+    a real-plus-synthetic training, test-on-real (<i>R+S&rarr;R</i>) result; it demonstrates evaluation against
+    authentic communication and synthetic rare-class augmentation, not transfer from synthetic-only training. Four
+    studies seed generation from real structured data, case distributions and diagnostic labels drawn from public
+    datasets or de-identified records (Symptom2Disease, the Symptom-Disease Prediction Dataset, MIMIC-IV-ED, and
+    MIMIC-IV-Ext), so their labels and clinical content are anchored in reality even though the communication text
+    and the test set are synthetic. The remaining five studies are fully synthetic in source, text, and test. None
+    of the ten provides a pure train-on-synthetic, test-on-real (<i>S&rarr;R</i>) evaluation; stating this
+    explicitly is deliberate, because it shows the survey demonstrates channel feasibility broadly while genuine
+    synthetic-only real-text validation is the boundary Section&nbsp;4 examines and the frontier Section&nbsp;5 prioritizes.</p>
 
   <div class="tablewrap">
     <table>
       <caption><b>Table 17.</b> Real-world grounding of the ten application studies: the authentic data each uses
-        and the provenance of the text on which its reported metric is measured.</caption>
+        and the provenance of the text on which its reported metric is measured. No study provides a pure <i>S&rarr;R</i> (synthetic-only training, real testing) evaluation.</caption>
       <thead><tr><th>#</th><th>Study (&sect;)</th><th>Authentic data used</th><th>Metric tested on</th><th>Regime</th></tr></thead>
       <tbody>
         <tr><td>1</td><td>Adaptive diagnostic questioning (3.1.2)</td><td>Real seed: Symptom-Disease Prediction Dataset</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
@@ -998,7 +1004,7 @@
         <tr><td>4</td><td>Administrative portal-message triage (3.2.1)</td><td>None (fully synthetic)</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
         <tr><td>5</td><td>Postpartum severity triage (3.2.2)</td><td>None (fully synthetic)</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
         <tr><td>6</td><td>Oncology distress classification (3.2.3)</td><td>None (fully synthetic)</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
-        <tr><td>7</td><td>Medication-question risk classification (3.2.4)</td><td>Real labeled test set: authentic patient questions (MedInfo2019)</td><td><b>Real</b> (authentic patient text)</td><td><b><i>S&rarr;R</i></b></td></tr>
+        <tr><td>7</td><td>Medication-question risk classification (3.2.4)</td><td>Real labeled corpus for training and testing; synthetic critical cases added to training only (MedInfo2019)</td><td><b>Real</b> (authentic patient text)</td><td><b><i>R+S&rarr;R</i></b></td></tr>
         <tr><td>8</td><td>Home-care status detection (3.2.5)</td><td>None (fully synthetic)</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
         <tr><td>9</td><td>EMS report routing (3.3.1)</td><td>Real seed: MIMIC-IV-Ext cases</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
         <tr><td>10</td><td>SBAR completeness checking (3.3.2)</td><td>None (fully synthetic)</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
@@ -1151,9 +1157,9 @@
     </table>
   </div>
   <p>One caveat is nonetheless decisive. Almost every study evaluates on held-out synthetic data.
-    The clearest exception is the medication-question study (Section&nbsp;3.2.4), whose classifier is tested on
-    authentic patient-authored questions with synthetic generation confined to rebalancing the rare class in
-    training; one further study grounds generation in real clinical records, tracing EMS routing to MIMIC-IV cases (Section&nbsp;3.3.1).
+    The clearest exception is the medication-question study (Section&nbsp;3.2.4), an <i>R+S&rarr;R</i> case whose
+    classifier trains on real labeled questions plus synthetic rare-class augmentation and is tested on authentic
+    patient-authored questions; one further study grounds generation in real clinical records, tracing EMS routing to MIMIC-IV cases (Section&nbsp;3.3.1). No study provides a pure <i>S&rarr;R</i> test.
     Even so, the decisive evidence, strong performance when a model is trained end-to-end on synthetic
     communication and tested on real communication, is the field's decisive next step. Advancing it, alongside progress on hallucination
     control, distributional fidelity, longitudinal consistency, and validation standards that regulators will
