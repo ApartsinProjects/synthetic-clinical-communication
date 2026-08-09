@@ -200,9 +200,10 @@
       patient-portal triage, and
       showing that synthetic communication can bootstrap systems that could not otherwise be trained.
       Recurring observations include the competitiveness of fine-tuned encoder models over evaluated zero-shot
-      baselines and the value of deliberately degraded communication for robustness. The central limitation is
-      that most studies evaluate on held-out synthetic communication, with train-on-synthetic,
-      test-on-authentic evidence still accumulating. We conclude that synthetic clinical communication is
+      baselines and the value of deliberately degraded communication for robustness. Across the ten studies, one
+      reports its headline metric on authentic patient-authored text and four seed generation from real
+      structured data, while the remainder evaluate on held-out synthetic communication; broadening this
+      train-on-synthetic, test-on-authentic evidence is the central open step. We conclude that synthetic clinical communication is
       becoming a practical research resource; establishing it as reusable clinical infrastructure will build on
       authentic-data transfer together with attention to safety, privacy, and external validation.</p>
   </div>
@@ -980,6 +981,40 @@
     <figcaption><b>Figure 6.</b> SBAR handover completeness: class macro-F1 across models.</figcaption>
   </figure>
 
+  <h3 id="s65">3.4&nbsp;&nbsp;Real-World Grounding of the Studies</h3>
+  <p>Because external validity is the decisive question for any synthetic-data method, Table&nbsp;17 states, for
+    each study, how much authentic data it touches and what its reported metric is measured on. The studies fall
+    into three grounding levels. One study evaluates its headline metric on authentic patient-authored text: the
+    medication-question classifier (&sect;3.2.4) is tested on real consumer questions, with generation confined to
+    training-side class rebalancing, so its number is a genuine train-on-synthetic-augmented, test-on-real
+    (<i>S&rarr;R</i>) result. Four studies seed generation from real structured data, case distributions and
+    diagnostic labels drawn from public datasets or de-identified records (Symptom2Disease, the Symptom-Disease
+    Prediction Dataset, MIMIC-IV-ED, and MIMIC-IV-Ext), so their labels and clinical content are anchored in
+    reality even though the communication text and the test set are synthetic. The remaining five studies are
+    fully synthetic in source, text, and test. Stating this distribution explicitly is deliberate: it shows that
+    the survey demonstrates channel feasibility broadly while genuine real-text validation is so far established
+    at one point, which is the boundary Section&nbsp;4 examines and the frontier Section&nbsp;5 prioritizes.</p>
+
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 17.</b> Real-world grounding of the ten application studies: the authentic data each uses
+        and the provenance of the text on which its reported metric is measured.</caption>
+      <thead><tr><th>#</th><th>Study (&sect;)</th><th>Authentic data used</th><th>Metric tested on</th><th>Regime</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Adaptive diagnostic questioning (3.1.2)</td><td>Real seed: Symptom-Disease Prediction Dataset</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
+        <tr><td>2</td><td>Diagnosis from noisy self-descriptions (3.1.1)</td><td>Real seed: Symptom2Disease</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
+        <tr><td>3</td><td>Urgency triage from complaints (3.1.3)</td><td>Real seed: MIMIC-IV-ED labels</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
+        <tr><td>4</td><td>Administrative portal-message triage (3.2.1)</td><td>None (fully synthetic)</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
+        <tr><td>5</td><td>Postpartum severity triage (3.2.2)</td><td>None (fully synthetic)</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
+        <tr><td>6</td><td>Oncology distress classification (3.2.3)</td><td>None (fully synthetic)</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
+        <tr><td>7</td><td>Medication-question risk classification (3.2.4)</td><td>Real labeled test set: authentic patient questions (MedInfo2019)</td><td><b>Real</b> (authentic patient text)</td><td><b><i>S&rarr;R</i></b></td></tr>
+        <tr><td>8</td><td>Home-care status detection (3.2.5)</td><td>None (fully synthetic)</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
+        <tr><td>9</td><td>EMS report routing (3.3.1)</td><td>Real seed: MIMIC-IV-Ext cases</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
+        <tr><td>10</td><td>SBAR completeness checking (3.3.2)</td><td>None (fully synthetic)</td><td>Synthetic</td><td><i>S&rarr;S</i></td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <!-- ================= 7 ================= -->
 
   <!-- ================= 8 ================= -->
@@ -1024,7 +1059,10 @@
     synthetic wherever it circulates. Sharing and licensing remain unsettled, particularly when a generator was
     conditioned on restricted real data, which can quietly propagate governance constraints into ostensibly
     open outputs. Finally, reproducibility depends on the exact generator, prompt, sampling
-    temperature, and filtering pipeline; reporting these in full is what makes studies directly comparable.</p>
+    temperature, and filtering pipeline; reporting these in full is what makes studies directly comparable. In
+    the studies reported here no identifiable patient data was used: generators were seeded either from public
+    datasets or de-identified records, and the resulting communication describes no real individual, which is the
+    concrete form the privacy argument takes across this survey.</p>
 
   <h3>4.3&nbsp;&nbsp;Boundaries of the Method</h3>
   <p>Some limitations are boundaries of the method rather than defects to be engineered away. Synthetic
@@ -1038,9 +1076,10 @@
     establish readiness for care.</p>
 
   <h3>4.4&nbsp;&nbsp;Scope of This Review</h3>
-  <p>This review has its own boundaries. It is narrative rather than systematic, so its coverage reflects
-    targeted search and citation tracing rather than an exhaustive protocol, and fast-moving preprint work will
-    continue to appear after writing. The application studies are drawn from a single graduate program and are
+  <p>This review has its own boundaries. It follows a narrative, scoping-style approach: relevant work was
+    identified through iterative database and citation-chaining search and organized by clinical-communication
+    channel, rather than through a preregistered systematic protocol with exhaustive, reproducible coverage, and
+    fast-moving preprint work will continue to appear after writing. The application studies are drawn from a single graduate program and are
     weighted toward English, so they demonstrate feasibility across channels rather than a
     representative sample of methods or languages. The channel taxonomy is a deliberate organizing choice; other
     cuts, by generation method, by clinical specialty, or by data governance regime, would group the same work
@@ -1089,11 +1128,11 @@
     conversations and doctor-to-patient instructions to telemedicine and portal messaging and the under-served
     paramedic, dispatch, and handoff channels, and around the downstream tasks each supports, grounding that
     organization in ten application studies that generate synthetic communication and train models on it.</p>
-  <p>Read together, those studies surface a small set of reusable design patterns (Table&nbsp;17) that recur
+  <p>Read together, those studies surface a small set of reusable design patterns (Table&nbsp;18) that recur
     across channels and tasks rather than one-off results, and that answer RQ7 directly.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 17.</b> Reusable design patterns recurring across the ten application studies (RQ7).</caption>
+      <caption><b>Table 18.</b> Reusable design patterns recurring across the ten application studies (RQ7).</caption>
       <thead><tr><th>Pattern</th><th>What it does</th><th>Studies</th></tr></thead>
       <tbody>
         <tr><td>Fine-tuned encoders over zero-shot LLMs</td><td>A small encoder fine-tuned on synthetic data outperforms the evaluated zero-shot LLM baselines on the downstream task</td><td>&sect;3.1.1, &sect;3.1.3, &sect;3.2.1, &sect;3.2.3, &sect;3.2.4, &sect;3.3.1, &sect;3.3.2</td></tr>
@@ -1107,12 +1146,12 @@
   <p>The first pattern is not confined to synthetic evaluation: on authentic clinical text a fine-tuned encoder
     reached F1 0.84 on symptom extraction against 0.45 for a zero-shot LLM<sup class="cit">[109]</sup>,
     corroborating the small-model advantage the studies here observe on synthetic data.</p>
-  <p>Set against these patterns are recurring failure modes (Table&nbsp;18) that the studies and the wider
+  <p>Set against these patterns are recurring failure modes (Table&nbsp;19) that the studies and the wider
     literature expose, and that any reuse of synthetic clinical communication must guard against; together the
     two tables answer the design-pattern and failure-mode halves of RQ7.</p>
   <div class="tablewrap">
     <table>
-      <caption><b>Table 18.</b> Recurring failure modes when reusing synthetic clinical communication, and where each is guarded.</caption>
+      <caption><b>Table 19.</b> Recurring failure modes when reusing synthetic clinical communication, and where each is guarded.</caption>
       <thead><tr><th>Failure mode</th><th>How it shows up</th><th>Guard / where addressed</th></tr></thead>
       <tbody>
         <tr><td>Clinical hallucination</td><td>Fluent but medically wrong content that passes surface checks and corrupts the labels a model learns from</td><td>Grounding, constrained decoding, safety auditing that treats omission as seriously as fabrication<sup class="cit">[82]</sup></td></tr>
