@@ -331,13 +331,17 @@
     the tasks they support (2.1); how large language models generate synthetic clinical communication (2.2);
     how such data is evaluated (2.3); and what the literature reports, organized by downstream task (2.4).</p>
   <p><b>Scope and method.</b> This is a structured narrative review rather than a systematic one. We gathered
-    work through targeted searches of arXiv, PubMed/MEDLINE, and the ACL Anthology, supplemented by forward and
-    backward citation tracing and by browsing recent issues of the venues where this work concentrates (npj
+    work through targeted keyword searches of Google Scholar, arXiv, PubMed/MEDLINE, and the ACL Anthology,
+    supplemented by forward and backward citation tracing (snowballing) and by browsing recent issues of the
+    venues where this work concentrates (npj
     Digital Medicine, JAMIA, JMIR, Nature Medicine, and the ACL family). The emphasis is on 2020 through 2026,
     the period in which instruction-following LLMs made open-ended clinical text generation practical. A study
     is included when its LLM-generated output is a communication artifact used by a downstream model, under the
     inclusion rule stated in Section&nbsp;1; work whose output is synthetic tabular records, signals, or images,
-    or which only classifies existing text without generating communication, is excluded. The application
+    or which only classifies existing text without generating communication, is excluded. This process is deliberately non-exhaustive: coverage reflects
+    targeted search rather than a preregistered protocol, so where Section&nbsp;2.4 counts works by task, those are
+    counts within the reviewed set, indicating relative attention among the papers surveyed rather than field-wide
+    prevalence. The application
     studies in Section&nbsp;3 were selected from graduate coursework to span the communication channels below,
     and are presented as feasibility demonstrations rather than a systematic sample.</p>
   <p>Efforts to unlock the value in clinical communication predate synthetic data. Ambient systems that turn a
@@ -576,10 +580,11 @@
       <tbody><tr><td>Information extraction (entities, relations, time)</td><td>Emit gold spans and relations with the text; recover decisions and follow-ups; distil small extractors from large teachers</td><td>[4], [5], [18], [39], [40], [44], [45], [71], [79]</td></tr><tr><td>Summarization (dialogue-to-note, impression, discharge)</td><td>Pair synthetic dialogue or source with target summaries; judge factuality with QA-based metrics</td><td>[26], [28], [33], [34], [35], [41], [42], [57], [58], [59]</td></tr><tr><td>Clinical coding</td><td>Up-sample rare codes; rank models without a trustworthy coded benchmark</td><td>[8], [30]</td></tr><tr><td>Diagnostic reasoning and questioning</td><td>Interactive question selection under partial information; robustness to noisy narratives</td><td>[1], [2], [46], [47], [48], [49] &middot; &sect;3.1.1, &sect;3.1.2</td></tr><tr><td>Question answering</td><td>QA- and NLI-based consistency checking; response-generation strategies</td><td>[6], [7], [41], [42], [43]</td></tr><tr><td>Triage, routing, and decision support</td><td>Class-imbalanced patient messages and pre-hospital calls; portal and emergency triage</td><td>[3], [38], [64], [66], [67] &middot; &sect;3.1.3, &sect;3.2.1&ndash;3.2.5, &sect;3.3.1</td></tr><tr><td>Handoff and completeness checking</td><td>Controlled omissions in SBAR and handover notes</td><td>[65] &middot; &sect;3.3.2</td></tr><tr><td>Patient simulation and professional training</td><td>Virtual standardized patients; controllable learner and patient simulation</td><td>[10], [14], [15], [50], [51], [52], [53], [54], [55], [56], [60], [61], [72], [73]</td></tr><tr><td>Benchmark construction</td><td>Controlled, versioned synthetic benchmarks and shared tasks</td><td>[8], [9], [10], [11], [12], [16], [17], [68], [69] &middot; &sect;3.1.2</td></tr><tr><td>Privacy, augmentation, distillation (cross-cutting)</td><td>Augment, distil, and audit synthetic corpora; assess memorization and differentially private generation</td><td>[29], [30], [31], [32], [70], [71], [77], [78], [79], [80], [81], [82] &middot; &sect;3.2.4</td></tr></tbody>
     </table>
   </div>
-  <p>Counted across these task rows, the surveyed work concentrates in patient simulation and professional
-    training (fourteen representative works), summarization (ten), and information extraction and benchmark
-    construction (nine each), with privacy, augmentation, and distillation cutting across (twelve); triage and
-    routing, clinical coding, and handoff are comparatively sparse (five, two, and one). The application studies
+  <p>Counted across these task rows within the reviewed corpus (a targeted, non-exhaustive set rather than a
+    census), attention concentrates in patient simulation and professional training (fourteen works),
+    summarization (ten), and information extraction and benchmark construction (nine each), with privacy,
+    augmentation, and distillation cutting across (twelve); triage and routing, clinical coding, and handoff are
+    comparatively sparse (five, two, and one). The application studies
     of Section&nbsp;3 deliberately populate that sparse end. By channel, real conversational corpora fall off
     sharply, from patient&ndash;clinician dialogue, where some public datasets exist, through portal messaging,
     where they are scarce, to EMS, dispatch, and handoff, where they are effectively absent; nine of the
