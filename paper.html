@@ -178,31 +178,7 @@
 
   <div class="abstract">
     <p class="lbl">Abstract</p>
-    <p>A great deal of clinical value is conveyed not through structured records but through communication:
-      the spoken and written exchanges in which patients describe symptoms, clinicians reason and give
-      instructions, ambulances hand over to emergency departments, and nurses pass on a shift. Such language
-      differs from tabular data because meaning depends on speaker role, intent, causality, uncertainty,
-      omission, and channel noise, and healthcare natural language processing (NLP) must interpret information
-      as it is conveyed rather than as it is coded. Learning to do so requires large, diverse, and
-      well-annotated corpora of clinical communication, which are scarce: authentic exchanges are private,
-      fragmented across channels, and costly to annotate. Large language models offer a way forward, because
-      they can transform structured or documentary clinical sources, such as records, diagnostic labels,
-      symptom lists, or care plans, into written and transcribed spoken communication for downstream models.</p>
-    <p>Our central contribution is an organizing framework for this emerging area: a
-      source-to-communication-to-model pipeline paired with a taxonomy of clinical-communication channels,
-      which we develop into a structured narrative survey organized by source representation, communication
-      form and participants, generation method, and downstream task. We instantiate and stress-test the framework through ten
-      application case studies that build clinical NLP systems for communication channels and languages where
-      labeled real-world data is scarce, restricted, or absent, spanning EMS pre-arrival reports, nurse handoffs, and patient-portal triage, and
-      showing that synthetic communication can bootstrap systems for channels and languages that real labeled data does not reach.
-      Recurring observations include the competitiveness of fine-tuned encoder models over evaluated zero-shot
-      baselines and the value of deliberately degraded communication for robustness. The ten studies span a graded real-world-grounding spectrum: one augments labeled real training data with
-      synthetic critical cases and evaluates on authentic patient-authored text (a medication-question classifier,
-      our real-test augmentation anchor, an <i>R+S&rarr;R</i> result); four seed generation from real datasets or clinical records; and the rest evaluate on held-out synthetic communication. None of the ten is a pure
-      train-on-synthetic, test-on-real (<i>S&rarr;R</i>) demonstration, so establishing that evidence is the
-      clearly marked next step rather than a hidden gap. We conclude that synthetic clinical communication is
-      becoming a practical research resource; establishing it as reusable clinical infrastructure will build on
-      authentic-data transfer together with attention to safety, privacy, and external validation.</p>
+    <p>Clinical value is often conveyed through communication rather than structured records: patients describe symptoms, clinicians reason and instruct, ambulances hand over to emergency departments, and nurses transfer responsibility across shifts. Modeling such language is difficult because meaning depends on speaker role, intent, uncertainty, omission, and channel noise, while annotated clinical-communication corpora remain scarce, private, and fragmented. This review examines the emerging use of large language models (LLMs) to generate synthetic written and transcribed clinical communication for downstream natural language processing (NLP). We organize the literature around a source-to-communication-to-model framework and a taxonomy of clinical-communication channels, giving a structured basis for comparing source grounding, communication channel, generation strategy, downstream modeling, and evaluation regime. Ten application case studies serve as worked instantiations of the framework, building clinical NLP for channels that lack labeled real-world data, including emergency-services pre-arrival reports, nurse handoffs, and patient-portal triage. Across these studies, fine-tuned encoder models are competitive with evaluated zero-shot baselines, and deliberately degrading the synthetic communication can improve robustness. The cases also define a graded spectrum of real-world grounding: one uses real-plus-synthetic training with evaluation on authentic patient text (<i>R+S&rarr;R</i>), four ground generation in real datasets or records, and the rest evaluate on held-out synthetic data. None constitutes a pure train-on-synthetic, test-on-real (<i>S&rarr;R</i>) evaluation. This gap identifies the central validation challenge for synthetic clinical communication and motivates stronger authentic-data transfer, safety, privacy, and reproducibility standards.</p>
   </div>
 
 
