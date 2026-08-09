@@ -38,6 +38,8 @@ DEPENDENCIES
 """
 
 import argparse
+import json
+import os
 
 import numpy as np
 import pandas as pd
@@ -47,7 +49,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 
-RANDOM_STATE = 42
+RANDOM_STATE = int(os.environ.get("REPRODUCE_SEED", "42"))
 DATA_FILE = "train_with_noise.csv"
 
 # noise level label -> source text column
@@ -125,11 +127,20 @@ def main():
 
     print(f"{'Noise':<8} {'Measured':>10} {'Paper':>8}   Delta")
     print("-" * 40)
+    measured = {}
     for level, col in NOISE_COLUMNS.items():
         acc = evaluate_noise_level(df, col, smoke=args.smoke)
+        measured[level] = acc
         paper = PAPER_TARGETS[level]
         print(f"{level:<8} {acc * 100:>9.1f}% {paper * 100:>7.1f}%   "
               f"{(acc - paper) * 100:+.1f}%")
+
+    RESULTS = {
+        "nb_clean": round(float(measured["clean"]), 4),
+        "nb_medium": round(float(measured["medium"]), 4),
+        "nb_heavy": round(float(measured["heavy"]), 4),
+    }
+    print("REPRODUCE_RESULT_JSON " + json.dumps(RESULTS))
 
 
 if __name__ == "__main__":

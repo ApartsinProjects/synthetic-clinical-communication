@@ -54,6 +54,8 @@ USAGE
 """
 
 import argparse
+import json
+import os
 import random
 
 import numpy as np
@@ -63,7 +65,7 @@ import torch.nn as nn
 from sklearn.metrics import accuracy_score, f1_score
 from torch.nn.utils.rnn import pad_sequence
 
-SEED = 12345
+SEED = int(os.environ.get("REPRODUCE_SEED", "12345"))
 DATA_FILE = "dataset.xlsx"
 TEXT_COL = "patient_message"
 LABEL_COL = "triage_level"
@@ -277,6 +279,12 @@ def main():
     if smoke:
         print("[SMOKE] cascade trained + evaluated end-to-end. Run without --smoke "
               "(use --full) for near-paper numbers.")
+
+    RESULTS = {
+        "bilstm_acc": round(float(full_acc), 4),
+        "bilstm_macrof1": round(float(full_f1), 4),
+    }
+    print("REPRODUCE_RESULT_JSON " + json.dumps(RESULTS))
 
 
 if __name__ == "__main__":

@@ -49,7 +49,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score
 from sklearn.pipeline import Pipeline
 
-SEED = 42
+SEED = int(os.environ.get("REPRODUCE_SEED", "42"))
 HERE = os.path.dirname(os.path.abspath(__file__))
 TRAIN_FILE = os.path.join(HERE, "train.sample.jsonl")
 TEST_FILE = os.path.join(HERE, "test.jsonl")
@@ -138,6 +138,7 @@ def main():
     print("DIFFER from the full-data paper values.")
     print("-" * 68)
 
+    measured_f1 = {}
     for task_name, label_field in TASKS.items():
         if label_field not in train_rows[0] and label_field not in test_rows[0]:
             print(f"[skip] {task_name}: label '{label_field}' absent.")
@@ -153,6 +154,7 @@ def main():
         model.fit(Xtr, ytr)
         pred = model.predict(Xte)
         macro_f1 = f1_score(yte, pred, average="macro")
+        measured_f1[label_field] = macro_f1
 
         paper = PAPER.get(task_name)
         n_tr_cls = len(set(ytr))
@@ -167,6 +169,13 @@ def main():
     print("Reminder: sample-trained numbers are expected to be LOWER than the")
     print("full-data paper values (0.856 response / 0.805 distress).")
     print("=" * 68)
+
+    RESULTS = {}
+    if "final_response" in measured_f1:
+        RESULTS["lr_response_macrof1"] = round(float(measured_f1["final_response"]), 4)
+    if "final_distress" in measured_f1:
+        RESULTS["lr_distress_macrof1"] = round(float(measured_f1["final_distress"]), 4)
+    print("REPRODUCE_RESULT_JSON " + json.dumps(RESULTS))
 
 
 if __name__ == "__main__":

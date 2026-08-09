@@ -46,3 +46,45 @@ by re-scoring the shipped model predictions.
 | 10 | sbar-completeness-checking | TF-IDF + LogReg | accuracy / macro-F1 | 0.725 / 0.711 | 0.725 / 0.711 | sample |
 
 Classical / CPU studies (1 diagnosis, 3 urgency, 6 oncology, 7 medication, 8 home-care, 10 SBAR) and the metric-recompute (2 adaptive) reproduce fully on CPU. The encoder fine-tunes (4 admin, 5 postpartum, 9 EMS) retrain the model; 4 and 9 are sample-limited for the headline number, while 5 reaches the paper Bi-LSTM on CPU. Where a shipped file is a sample, the script says so at the top and at runtime.
+
+## Seed stability (5-seed sweep)
+
+To confirm the reported metrics are stable to random seed rather than lucky single runs,
+each study's reproducible pipeline was re-run across **five seeds** (42, 123, 2024, 7,
+2718) by setting the `REPRODUCE_SEED` environment variable, which every `reproduce.py`
+now honours (default unchanged when unset). The table gives **mean ± SD** of the
+reproduced metric over the five seeds. Standard deviations are small (typically ≤ 0.05),
+so the reproducible pipeline is stable to seed. Raw per-seed values are in
+[`reproducibility_seed_stability.json`](reproducibility_seed_stability.json).
+
+```bash
+# reproduce a single seed
+REPRODUCE_SEED=123 /c/Python314/python diagnosis-from-noisy-self-descriptions/reproduce.py
+```
+
+| # | Study | Reproduced model | Metric | Mean ± SD (5 seeds) |
+|---|-------|------------------|--------|---------------------|
+| 1 | diagnosis | Naive Bayes (TF-IDF) | acc clean / med / heavy | 0.940±0.009 / 0.791±0.003 / 0.792±0.007 |
+| 3 | urgency | TF-IDF + LogReg | accuracy / F1 | 0.755±0.025 / 0.723±0.011 |
+| 4 | administrative-portal | DistilBERT (urgency head) | accuracy / macro-F1 | 0.312±0.024 / 0.170±0.032 &dagger; |
+| 5 | postpartum | Bi-LSTM cascade | full acc / macro-F1 | 0.934±0.024 / 0.935±0.024 |
+| 6 | oncology | TF-IDF + LogReg | response / distress macro-F1 | 0.382±0.000 / 0.674±0.000 |
+| 7 | medication | SVM (TF-IDF) | accuracy / macro-F1 | 0.733±0.055 / 0.564±0.064 |
+| 8 | home-care | LightGBM (TF-IDF fusion) | accuracy / macro-F1 | 0.943±0.008 / 0.943±0.008 |
+| 9 | ems | TF-IDF baseline | macro-F1 care / specialty | 0.957±0.081 / 0.979±0.014 &Dagger; |
+| 10 | sbar | TF-IDF + LogReg | accuracy / class macro-F1 | 0.745±0.040 / 0.732±0.046 |
+
+Rows track the corresponding **baseline** in the paper's tables well where the shipped
+data is large enough (e.g. diagnosis Naive Bayes 0.94/0.79/0.79 vs paper 0.938/0.792/0.775;
+SBAR LogReg 0.745/0.732 vs paper 0.725/0.711; home-care fusion 0.943 vs 0.971). Two rows
+are shown for completeness but are **not** meaningful reproductions of a paper figure:
+
+- **&dagger; administrative-portal** ships only a few training rows, too few to train the
+  DistilBERT urgency head, so it collapses toward random (≈1/3 accuracy). The paper's
+  0.81 head uses the full unshipped corpus.
+- **&Dagger; ems** is a TF-IDF baseline on the shipped clean sample, not the paper's
+  BioClinicalBERT + ASR-noise pipeline (Table 15), so its value is not construct-matched.
+
+Oncology (row 6) has zero seed variance because the study ships a **fixed** train/test
+split, so the classical baseline is deterministic; its lower value reflects the shipped
+sample holding only 4 of 7 response classes (see the table above), not seed sensitivity.

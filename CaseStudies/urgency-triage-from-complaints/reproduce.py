@@ -30,6 +30,7 @@ USAGE
 """
 
 import argparse
+import json
 import os
 
 import numpy as np
@@ -40,7 +41,7 @@ from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
-SEED = 42
+SEED = int(os.environ.get("REPRODUCE_SEED", "42"))
 TEXT_COL = "text_input"
 LABEL_COL = "label"
 DATA_FILE = "synthetic_data.sample.csv"
@@ -114,6 +115,12 @@ def main():
     print("the full synthetic set. They will differ from the full-data paper")
     print("values (acc 0.8101, F1 0.6530); the sample is provided for a")
     print("self-contained, network-free reproducibility check only.")
+
+    RESULTS = {
+        "lr_acc": round(float(acc), 4),
+        "lr_f1": round(float(f1), 4),
+    }
+    print("REPRODUCE_RESULT_JSON " + json.dumps(RESULTS))
 
 
 if __name__ == "__main__":

@@ -1181,7 +1181,7 @@
   <p class="lead">The datasets, generation scripts, and model configurations for all ten application
     studies in Section&nbsp;3 are shared publicly in the paper's repository under <code>CaseStudies/</code> and
     archived at Zenodo (<a href="https://doi.org/10.5281/zenodo.21820227">doi:10.5281/zenodo.21820227</a>), organized as one directory per study, each with a README documenting
-    its motivation, data-generation protocol, data files, models, and results. The regenerated result figures are distributed with the paper's source. Where a study
+    its motivation, data-generation protocol, data files, models, and results. The regenerated result figures are distributed with the paper's source. Each study's reproducible pipeline can be re-run across random seeds through a <code>REPRODUCE_SEED</code> control, and a five-seed sweep confirms the reproduced metrics are stable to seed, with standard deviations typically below 0.05; the per-seed results ship with the code. Where a study
     reused a restricted real dataset for evaluation, only the synthetic artifacts and code are redistributed,
     in line with the original data licenses.</p>
 

@@ -35,6 +35,7 @@ DEPENDENCIES
 """
 
 import argparse
+import json
 import os
 
 import numpy as np
@@ -45,7 +46,7 @@ from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
-SEED = 42
+SEED = int(os.environ.get("REPRODUCE_SEED", "42"))
 DATA_FILE = "modeling_dataset.sample.csv"
 
 # Paper baseline (tfidf_note_class, full grouped test set of 741 notes)
@@ -137,6 +138,12 @@ def main():
         "      directory, not the full dataset. They are expected to DIFFER from\n"
         "      the full-data paper values (accuracy 0.725, macro-F1 0.711)."
     )
+
+    RESULTS = {
+        "lr_acc": round(float(acc), 4),
+        "lr_classmacrof1": round(float(macro_f1), 4),
+    }
+    print("REPRODUCE_RESULT_JSON " + json.dumps(RESULTS))
 
 
 if __name__ == "__main__":

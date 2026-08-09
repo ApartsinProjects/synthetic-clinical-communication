@@ -45,6 +45,7 @@ USAGE
 """
 
 import argparse
+import json
 import os
 import sys
 
@@ -57,7 +58,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score, f1_score, classification_report
 
-SEED = 42
+SEED = int(os.environ.get("REPRODUCE_SEED", "42"))
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA_XLSX = os.path.join(HERE, "labeled_data.xlsx")
 
@@ -176,6 +177,12 @@ def main():
     print()
     print("Per-class report:")
     print(classification_report(y_te, y_pred, digits=3, zero_division=0))
+
+    RESULTS = {
+        "svm_acc": round(float(acc), 4),
+        "svm_macrof1": round(float(macro_f1), 4),
+    }
+    print("REPRODUCE_RESULT_JSON " + json.dumps(RESULTS))
 
     return acc, macro_f1
 

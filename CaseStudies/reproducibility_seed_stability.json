@@ -1,0 +1,466 @@
+{
+  "protocol": {
+    "description": "Seed-stability sweep (option A+C): each study's shipped reproducible pipeline re-run across 5 random seeds via the REPRODUCE_SEED env var. Reports mean and population SD per reproduced metric. This measures run-to-run stability of the reproducible pipeline on the shipped data; it does not re-derive the paper's headline encoder numbers (see REPRODUCE.md).",
+    "seeds": [
+      42,
+      123,
+      2024,
+      7,
+      2718
+    ],
+    "machine": "local (CPU classical baselines; DistilBERT/Bi-LSTM on RTX 2060)"
+  },
+  "aggregate": {
+    "diagnosis-from-noisy-self-descriptions": {
+      "nb_clean": {
+        "mean": 0.94,
+        "sd": 0.009,
+        "n": 5,
+        "vals": [
+          0.9458,
+          0.9375,
+          0.9542,
+          0.9292,
+          0.9333
+        ]
+      },
+      "nb_heavy": {
+        "mean": 0.7925,
+        "sd": 0.0072,
+        "n": 5,
+        "vals": [
+          0.7917,
+          0.7833,
+          0.7875,
+          0.8042,
+          0.7958
+        ]
+      },
+      "nb_medium": {
+        "mean": 0.7908,
+        "sd": 0.0031,
+        "n": 5,
+        "vals": [
+          0.7875,
+          0.7917,
+          0.7958,
+          0.7917,
+          0.7875
+        ]
+      }
+    },
+    "urgency-triage-from-complaints": {
+      "lr_acc": {
+        "mean": 0.755,
+        "sd": 0.0245,
+        "n": 5,
+        "vals": [
+          0.725,
+          0.75,
+          0.75,
+          0.75,
+          0.8
+        ]
+      },
+      "lr_f1": {
+        "mean": 0.7232,
+        "sd": 0.0111,
+        "n": 5,
+        "vals": [
+          0.7179,
+          0.7368,
+          0.7222,
+          0.7059,
+          0.7333
+        ]
+      }
+    },
+    "administrative-portal-message-triage": {
+      "urgency_acc": {
+        "mean": 0.312,
+        "sd": 0.024,
+        "n": 5,
+        "vals": [
+          0.3,
+          0.36,
+          0.3,
+          0.3,
+          0.3
+        ]
+      },
+      "urgency_macrof1": {
+        "mean": 0.1696,
+        "sd": 0.0316,
+        "n": 5,
+        "vals": [
+          0.1538,
+          0.2327,
+          0.1538,
+          0.1538,
+          0.1538
+        ]
+      }
+    },
+    "postpartum-severity-triage": {
+      "bilstm_acc": {
+        "mean": 0.9342,
+        "sd": 0.0238,
+        "n": 5,
+        "vals": [
+          0.9299,
+          0.9649,
+          0.9516,
+          0.9299,
+          0.8948
+        ]
+      },
+      "bilstm_macrof1": {
+        "mean": 0.9349,
+        "sd": 0.0238,
+        "n": 5,
+        "vals": [
+          0.9295,
+          0.9664,
+          0.952,
+          0.9304,
+          0.8962
+        ]
+      }
+    },
+    "oncology-distress-classification": {
+      "lr_distress_macrof1": {
+        "mean": 0.6737,
+        "sd": 0.0,
+        "n": 5,
+        "vals": [
+          0.6737,
+          0.6737,
+          0.6737,
+          0.6737,
+          0.6737
+        ]
+      },
+      "lr_response_macrof1": {
+        "mean": 0.382,
+        "sd": 0.0,
+        "n": 5,
+        "vals": [
+          0.382,
+          0.382,
+          0.382,
+          0.382,
+          0.382
+        ]
+      }
+    },
+    "medication-question-risk-classification": {
+      "svm_acc": {
+        "mean": 0.7328,
+        "sd": 0.0553,
+        "n": 5,
+        "vals": [
+          0.8321,
+          0.6794,
+          0.7481,
+          0.687,
+          0.7176
+        ]
+      },
+      "svm_macrof1": {
+        "mean": 0.5638,
+        "sd": 0.0643,
+        "n": 5,
+        "vals": [
+          0.6755,
+          0.4809,
+          0.5722,
+          0.5282,
+          0.5624
+        ]
+      }
+    },
+    "home-care-status-detection": {
+      "fusion_acc": {
+        "mean": 0.9429,
+        "sd": 0.0078,
+        "n": 5,
+        "vals": [
+          0.9429,
+          0.9571,
+          0.9357,
+          0.9429,
+          0.9357
+        ]
+      },
+      "fusion_macrof1": {
+        "mean": 0.9426,
+        "sd": 0.0077,
+        "n": 5,
+        "vals": [
+          0.9428,
+          0.9568,
+          0.936,
+          0.9421,
+          0.9354
+        ]
+      }
+    },
+    "ems-report-routing": {
+      "carearea_cleanonly": {
+        "mean": 0.9566,
+        "sd": 0.0814,
+        "n": 5,
+        "vals": [
+          0.9889,
+          1.0,
+          1.0,
+          0.7939,
+          1.0
+        ]
+      },
+      "specialty_cleanonly": {
+        "mean": 0.9789,
+        "sd": 0.014,
+        "n": 5,
+        "vals": [
+          0.9617,
+          0.9617,
+          0.9903,
+          0.9903,
+          0.9903
+        ]
+      }
+    },
+    "sbar-completeness-checking": {
+      "lr_acc": {
+        "mean": 0.745,
+        "sd": 0.04,
+        "n": 5,
+        "vals": [
+          0.725,
+          0.775,
+          0.775,
+          0.775,
+          0.675
+        ]
+      },
+      "lr_classmacrof1": {
+        "mean": 0.7318,
+        "sd": 0.0463,
+        "n": 5,
+        "vals": [
+          0.7108,
+          0.7628,
+          0.7655,
+          0.77,
+          0.6498
+        ]
+      }
+    }
+  },
+  "per_seed": {
+    "diagnosis-from-noisy-self-descriptions": {
+      "42": {
+        "nb_clean": 0.9458,
+        "nb_medium": 0.7875,
+        "nb_heavy": 0.7917
+      },
+      "123": {
+        "nb_clean": 0.9375,
+        "nb_medium": 0.7917,
+        "nb_heavy": 0.7833
+      },
+      "2024": {
+        "nb_clean": 0.9542,
+        "nb_medium": 0.7958,
+        "nb_heavy": 0.7875
+      },
+      "7": {
+        "nb_clean": 0.9292,
+        "nb_medium": 0.7917,
+        "nb_heavy": 0.8042
+      },
+      "2718": {
+        "nb_clean": 0.9333,
+        "nb_medium": 0.7875,
+        "nb_heavy": 0.7958
+      }
+    },
+    "urgency-triage-from-complaints": {
+      "42": {
+        "lr_acc": 0.725,
+        "lr_f1": 0.7179
+      },
+      "123": {
+        "lr_acc": 0.75,
+        "lr_f1": 0.7368
+      },
+      "2024": {
+        "lr_acc": 0.75,
+        "lr_f1": 0.7222
+      },
+      "7": {
+        "lr_acc": 0.75,
+        "lr_f1": 0.7059
+      },
+      "2718": {
+        "lr_acc": 0.8,
+        "lr_f1": 0.7333
+      }
+    },
+    "administrative-portal-message-triage": {
+      "42": {
+        "urgency_acc": 0.3,
+        "urgency_macrof1": 0.1538
+      },
+      "123": {
+        "urgency_acc": 0.36,
+        "urgency_macrof1": 0.2327
+      },
+      "2024": {
+        "urgency_acc": 0.3,
+        "urgency_macrof1": 0.1538
+      },
+      "7": {
+        "urgency_acc": 0.3,
+        "urgency_macrof1": 0.1538
+      },
+      "2718": {
+        "urgency_acc": 0.3,
+        "urgency_macrof1": 0.1538
+      }
+    },
+    "postpartum-severity-triage": {
+      "42": {
+        "bilstm_acc": 0.9299,
+        "bilstm_macrof1": 0.9295
+      },
+      "123": {
+        "bilstm_acc": 0.9649,
+        "bilstm_macrof1": 0.9664
+      },
+      "2024": {
+        "bilstm_acc": 0.9516,
+        "bilstm_macrof1": 0.952
+      },
+      "7": {
+        "bilstm_acc": 0.9299,
+        "bilstm_macrof1": 0.9304
+      },
+      "2718": {
+        "bilstm_acc": 0.8948,
+        "bilstm_macrof1": 0.8962
+      }
+    },
+    "oncology-distress-classification": {
+      "42": {
+        "lr_response_macrof1": 0.382,
+        "lr_distress_macrof1": 0.6737
+      },
+      "123": {
+        "lr_response_macrof1": 0.382,
+        "lr_distress_macrof1": 0.6737
+      },
+      "2024": {
+        "lr_response_macrof1": 0.382,
+        "lr_distress_macrof1": 0.6737
+      },
+      "7": {
+        "lr_response_macrof1": 0.382,
+        "lr_distress_macrof1": 0.6737
+      },
+      "2718": {
+        "lr_response_macrof1": 0.382,
+        "lr_distress_macrof1": 0.6737
+      }
+    },
+    "medication-question-risk-classification": {
+      "42": {
+        "svm_acc": 0.8321,
+        "svm_macrof1": 0.6755
+      },
+      "123": {
+        "svm_acc": 0.6794,
+        "svm_macrof1": 0.4809
+      },
+      "2024": {
+        "svm_acc": 0.7481,
+        "svm_macrof1": 0.5722
+      },
+      "7": {
+        "svm_acc": 0.687,
+        "svm_macrof1": 0.5282
+      },
+      "2718": {
+        "svm_acc": 0.7176,
+        "svm_macrof1": 0.5624
+      }
+    },
+    "home-care-status-detection": {
+      "42": {
+        "fusion_acc": 0.9429,
+        "fusion_macrof1": 0.9428
+      },
+      "123": {
+        "fusion_acc": 0.9571,
+        "fusion_macrof1": 0.9568
+      },
+      "2024": {
+        "fusion_acc": 0.9357,
+        "fusion_macrof1": 0.936
+      },
+      "7": {
+        "fusion_acc": 0.9429,
+        "fusion_macrof1": 0.9421
+      },
+      "2718": {
+        "fusion_acc": 0.9357,
+        "fusion_macrof1": 0.9354
+      }
+    },
+    "ems-report-routing": {
+      "42": {
+        "carearea_cleanonly": 0.9889,
+        "specialty_cleanonly": 0.9617
+      },
+      "123": {
+        "carearea_cleanonly": 1.0,
+        "specialty_cleanonly": 0.9617
+      },
+      "2024": {
+        "carearea_cleanonly": 1.0,
+        "specialty_cleanonly": 0.9903
+      },
+      "7": {
+        "carearea_cleanonly": 0.7939,
+        "specialty_cleanonly": 0.9903
+      },
+      "2718": {
+        "carearea_cleanonly": 1.0,
+        "specialty_cleanonly": 0.9903
+      }
+    },
+    "sbar-completeness-checking": {
+      "42": {
+        "lr_acc": 0.725,
+        "lr_classmacrof1": 0.7108
+      },
+      "123": {
+        "lr_acc": 0.775,
+        "lr_classmacrof1": 0.7628
+      },
+      "2024": {
+        "lr_acc": 0.775,
+        "lr_classmacrof1": 0.7655
+      },
+      "7": {
+        "lr_acc": 0.775,
+        "lr_classmacrof1": 0.77
+      },
+      "2718": {
+        "lr_acc": 0.675,
+        "lr_classmacrof1": 0.6498
+      }
+    }
+  }
+}

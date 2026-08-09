@@ -44,6 +44,7 @@ DEPS: scikit-learn, pandas, numpy  (CPU only; no torch)
 """
 
 import argparse
+import json
 import os
 import numpy as np
 import pandas as pd
@@ -53,7 +54,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score, accuracy_score
 
-SEED = 42
+SEED = int(os.environ.get("REPRODUCE_SEED", "42"))
 DATA_FILE = "synthetic_data.sample.csv"
 TEXT_COL = "text"
 TARGETS = {
@@ -160,6 +161,17 @@ def main():
     print("       across train/test and inflates macro-F1 far above the paper's.")
     print("       This is expected; it confirms the plumbing runs, nothing more.")
     print("-" * 74)
+
+    # This TF-IDF baseline trains and tests on the CLEAN shipped sample only
+    # (no noisy training data is shipped), so it reproduces the "clean-only"
+    # cells of the EMS table. The "clean+noisy" cells are not computed here.
+    RESULTS = {
+        "carearea_cleanonly": round(float(results["ED Care Area"]["macro_f1"]), 4),
+        "specialty_cleanonly": round(
+            float(results["Specialty Consultation"]["macro_f1"]), 4
+        ),
+    }
+    print("REPRODUCE_RESULT_JSON " + json.dumps(RESULTS))
 
 
 if __name__ == "__main__":

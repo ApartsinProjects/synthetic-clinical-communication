@@ -37,6 +37,7 @@ USAGE
     python reproduce.py --smoke    # ~150-row subsample (fast smoke test)
 """
 import argparse
+import json
 import os
 
 import numpy as np
@@ -46,7 +47,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score
 
-SEED = 42
+SEED = int(os.environ.get("REPRODUCE_SEED", "42"))
 PAPER_ACC = 0.971
 PAPER_MACRO_F1 = 0.972
 DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "synthetic_data.csv")
@@ -116,6 +117,12 @@ def main():
     print("Caveat: the paper's best fuses STRUCTURED vitals (HR/BP/Temp/RR) as")
     print("clean numeric features. The shipped CSV carries vitals only as free")
     print("text inside the notes, so this text-only approximation may differ.")
+
+    RESULTS = {
+        "fusion_acc": round(float(acc), 4),
+        "fusion_macrof1": round(float(mf1), 4),
+    }
+    print("REPRODUCE_RESULT_JSON " + json.dumps(RESULTS))
 
 
 if __name__ == "__main__":

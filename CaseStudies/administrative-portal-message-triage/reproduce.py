@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 from pathlib import Path
 
@@ -106,7 +107,7 @@ def main() -> None:
         action="store_true",
         help="Tiny CPU run: ~40 rows, <=2 optimizer steps, just verifies the loop.",
     )
-    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--seed", type=int, default=int(os.environ.get("REPRODUCE_SEED", "42")))
     parser.add_argument("--epochs", type=int, default=6)
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--learning-rate", type=float, default=3e-5)
@@ -204,6 +205,12 @@ def main() -> None:
         "expected to differ from the full-data paper values above."
     )
     print("=" * 60)
+
+    RESULTS = {
+        "urgency_acc": round(float(accuracy), 4),
+        "urgency_macrof1": round(float(macro_f1), 4),
+    }
+    print("REPRODUCE_RESULT_JSON " + json.dumps(RESULTS))
 
 
 if __name__ == "__main__":
