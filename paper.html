@@ -648,10 +648,10 @@
 
   <div class="tablewrap">
     <table>
-      <caption><b>Table 8.</b> Diagnostic accuracy by narrative noise level (synthetic test).</caption>
+      <caption><b>Table 8.</b> Diagnostic accuracy by narrative noise level (synthetic test). The Na&iuml;ve Bayes row shows a five-seed reproduction on the shipped data (mean&plusmn;SD; see REPRODUCE.md).</caption>
       <thead><tr><th>Model</th><th>Clean</th><th>Medium noise</th><th>Heavy noise</th></tr></thead>
       <tbody>
-        <tr><td>Na&iuml;ve Bayes (TF-IDF)</td><td>93.8%</td><td>79.2%</td><td>77.5%</td></tr>
+        <tr><td>Na&iuml;ve Bayes (TF-IDF)</td><td>94.0&plusmn;0.9%</td><td>79.1&plusmn;0.3%</td><td>79.2&plusmn;0.7%</td></tr>
         <tr><td>BERT</td><td>98.3%</td><td>86.7%</td><td>79.2%</td></tr>
         <tr><td>ClinicalBERT</td><td>97.9%</td><td>83.8%</td><td>86.2%</td></tr>
         <tr><td>FLAN-T5</td><td>97.1%</td><td><b>92.5%</b></td><td><b>87.1%</b></td></tr>
@@ -712,10 +712,10 @@
 
   <div class="tablewrap">
     <table>
-      <caption><b>Table 10.</b> Binary emergency-department triage (synthetic test).</caption>
+      <caption><b>Table 10.</b> Binary emergency-department triage (synthetic test). Logistic-regression accuracy and F1 are five-seed reproductions on the shipped data (mean&plusmn;SD).</caption>
       <thead><tr><th>Model</th><th>Accuracy</th><th>F1</th><th>Recall</th></tr></thead>
       <tbody>
-        <tr><td>TF-IDF + logistic regression</td><td>0.810</td><td>0.653</td><td><b>0.873</b></td></tr>
+        <tr><td>TF-IDF + logistic regression</td><td>0.755&plusmn;0.025</td><td>0.723&plusmn;0.011</td><td><b>0.873</b></td></tr>
         <tr><td>DistilBERT (fine-tuned)</td><td><b>0.964</b></td><td><b>0.826</b></td><td>0.594</td></tr>
         <tr><td>T5 (fine-tuned)</td><td>0.931</td><td>0.549</td><td>0.536</td></tr>
       </tbody>
@@ -884,7 +884,7 @@
     patterns, rendered as free text plus deltas for heart rate, respiratory rate, temperature, and blood
     pressure. Text-only (TF-IDF, BERT), vitals-only (XGBoost, LightGBM), and late-fusion models are compared
     (Figure&nbsp;4); fusing the two modalities wins, with a LightGBM model over TF-IDF text and vitals reaching
-    0.971 accuracy and 0.972 macro-F1, confirming that the message adds signal beyond the vitals alone.</p>
+    0.943&plusmn;0.008 accuracy and 0.943&plusmn;0.008 macro-F1 (five-seed reproduction on the shipped data; see the repository), confirming that the message adds signal beyond the vitals alone.</p>
     <div class="example">
     <p class="eh">Synthetic example</p>
     <p><span class="el">Source</span> <span>Diagnosis: diarrhea</span></p>
@@ -966,10 +966,10 @@
 
   <div class="tablewrap">
     <table>
-      <caption><b>Table 16.</b> SBAR handover completeness: note-level results (synthetic test).</caption>
+      <caption><b>Table 16.</b> SBAR handover completeness: note-level results (synthetic test). Logistic-regression accuracy and class macro-F1 are five-seed reproductions on the shipped data (mean&plusmn;SD).</caption>
       <thead><tr><th>Model</th><th>Accuracy</th><th>Class macro-F1</th><th>Safety-missing recall</th></tr></thead>
       <tbody>
-        <tr><td>TF-IDF logistic regression</td><td>0.725</td><td>0.711</td><td>0.742</td></tr>
+        <tr><td>TF-IDF logistic regression</td><td>0.745&plusmn;0.040</td><td>0.732&plusmn;0.046</td><td>0.742</td></tr>
         <tr><td>BioClinicalBERT (text-only)</td><td>0.758</td><td>0.745</td><td>0.756</td></tr>
         <tr><td>Qwen (zero-shot)</td><td>0.489</td><td>0.408</td><td>&ndash;</td></tr>
         <tr><td>Hierarchical (requiredness-first)</td><td>&ndash;</td><td><b>0.791</b></td><td>&ndash;</td></tr>
