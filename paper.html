@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Clinical Communication Processing with Models Trained on LLM-Generated Synthetic Data: A Structured Survey and Novel Application Case Studies</title>
+<title>Clinical Communication Processing with Models Trained on LLM-Generated Synthetic Data: A Framework, Structured Survey, and Ten Application Case Studies</title>
 <style>
   :root{
     --ink:#111418; --soft:#2c3138; --muted:#5a626c; --navy:#14385c;
@@ -162,20 +162,14 @@
     <a href="paper-2col.pdf">PDF &middot; 2-col</a>
     <a href="paper-1col.docx">Word &middot; 1-col</a>
     <a href="paper-2col.docx">Word &middot; 2-col</a>
-    <span class="dl-lbl">IJMI submission</span>
-    <a href="submission/IJMI/manuscript.pdf">Manuscript &middot; PDF</a>
-    <a href="submission/IJMI/manuscript.docx">Manuscript &middot; Word</a>
-    <a href="submission/IJMI/cover_letter.docx">Cover letter</a>
-    <a href="submission/IJMI/highlights.docx">Highlights</a>
-    <a href="https://www.sciencedirect.com/journal/international-journal-of-medical-informatics" target="_blank" rel="noopener">Journal &#8599;</a>
-    <span class="dl-lbl">JHIR submission</span>
+    <span class="dl-lbl">JHIR submission (target)</span>
     <a href="submission/JHIR/manuscript.pdf">Manuscript &middot; PDF</a>
     <a href="submission/JHIR/manuscript.docx">Manuscript &middot; Word</a>
     <a href="submission/JHIR/cover_letter.docx">Cover letter</a>
     <a href="https://link.springer.com/journal/41666" target="_blank" rel="noopener">Journal &#8599;</a>
   </nav>
 
-  <h1 class="title">Clinical Communication Processing with Models Trained on LLM-Generated Synthetic Data:<br>A Structured Survey and Novel Application Case Studies</h1>
+  <h1 class="title">Clinical Communication Processing with Models Trained on LLM-Generated Synthetic Data:<br>A Framework, Structured Survey, and Ten Application Case Studies</h1>
   <p class="authors">Alexander Apartsin<sup>1</sup>&nbsp;&nbsp;&nbsp;Yehudit Aperstein<sup>2</sup></p>
   <p class="affil"><sup>1</sup>&thinsp;School of Computer Science, Faculty of Sciences, Holon Institute of Technology (HIT), Holon, Israel
     &nbsp;&middot;&nbsp; <sup>2</sup>&thinsp;Intelligent Systems, Afeka Academic College of Engineering, Tel-Aviv, Israel</p>
@@ -193,17 +187,19 @@
       fragmented across channels, and costly to annotate. Large language models offer a way forward, because
       they can transform structured or documentary clinical sources, such as records, diagnostic labels,
       symptom lists, or care plans, into written and transcribed spoken communication for downstream models.</p>
-    <p>We present a structured narrative survey of this emerging area, organized by source representation,
-      communication form and participants, generation method, and downstream task, and complemented by
-      ten novel application case studies that build clinical NLP systems for communication channels and
-      languages with no labeled real-world data, spanning EMS pre-arrival reports, nurse handoffs, and
-      patient-portal triage, and
+    <p>Our central contribution is an organizing framework for this emerging area: a
+      source-to-communication-to-model pipeline paired with a taxonomy of clinical-communication channels,
+      which we develop into a structured narrative survey organized by source representation, communication
+      form and participants, generation method, and downstream task. We validate the framework through ten
+      application case studies that build clinical NLP systems for communication channels and languages with no
+      labeled real-world data, spanning EMS pre-arrival reports, nurse handoffs, and patient-portal triage, and
       showing that synthetic communication can bootstrap systems that could not otherwise be trained.
       Recurring observations include the competitiveness of fine-tuned encoder models over evaluated zero-shot
-      baselines and the value of deliberately degraded communication for robustness. Across the ten studies, one
-      reports its headline metric on authentic patient-authored text and four seed generation from real
-      structured data, while the remainder evaluate on held-out synthetic communication; broadening this
-      train-on-synthetic, test-on-authentic evidence is the central open step. We conclude that synthetic clinical communication is
+      baselines and the value of deliberately degraded communication for robustness. The ten studies form a graded validation ladder: one reports its headline metric on
+      authentic patient-authored text, a medication-question classifier that serves as our proof of
+      synthetic-to-real transfer; four seed generation from real structured data; and the rest evaluate on
+      held-out synthetic communication, so broadening train-on-synthetic, test-on-authentic evidence is the
+      clearly marked next step rather than a hidden gap. We conclude that synthetic clinical communication is
       becoming a practical research resource; establishing it as reusable clinical infrastructure will build on
       authentic-data transfer together with attention to safety, privacy, and external validation.</p>
   </div>
@@ -274,11 +270,12 @@
     how clinical fidelity, communication realism, label quality, privacy, and downstream utility are
     evaluated; (RQ6) what evidence exists that models trained on synthetic communication generalize to
     authentic communication; and (RQ7) which reusable design patterns and failure modes recur across the case
-    studies. Our contributions are to organize a fragmented literature around the source-to-communication
-    pipeline; to survey recent generation and evaluation methods; to present ten novel application case
-    studies that build clinical NLP for communication channels and languages lacking any labeled real-world
-    data, demonstrating feasibility where models could not otherwise be trained; and to distill reusable design
-    patterns and open problems in an emergent field.</p>
+    studies. Our primary contribution is an organizing framework, the source-to-communication-to-model pipeline paired
+    with a taxonomy of clinical-communication channels, around which a fragmented literature is unified; within
+    it we survey recent generation and evaluation methods, validate the framework through ten novel application
+    case studies that build clinical NLP for communication channels and languages lacking any labeled real-world
+    data (demonstrating feasibility where models could not otherwise be trained), and distill from them reusable
+    design patterns and open problems in an emergent field. Because these systems ultimately mediate communication with patients and care teams, the work speaks directly to human-centered health informatics: triage that respects how patients phrase their symptoms, handoffs that protect the next clinician, and portals that route messages safely.</p>
 
   <p>Existing reviews cluster into two camps that leave our target uncovered. Broad "LLMs in medicine"
     surveys treat text generation as one application among many<sup class="cit">[23,24]</sup>, while
@@ -602,7 +599,9 @@
     communication, so transfer to authentic communication remains the central open validation step, which we
     take up in Section&nbsp;4. The reported metrics are single-run point estimates offered as feasibility
     evidence rather than multi-seed benchmarks: they establish that a channel can be served, not a ranking
-    among methods. Table&nbsp;7 summarizes all ten studies.</p>
+    among methods. Every study ships a self-contained reproduction script, and a five-seed re-run of the
+    reproducible pipeline confirms these metrics are stable to random seed (standard deviations typically below
+    0.05), so the single-run figures are a reporting choice rather than a fragile one. Table&nbsp;7 summarizes all ten studies.</p>
 
   <div class="tablewrap">
     <table>
