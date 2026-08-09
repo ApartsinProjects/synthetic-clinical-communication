@@ -206,7 +206,6 @@
   </div>
 
 
-  <!-- ================= 1 ================= -->
   <h2 id="s1">1&nbsp;&nbsp;Introduction</h2>
 
   <p class="lead">Clinical care runs on communication. Before any note is filed, a patient describes
@@ -312,7 +311,6 @@
     </table>
   </div>
 
-  <!-- ================= 2 ================= -->
   <h2 id="s2">2&nbsp;&nbsp;Literature Review</h2>
   <p class="lead">This section reviews the field in four parts: the modalities of clinical communication and
     the tasks they support (2.1); how large language models generate synthetic clinical communication (2.2);
@@ -437,7 +435,6 @@
     </table>
   </div>
 
-  <!-- ================= 3 ================= -->
   <h3>2.2&nbsp;&nbsp;Generating Synthetic Clinical Communication</h3>
 
   <h4>2.2.1&nbsp;&nbsp;Why Generate Synthetic Clinical Communication?</h4>
@@ -497,7 +494,6 @@
     application studies that follow make these choices concretely, for example by generating messages at
     several noise levels, across distinct writer profiles, or with channel reliability deliberately degraded.</p>
 
-  <!-- ================= 4 ================= -->
   <h3 id="s4">2.3&nbsp;&nbsp;Evaluating Synthetic Clinical Communication</h3>
   <p class="lead">Evaluation is the least standardized part of the field. We organize it into four levels, from
     surface text quality to downstream utility, with the concrete metrics used at each level collected in
@@ -538,7 +534,6 @@
     that match real utility may inherit real privacy risk<sup class="cit">[31]</sup>, which motivates
     dedicated privacy-and-utility metrics for medical synthetic data<sup class="cit">[32]</sup>.</p>
 
-  <!-- ================= 5 ================= -->
   <h3 id="s5">2.4&nbsp;&nbsp;Existing Applications, by Task</h3>
   <p class="lead">We organize the surveyed literature by <b>downstream task</b> rather than by generation
     technique, because the task ultimately determines which generation and evaluation choices matter.</p>
@@ -585,7 +580,6 @@
     </ol>
   </div>
 
-  <!-- ================= 6 ================= -->
   <h2 id="s6">3&nbsp;&nbsp;Application Studies</h2>
   <p class="lead">This section presents ten application case studies, grouped by communication channel,
     each of which transforms a clinical source into synthetic communication and trains or evaluates models on
@@ -614,7 +608,6 @@
     </table>
   </div>
 
-  <!-- ===== 6.1 Conversations ===== -->
   <h3 id="s61">3.1&nbsp;&nbsp;Patient&ndash;Clinician Conversations and Self-Descriptions</h3>
   <p>In a patient&ndash;clinician conversation the patient supplies symptoms and the clinician reasons toward a
     diagnosis; processing this exchange matters because the decisive signal is carried in lay, often noisy
@@ -722,7 +715,6 @@
     </table>
   </div>
 
-  <!-- ===== 6.2 Instructions ===== -->
   <h3 id="s63">3.2&nbsp;&nbsp;Telemedicine and Patient-Portal Messaging</h3>
   <p>In telemedicine and portal messaging the patient writes asynchronously to the care team; processing is
     required because staff cannot read every incoming message in time, so models must triage, route, and
@@ -898,7 +890,6 @@
     <figcaption><b>Figure 4.</b> Home-care status detection: per-class recall of the top fusion models.</figcaption>
   </figure>
 
-  <!-- ===== 6.4 Paramedic / dispatch / handoff ===== -->
   <h3 id="s64">3.3&nbsp;&nbsp;Paramedic-to-Hospital, Dispatch, and Handoff</h3>
   <p>These are handovers between a paramedic, caller, or outgoing clinician and a hospital, dispatcher, or
     incoming team; processing matters because the communication is spoken, time-critical, and error-prone, and
@@ -1015,9 +1006,7 @@
     </table>
   </div>
 
-  <!-- ================= 7 ================= -->
 
-  <!-- ================= 8 ================= -->
   <h2 id="s8">4&nbsp;&nbsp;Limitations and Caveats of Synthetic Data</h2>
   <p class="lead">Synthetic clinical communication is useful precisely because it is not real, and that same
     fact is the source of its limitations. This section states them plainly, so that the enthusiasm of
@@ -1085,7 +1074,6 @@
     cuts, by generation method, by clinical specialty, or by data governance regime, would group the same work
     differently and are complementary to the one taken here.</p>
 
-  <!-- ================= 5 Future Directions ================= -->
   <h2 id="s9b">5&nbsp;&nbsp;Research Frontiers and Open Problems</h2>
   <p>The clearest opportunities cluster into a few themes. The first is <b>interactive simulation</b>. Moving
     from static corpora toward multi-agent simulation, in which patient and clinician agents generate
@@ -1120,7 +1108,6 @@
     clinician-judged realism, and automated safety auditing that treats omission as seriously as
     fabrication<sup class="cit">[82]</sup> complete an agenda in which clinician oversight remains central.</p>
 
-  <!-- ================= 9 ================= -->
   <h2 id="s9">6&nbsp;&nbsp;Conclusions</h2>
   <p class="lead">LLM-generated synthetic clinical communication has matured from a privacy-preserving stand-in
     for real records into a versatile resource for building, evaluating, and benchmarking clinical NLP systems.
