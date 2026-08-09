@@ -254,6 +254,18 @@
     <img src="figures/fig0_landscape.png" alt="Four-stage pipeline: clinical sources, LLM generation with controlled properties, synthetic clinical communication across channels, and downstream NLP evaluated by regime">
     <figcaption><b>Figure 1.</b> The organizing pipeline of this survey. A clinical source of any format is realized by an LLM, under controlled communication properties, into synthetic communication across channels, on which a downstream model is trained and then evaluated in the S&rarr;S regime or, less often, by transfer to real text (S&rarr;R).</figcaption>
   </figure>
+  <p>Read as a framework rather than a diagram, the pipeline exposes six decision dimensions, each of which forces
+    a concrete design choice: (i)&nbsp;<b>source grounding</b>, how tightly generation is tied to real records,
+    labels, or scenarios, which sets the ceiling on factual fidelity (Section&nbsp;2.2); (ii)&nbsp;<b>communication
+    channel</b>, which fixes the participants, register, and failure modes to reproduce (Section&nbsp;2.1);
+    (iii)&nbsp;<b>controlled communication properties</b>, the role, intent, uncertainty, missingness, style, and
+    noise deliberately injected (Section&nbsp;2.2); (iv)&nbsp;<b>generation strategy</b>, from single-shot
+    prompting to multi-agent simulation and audio-plus-ASR degradation, traded against cost and diversity;
+    (v)&nbsp;<b>downstream task</b>, training, augmentation, or evaluation, which determines what labels the
+    generator must carry; and (vi)&nbsp;<b>evaluation regime</b>, <i>S&rarr;S</i>, <i>R+S&rarr;R</i>, or
+    <i>S&rarr;R</i> (Section&nbsp;2.3), which decides how far a result can be trusted. The ten application studies
+    (Section&nbsp;3) are points in this space; the choices they share are distilled into the reusable design
+    patterns of Table&nbsp;18 and the channel recipe at the end of Section&nbsp;2.</p>
   <p>Within this scope we include patient&ndash;clinician conversations, doctor-to-patient instructions,
     telemedicine consultations, paramedic-to-hospital and emergency-dispatch traffic, nurse and clinician
     handoffs, and patient-portal messaging, whatever the source from which they are generated. We exclude work
@@ -587,7 +599,8 @@
   <h2 id="s6">3&nbsp;&nbsp;Application Studies</h2>
   <p class="lead">This section presents ten application case studies, grouped by communication channel,
     each of which transforms a clinical source into synthetic communication and trains or evaluates models on
-    it. They are illustrative rather than exhaustive, selected to span the channels of Section&nbsp;2 rather than through systematic sampling.
+    it; nine train a downstream model on the synthetic communication, while the adaptive diagnostic-questioning
+    study (Section&nbsp;3.1.2) uses it as an evaluation testbed rather than for training. They are illustrative rather than exhaustive, selected to span the channels of Section&nbsp;2 rather than through systematic sampling.
     Each builds a working system for a channel or language where
     labeled real-world data is scarce or unavailable, making synthetic communication the enabling resource rather than a
     mere convenience; they are worked instantiations of the framework used for cross-case synthesis, not standalone empirical studies.
