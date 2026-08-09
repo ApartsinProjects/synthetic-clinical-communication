@@ -208,8 +208,8 @@
     reproducibility of clinical NLP research.</p>
   <p>The emergence of instruction-following LLMs has changed what is possible. Given a scenario, a schema, or
     a few examples, an LLM can render clinically plausible narratives, conversations, messages, and reports on
-    demand, optionally carrying their own annotations. Importantly, the source defines the intended facts and
-    the generator realizes them in language; the model does not invent clinical truth. This capability turns
+    demand, optionally carrying their own annotations. The source defines the intended facts and
+    the generator realizes them in language, though the generator may still distort or hallucinate those facts (Section&nbsp;4.1). This capability turns
     synthetic clinical communication from a privacy fallback into a controllable resource for building and
     evaluating healthcare NLP.</p>
 
@@ -492,7 +492,7 @@
   <p class="lead">Evaluation is the least standardized part of the field. We organize it into four levels, from
     surface text quality to downstream utility, with the concrete metrics used at each level collected in
     Table&nbsp;5. Across most Section&nbsp;3 studies the principal classification metric is macro-averaged F1, which weights
-    every class equally and is therefore the right summary for the imbalanced, safety-critical classes typical
+    every class equally and is therefore a useful primary summary for the imbalanced, safety-critical classes typical
     of clinical communication.</p>
 
   <div class="tablewrap">
@@ -601,7 +601,7 @@
         LLM-generated synthetic data. Generators are the LLMs used to synthesize the training text; results are
         the headline downstream metric.</caption>
       <thead><tr><th>#</th><th>Study (&sect;)</th><th>Channel</th><th>Synthetic generator</th><th>Headline result</th></tr></thead>
-      <tbody><tr><td>1</td><td>Adaptive diagnostic questioning (3.1.2)</td><td>Patient&ndash;clinician diagnostic conversation</td><td>GPT-4o-mini (SDPD-seeded cases)</td><td>Adaptive questioning benchmark, partial-information tiers</td></tr><tr><td>2</td><td>Diagnosis from noisy self-descriptions (3.1.1)</td><td>Patient self-description (noisy)</td><td>Llama-3.1-8B (noise rewrite)</td><td>FLAN-T5 87.1% acc under heavy noise</td></tr><tr><td>3</td><td>Urgency triage from complaints (3.1.3)</td><td>Patient arrival complaint</td><td>GPT-4 (free-text complaints)</td><td>DistilBERT 0.96 acc / 0.83 F1</td></tr><tr><td>4</td><td>Administrative portal-message triage (3.2.1)</td><td>Patient-portal messaging</td><td>Qwen2.5-0.5B, local (2.8k)</td><td>DistilBERT 0.81 F1 vs 0.29 zero-shot</td></tr><tr><td>5</td><td>Postpartum severity triage (3.2.2)</td><td>Postpartum patient messages</td><td>GPT-4o-mini (3k)</td><td>BioBERT cascade 0.975; GPT-4o-mini 0.98</td></tr><tr><td>6</td><td>Oncology distress classification (3.2.3)</td><td>Oncology patient messages</td><td>Gemma2-27B, local (1.3k)</td><td>DistilBERT distress macro-F1 0.86</td></tr><tr><td>7</td><td>Medication-question risk classification (3.2.4)</td><td>Patient medication questions</td><td>GPT-4.1 (critical-case augmentation)</td><td>BioBERT / BlueBERT 0.90 macro-F1</td></tr><tr><td>8</td><td>Home-care status detection (3.2.5)</td><td>Home-care status messaging</td><td>GPT (symptom + vitals)</td><td>LightGBM + TF-IDF fusion 0.97 F1</td></tr><tr><td>9</td><td>EMS report routing (3.3.1)</td><td>Paramedic-to-ED pre-arrival</td><td>GPT-4.1-mini (8.6k, + ASR noise)</td><td>BioClinicalBERT 0.38 macro-F1 (specialty)</td></tr><tr><td>10</td><td>SBAR completeness checking (3.3.2)</td><td>Nurse and clinician handoff</td><td>OpenAI batch (5k)</td><td>ClinicalBERT class-F1 0.75; hierarchical 0.79</td></tr></tbody>
+      <tbody><tr><td>1</td><td>Adaptive diagnostic questioning (3.1.2)</td><td>Patient&ndash;clinician diagnostic conversation</td><td>GPT-4o-mini (SDPD-seeded cases)</td><td>Adaptive questioning benchmark, partial-information tiers</td></tr><tr><td>2</td><td>Diagnosis from noisy self-descriptions (3.1.1)</td><td>Patient self-description (noisy)</td><td>Llama-3.1-8B (noise rewrite)</td><td>FLAN-T5 87.1% acc under heavy noise</td></tr><tr><td>3</td><td>Urgency triage from complaints (3.1.3)</td><td>Patient arrival complaint</td><td>GPT-4 (free-text complaints)</td><td>DistilBERT 0.96 acc / 0.83 F1</td></tr><tr><td>4</td><td>Administrative portal-message triage (3.2.1)</td><td>Patient-portal messaging</td><td>Qwen2.5-0.5B, local (2.8k)</td><td>DistilBERT 0.81 F1 vs 0.29 zero-shot</td></tr><tr><td>5</td><td>Postpartum severity triage (3.2.2)</td><td>Postpartum patient messages</td><td>GPT-4o-mini (3k)</td><td>BioBERT cascade 0.975; GPT-4o-mini 0.98</td></tr><tr><td>6</td><td>Oncology distress classification (3.2.3)</td><td>Oncology patient messages</td><td>Gemma2-27B, local (1.3k)</td><td>DistilBERT distress macro-F1 0.86</td></tr><tr><td>7</td><td>Medication-question risk classification (3.2.4)</td><td>Patient medication questions</td><td>GPT-4.1 (critical-case augmentation)</td><td>BioBERT / BlueBERT 0.90 macro-F1</td></tr><tr><td>8</td><td>Home-care status detection (3.2.5)</td><td>Home-care status messaging</td><td>GPT (symptom + vitals)</td><td>LightGBM + TF-IDF fusion 0.94 F1</td></tr><tr><td>9</td><td>EMS report routing (3.3.1)</td><td>Paramedic-to-ED pre-arrival</td><td>GPT-4.1-mini (8.6k, + ASR noise)</td><td>BioClinicalBERT 0.38 macro-F1 (specialty)</td></tr><tr><td>10</td><td>SBAR completeness checking (3.3.2)</td><td>Nurse and clinician handoff</td><td>OpenAI batch (5k)</td><td>BioClinicalBERT class-F1 0.75; hierarchical 0.79</td></tr></tbody>
     </table>
   </div>
 
@@ -1153,9 +1153,9 @@
   <p>One caveat is nonetheless decisive. Almost every study evaluates on held-out synthetic data.
     The clearest exception is the medication-question study (Section&nbsp;3.2.4), an <i>R+S&rarr;R</i> case whose
     classifier trains on real labeled questions plus synthetic rare-class augmentation and is tested on authentic
-    patient-authored questions; one further study grounds generation in real clinical records, tracing EMS routing to MIMIC-IV cases (Section&nbsp;3.3.1). No study provides a pure <i>S&rarr;R</i> test.
-    Even so, the decisive evidence, strong performance when a model is trained end-to-end on synthetic
-    communication and tested on real communication, is the field's decisive next step. Advancing it, alongside progress on hallucination
+    patient-authored questions; four further studies seed generation from real datasets or records (Sections&nbsp;3.1.1, 3.1.2, 3.1.3, and 3.3.1, the last tracing EMS routing to MIMIC-IV cases). No study provides a pure <i>S&rarr;R</i> test.
+    Even so, the strongest evidence, strong performance when a model is trained end-to-end on synthetic
+    communication and tested on real communication, is the field's central next step. Advancing it, alongside progress on hallucination
     control, distributional fidelity, longitudinal consistency, and validation standards that regulators will
     accept, is the work that will decide whether synthetic clinical communication becomes durable
     infrastructure or remains a convenience. As generation quality, evaluation rigor, and privacy guarantees
