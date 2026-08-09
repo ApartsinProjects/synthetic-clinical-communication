@@ -182,7 +182,7 @@
 
   <div class="abstract">
     <p class="lbl">Abstract</p>
-    <p>Clinical value is often conveyed through communication rather than structured records: patients describe symptoms, clinicians reason and instruct, ambulances hand over to emergency departments, and nurses transfer responsibility across shifts. Modeling such language is difficult because meaning depends on speaker role, intent, uncertainty, omission, and channel noise, while annotated clinical-communication corpora remain scarce, private, and fragmented. This review examines the emerging use of large language models (LLMs) to generate synthetic written and transcribed clinical communication for downstream natural language processing (NLP). We organize the literature around a source-to-communication-to-model framework and a taxonomy of clinical-communication channels, giving a structured basis for comparing source grounding, communication channel, controlled communication properties, generation strategy, downstream task, and evaluation regime. Ten application case studies serve as worked instantiations of the framework, building clinical NLP for channels that lack labeled real-world data, including emergency-services pre-arrival reports, nurse handoffs, and patient-portal triage. Across these studies, fine-tuned encoder models are competitive with evaluated zero-shot baselines, and deliberately degrading the synthetic communication can improve robustness. The cases also define a graded spectrum of real-world grounding: one uses real-plus-synthetic training with evaluation on authentic patient text (<i>R+S&rarr;R</i>), four ground generation in real datasets or records, and the rest evaluate on held-out synthetic data. None constitutes a pure train-on-synthetic, test-on-real (<i>S&rarr;R</i>) evaluation. This gap identifies the central validation challenge for synthetic clinical communication and motivates stronger authentic-data transfer, safety, privacy, and reproducibility standards.</p>
+    <p>Clinical value is often conveyed through communication rather than structured records: patients describe symptoms, clinicians reason and instruct, ambulances hand over to emergency departments, and nurses transfer responsibility across shifts. Modeling such language is difficult because meaning depends on speaker role, intent, uncertainty, omission, and channel noise, while annotated clinical-communication corpora remain scarce, private, and fragmented. This review examines the emerging use of large language models (LLMs) to generate synthetic written and transcribed clinical communication for downstream natural language processing (NLP). We organize the literature around a source-to-communication-to-model framework and a taxonomy of clinical-communication channels, giving a structured basis for comparing source grounding, communication channel, controlled communication properties, generation strategy, downstream task, and evaluation regime. Ten application case studies serve as worked instantiations of the framework, building clinical NLP for channels that lack labeled real-world data, including emergency-services pre-arrival reports, nurse handoffs, and patient-portal triage. Across these studies, fine-tuned encoder models are competitive with evaluated zero-shot baselines, and, in one case study, adding deliberately degraded synthetic variants improved performance on held-out noisy synthetic data. The cases also define a graded spectrum of real-world grounding: one uses real-plus-synthetic training with evaluation on authentic patient text (<i>R+S&rarr;R</i>), four ground generation in real datasets or records, and the rest evaluate on held-out synthetic data. None constitutes a pure train-on-synthetic, test-on-real (<i>S&rarr;R</i>) evaluation. This gap identifies the central validation challenge for synthetic clinical communication and motivates stronger authentic-data transfer, safety, privacy, and reproducibility standards.</p>
   </div>
 
 
@@ -231,7 +231,7 @@
     not the real communication these systems are ultimately built to serve.</p>
   <figure>
     <img src="figures/fig0_landscape.png" alt="Four-stage pipeline: clinical sources, LLM generation with controlled properties, synthetic clinical communication across channels, and downstream NLP evaluated by regime">
-    <figcaption><b>Figure 1.</b> The organizing pipeline of this survey. A clinical source of any format is realized by an LLM, under controlled communication properties, into synthetic communication across channels, on which a downstream model is trained, augmented, or evaluated, and assessed in the <i>S&rarr;S</i>, <i>R+S&rarr;R</i>, or <i>S&rarr;R</i> regime (Section&nbsp;2.3).</figcaption>
+    <figcaption><b>Figure 1.</b> The organizing pipeline of this review. A clinical source of any format is realized by an LLM, under controlled communication properties, into synthetic communication across channels, on which a downstream model is trained, augmented, or evaluated, and assessed in the <i>S&rarr;S</i>, <i>R+S&rarr;R</i>, or <i>S&rarr;R</i> regime (Section&nbsp;2.3).</figcaption>
   </figure>
   <p>Read as a framework rather than a diagram, the pipeline exposes six decision dimensions, each of which forces
     a concrete design choice: (i)&nbsp;<b>source grounding</b>, how tightly generation is tied to real records,
@@ -254,7 +254,7 @@
     patient or the next provider, and out of scope when treated purely as an archival record. Likewise, an LLM
     that generates portal messages for a triage classifier to learn from is in scope, whereas an LLM that only
     labels existing real messages is not, since it produces no communication.</p>
-  <p>This paper is a structured narrative survey complemented by application case studies, organized to answer
+  <p>This paper is a structured narrative review complemented by application case studies, organized to answer
     seven questions: (RQ1) which forms of written and transcribed spoken clinical communication are generated
     with LLMs; (RQ2) which clinical source representations are transformed into them; (RQ3) which communication
     properties, such as role, intent, uncertainty, missingness, style, and noise, are controlled during
@@ -266,7 +266,7 @@
     with a taxonomy of clinical-communication channels, around which a fragmented literature is unified; within
     it we survey recent generation and evaluation methods, instantiate and stress-test the framework through ten
     application case studies that build clinical NLP for communication channels and languages where labeled
-    real-world data is scarce, restricted, or absent (demonstrating feasibility in settings where labeled authentic data are scarce or inaccessible), and distill from them reusable
+    real-world data is scarce, restricted, or absent, and distill from them reusable
     design patterns and open problems in an emergent field. Because these systems ultimately mediate communication with patients and care teams, the work speaks directly to human-centered health informatics: triage that respects how patients phrase their symptoms, handoffs that protect the next clinician, and portals that route messages safely.</p>
 
   <p>Existing reviews cluster into two camps that leave our target uncovered. Broad "LLMs in medicine"
@@ -286,7 +286,7 @@
     of synthetic clinical dialogue datasets<sup class="cit"><span class="cred">[23]</span></sup>, but it organizes by generation method
     and treats dialogue as a single undifferentiated category, without the channel structure, the
     under-covered EMS, dispatch, handoff, and portal channels, or the paired application studies offered
-    here. A concurrent scoping review in this journal surveys language-model synthetic data across biomedical research by data utility and quality, but organizes the field by those axes rather than by clinical-communication channel and pairs with no application studies<sup class="cit"><span class="cred">[11]</span></sup>. Table&nbsp;1 sets this survey against the closest prior reviews.</p>
+    here. A concurrent scoping review in this journal surveys language-model synthetic data across biomedical research by data utility and quality, but organizes the field by those axes rather than by clinical-communication channel and pairs with no application studies<sup class="cit"><span class="cred">[11]</span></sup>. Table&nbsp;1 sets this review against the closest prior reviews.</p>
 
   <div class="tablewrap">
     <table>
@@ -299,7 +299,7 @@
         <tr><td>Rujas et al. <span class="cred">[14]</span></td><td>Review of reviews; no channel structure</td><td>No</td><td>No</td></tr>
         <tr><td>Bedrick et al. <span class="cred">[23]</span></td><td>Dialogue and counseling only</td><td>Yes (typology)</td><td>No</td></tr>
         <tr><td>Rao et al. <span class="cred">[11]</span></td><td>Biomedical synthetic text/data; not by communication channel</td><td>No</td><td>No</td></tr>
-        <tr><td><b>This survey</b></td><td><b>Patient&ndash;clinician, doctor-to-patient, telemedicine and portal, EMS, dispatch, SBAR handoff</b></td><td><b>Yes</b></td><td><b>Yes (10 studies)</b></td></tr>
+        <tr><td><b>This review</b></td><td><b>Patient&ndash;clinician, doctor-to-patient, telemedicine and portal, EMS, dispatch, SBAR handoff</b></td><td><b>Yes</b></td><td><b>Yes (10 studies)</b></td></tr>
       </tbody>
     </table>
   </div>
@@ -331,7 +331,7 @@
     trial<sup class="cit"><span class="cred">[30,31]</span></sup>; and patient-portal messages are increasingly triaged and routed
     automatically<sup class="cit"><span class="cred">[32]</span></sup>. What these lines share is a dependence on scarce,
     privacy-restricted real communication for training and evaluation, the bottleneck that synthetic
-    generation, the subject of this survey, sets out to relieve.</p>
+    generation, the subject of this review, sets out to relieve.</p>
 
   <h3>2.1&nbsp;&nbsp;Clinical Communication in Healthcare AI</h3>
 
@@ -453,7 +453,7 @@
     samples from an explicit space of patients and encounters, so that coverage is controlled by design rather
     than left to the model's priors; the cost is the effort of building and validating that scenario space.
     <i>Template-guided generation</i> constrains structure with genre scaffolds such as SOAP or SBAR, which
-    guarantees well-formed documents but can render them formulaic when the template dominates the content.
+    encourages consistently structured documents but can render them formulaic when the template dominates the content.
     <i>Multi-agent simulation</i> assigns separate patient and clinician agents that converse<sup class="cit"><span class="cred">[17,34,35,36,37]</span></sup>,
     producing realistic multi-turn and multi-party dialogue; the risk is that agents drift, collude toward easy
     cases, or contradict a fixed ground truth. <i>Self-refinement</i> adds critique-and-revise loops in which
@@ -525,7 +525,7 @@
     and clinical entity recognizers trained on synthetic notes reach strict F1 within a point of models trained
     on the natural corpus, with real-plus-synthetic training exceeding both<sup class="cit"><span class="cred">[44]</span></sup>. This
     <i>S&rarr;R</i> evidence is concentrated in extraction and note-level tasks; for the spoken and handoff
-    channels this survey highlights, it remains largely untested, which is the central open problem taken up in
+    channels this review highlights, it remains largely untested, which is the central open problem taken up in
     Section&nbsp;5.</p>
   <p>Privacy deserves its own evaluation: de-identification alone can be insufficient, and synthetic notes
     that match real utility may inherit real privacy risk<sup class="cit"><span class="cred">[22]</span></sup>, which motivates
@@ -564,8 +564,8 @@
     comparatively sparse (five, two, and one). The application studies
     of Section&nbsp;3 deliberately populate that sparse end. By channel, real conversational corpora fall off
     sharply, from patient&ndash;clinician dialogue, where some public datasets exist, through portal messaging,
-    where they are scarce, to EMS, dispatch, and handoff, where they are effectively absent; nine of the
-    ten studies target portal messaging and these pre-hospital and handoff channels, and all but one
+    where they are scarce, to EMS, dispatch, and handoff, where they are effectively absent; seven of the
+    ten studies fall within the patient-messaging, pre-hospital, and handoff groups, and all but one
     (Section&nbsp;3.2.4) evaluate in the S&rarr;S regime.</p>
   <div class="recipe">
     <p class="rh">Building a system for a new channel: a recipe distilled from the recurring patterns</p>
@@ -912,7 +912,7 @@
     eighteen-way targets make this an intrinsically hard task, so absolute macro-F1 is low, but the informative
     result is that training on noisy synthetic reports improves robustness: removing the noisy variants lowers
     macro-F1 by 6.6 points on care area and 10.6 on specialty (Table&nbsp;15, Figure&nbsp;5). Deliberately
-    degraded synthetic communication thus improves robustness through realism as much as volume.</p>
+    degraded synthetic communication thus improved macro-F1 in this synthetic evaluation, though the comparison does not separate noise realism from the additional training volume.</p>
     <div class="example">
     <p class="eh">Synthetic example</p>
     <p><span class="el">Source</span> <span>MIMIC-IV-Ext-CDS emergency-department case</span></p>
@@ -1053,7 +1053,7 @@
     temperature, and filtering pipeline; reporting these in full is what makes studies directly comparable. In
     the studies reported here no identifiable patient data was used: generators were seeded either from public
     datasets or de-identified records, and the resulting communication describes no real individual, which is the
-    concrete form the privacy argument takes across this survey.</p>
+    concrete form the privacy argument takes across this review.</p>
 
   <h3>4.3&nbsp;&nbsp;Boundaries of the Method</h3>
   <p>Some limitations are boundaries of the method rather than defects to be engineered away. Synthetic
@@ -1062,7 +1062,7 @@
     phrasing, and culturally specific idiom, often the hardest cases for clinical NLP, still call for authentic
     data. Validation carries the same qualification, since a model assessed only on synthetic communication has
     been measured against a world its own family generated; authentic-data evaluation therefore remains the
-    decisive test. Synthetic data is best understood as a scaffold: indispensable for building and
+    decisive test. Synthetic data is best understood as a scaffold: useful for building and
     stress-testing systems, and complemented by the real communication and real patients that ultimately
     establish readiness for care.</p>
 
@@ -1113,10 +1113,10 @@
   <h2 id="s9">6&nbsp;&nbsp;Conclusions</h2>
   <p class="lead">LLM-generated synthetic clinical communication has matured from a privacy-preserving stand-in
     for real records into a versatile resource for building, evaluating, and benchmarking clinical NLP systems.
-    This survey organized the field around the communication channel, from patient&ndash;clinician
+    This review organized the field around the communication channel, from patient&ndash;clinician
     conversations and doctor-to-patient instructions to telemedicine and portal messaging and the under-served
     paramedic, dispatch, and handoff channels, and around the downstream tasks each supports, grounding that
-    organization in ten application studies that generate synthetic communication and train models on it.</p>
+    organization in ten application studies that generate or use synthetic communication, nine for downstream-model training and one as an evaluation testbed.</p>
   <p>Read together, those studies surface a small set of reusable design patterns (Table&nbsp;18) that recur
     across channels and tasks rather than one-off results, and that answer RQ7 directly.</p>
   <div class="tablewrap">
@@ -1207,9 +1207,8 @@
   <h2 id="ack">Acknowledgments</h2>
   <p class="lead">We warmly thank the students of the LLMs in Healthcare course in the Digital Healthcare
     department at the Holon Institute of Technology (HIT), across the 2024&ndash;2025 and 2025&ndash;2026
-    academic years. Their course projects motivated this survey and supplied the application studies in
-    Section&nbsp;3, showing hands-on that LLM-generated synthetic clinical communication can drive real clinical
-    NLP systems. We thank the whole cohort collectively for their creativity and rigor.</p>
+    academic years. Their course projects motivated this review and supplied the application studies in
+    Section&nbsp;3. We thank the whole cohort collectively for their creativity and rigor.</p>
 
   <hr class="sec">
   <div class="refs">
@@ -1285,9 +1284,9 @@
       <li>Mama E, Sheri L, Aperstein Y, Apartsin A (2025) From Fuzzy Speech to Medical Insight: Benchmarking LLMs on Noisy Patient Narratives. arXiv:2509.11803.</li>
       <li>Bolshinsky I, Kupiec S, Sasson A, Aperstein Y, Apartsin A (2025) Do Large Language Models Need Intent? Revisiting Response Generation Strategies for Service Assistant. arXiv:2509.05006.</li>
       <li>Goncharok D, Shifman A, Apartsin A, Aperstein Y (2025) When Curiosity Signals Danger: Predicting Health Crises Through Online Medication Inquiries. arXiv:2509.11802.</li>
-      <li>(2024) Use of a large language model for ambulance dispatch and triage. Prehospital and Disaster Medicine (PubMed 39675178).</li>
+      <li>Use of a large language model for ambulance dispatch and triage (2024). Prehospital and Disaster Medicine (PubMed 39675178).</li>
       <li>Gatto J, et al (2024) In-Context Learning for Preserving Patient Privacy: Synthesizing Realistic Patient Portal Messages. ML4H (arXiv:2411.06549).</li>
-      <li>(2025) Detecting emergencies in patient portal messages using LLMs and knowledge-graph-based RAG. JAMIA 32(6):1032.</li>
+      <li>Detecting emergencies in patient portal messages using LLMs and knowledge-graph-based RAG (2025). JAMIA 32(6):1032.</li>
       <li>Hartman V, et al (2024) Developing and Evaluating Large Language Model-Generated Emergency Medicine Handoff Notes. JAMA Network Open.</li>
       <li>Apartsin A, Sason O, Aperstein Y (2026) Toward a Benchmark for Controllable Simulation of Imperfect Students with Large Language Models. arXiv:2605.25601.</li>
       <li>Aperstein Y, Cohen Y, Apartsin A (2025) Generative AI-Based Platform for Deliberate Teaching Practice: A Review and a Suggested Framework. Education Sciences.</li>
@@ -1297,8 +1296,8 @@
       <li>Zhang Z, et al (2024) Simulating Classroom Education with LLM-Empowered Agents. arXiv:2406.19226.</li>
       <li>Holderried F, et al (2024) A Generative Pretrained Transformer (GPT)-Powered Chatbot as a Simulated Patient to Practice History Taking. JMIR Medical Education. <a href="https://doi.org/10.2196/53961">https://doi.org/10.2196/53961</a></li>
       <li>Johri S, et al (2025) An evaluation framework for clinical use of large language models in patient interaction tasks (CRAFT-MD). Nature Medicine.</li>
-      <li>(2025) Embracing the Future of Medical Education With Large Language Model-Based Virtual Patients: Scoping Review. Journal of Medical Internet Research.</li>
-      <li>(2026) Large Language Model-Based Virtual Patient Systems for History-Taking in Medical Education: A Comprehensive Systematic Review. JMIR Medical Informatics.</li>
+      <li>Embracing the Future of Medical Education With Large Language Model-Based Virtual Patients: Scoping Review (2025). Journal of Medical Internet Research.</li>
+      <li>Large Language Model-Based Virtual Patient Systems for History-Taking in Medical Education: A Comprehensive Systematic Review (2026). JMIR Medical Informatics.</li>
       <li>Kang D, et al (2025) PatientSim: A Persona-Driven Simulator for Realistic Doctor-Patient Interactions. arXiv:2505.17818.</li>
       <li>Shapira G, Apartsin A (2026) SPINE: A Benchmark for Measuring the Epistemic Backbone of Large Language Models. Harvard Dataverse. <a href="https://doi.org/10.7910/DVN/CG9X6D">doi:10.7910/DVN/CG9X6D</a></li>
       <li>Cohen Y, Ohayon D, Somkin R, Aperstein Y, Apartsin A (2025) Code Review Without Borders: Evaluating Synthetic vs. Real Data for Review Recommendation. arXiv:2509.04810.</li>
@@ -1306,15 +1305,15 @@
       <li>Cohen M, Shani S, Menahem E, Aperstein Y, Apartsin A (2025) Reading Between the Lines: Classifying Resume Seniority with Large Language Models. arXiv:2509.09229.</li>
       <li>Yao Z, et al (2025) DischargeSim: A Simulation Benchmark for Educational Doctor-Patient Communication at Discharge. arXiv:2509.07188.</li>
       <li>Xu J, et al (2024) Overview of the First Shared Task on Clinical Text Generation: RRG24 and Discharge Me! BioNLP, ACL (arXiv:2409.16603).</li>
-      <li>(2025) The Canary's Echo: Auditing Privacy Risks of LLM-Generated Synthetic Text. arXiv:2502.14921.</li>
+      <li>The Canary's Echo: Auditing Privacy Risks of LLM-Generated Synthetic Text (2025). arXiv:2502.14921.</li>
       <li>Sun Y, Schlegel V, Nandakumar S, et al (2025) Evaluating Differentially Private Generation of Domain-Specific Text. arXiv:2508.20452.</li>
       <li>Iglesias G, Bello-Orgaz G, Navas-Loro M, et al (2026) Fidelity, Diversity, and Privacy: A Multi-Dimensional LLM Evaluation for Clinical Data Augmentation. arXiv:2604.27014.</li>
       <li>R&auml;is&auml; O, van Breugel B, van der Schaar M (2025) Position: All Current Generative Fidelity and Diversity Metrics are Flawed. arXiv:2505.22450.</li>
       <li>Asgari E, Monta&ntilde;a-Brown N, Dubois M, et al (2025) A framework to assess clinical safety and hallucination rates of LLMs for medical text summarisation. npj Digital Medicine. <a href="https://doi.org/10.1038/s41746-025-01670-7">https://doi.org/10.1038/s41746-025-01670-7</a></li>
       <li>Barman N (2023) Symptom2Disease. Kaggle dataset. <a href="https://www.kaggle.com/datasets/niyarrbarman/symptom2disease">kaggle.com/datasets/niyarrbarman/symptom2disease</a></li>
       <li>Johnson A, et al (2023) MIMIC-IV-ED (v2.2). PhysioNet. <a href="https://doi.org/10.13026/5ntk-km72">https://doi.org/10.13026/5ntk-km72</a></li>
-      <li>(2026) Medical Triage as Pairwise Ranking (PMR-Bench). arXiv:2601.13178.</li>
-      <li>(2026) DispatchMAS: Fusing Taxonomy and AI Agents for Emergency Medical Services. BMC Emergency Medicine (arXiv:2510.21228).</li>
+      <li>Medical Triage as Pairwise Ranking (PMR-Bench) (2026). arXiv:2601.13178.</li>
+      <li>DispatchMAS: Fusing Taxonomy and AI Agents for Emergency Medical Services (2026). BMC Emergency Medicine (arXiv:2510.21228).</li>
       <li>Mishra P, et al (2024) SYNFAC-EDIT: Synthetic Imitation Edit Feedback for Factual Alignment in Clinical Summarization. arXiv:2402.13919.</li>
       <li>Lim J, et al (2025) MATRIX: Multi-Agent Simulation Framework for Safe Interactions and Contextual Clinical Conversational Evaluation. arXiv:2508.19163.</li>
       <li>Schmidgall S, et al (2024) AgentClinic: A Multimodal Agent Benchmark to Evaluate AI in Simulated Clinical Environments. arXiv:2405.07960.</li>
