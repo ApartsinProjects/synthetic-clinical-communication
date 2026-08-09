@@ -1178,6 +1178,36 @@
     reused a restricted real dataset for evaluation, only the synthetic artifacts and code are redistributed,
     in line with the original data licenses.</p>
 
+  <p>To make each headline result auditable at a glance, Table&nbsp;20 records, per study, the generator that
+    produced the synthetic communication, the downstream model whose result is reported, the train/test split and
+    random seed, and the evaluation regime, together with what ships for reproduction. A five-seed sweep of the
+    reproducible pipeline (the <code>REPRODUCE_SEED</code> control above) and its per-seed values are recorded in
+    <code>CaseStudies/reproducibility_seed_stability.json</code> and summarized in
+    <code>CaseStudies/REPRODUCE.md</code>, which also flags the studies that ship a size-capped sample rather than
+    the full corpus.</p>
+
+  <div class="tablewrap">
+    <table>
+      <caption><b>Table 20.</b> Per-study reproduction provenance: generator, downstream model, split and seed,
+        evaluation regime, and what ships. Splits are stratified 80/20 unless noted. Every study ships a
+        self-contained <code>reproduce.py</code>; &ldquo;sample&rdquo; marks a study that ships a size-capped subset
+        (see <code>REPRODUCE.md</code>).</caption>
+      <thead><tr><th>#</th><th>Study (&sect;)</th><th>Generator (LLM)</th><th>Headline downstream model</th><th>Split / seed</th><th>Regime</th><th>Ships</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Adaptive diagnostic questioning (3.1.2)</td><td>GPT-4o-mini (SDPD-seeded cases)</td><td>LLM questioning benchmark (no trained classifier)</td><td>n/a (benchmark)</td><td><i>S&rarr;S</i></td><td>data + reproduce.py (metric re-eval)</td></tr>
+        <tr><td>2</td><td>Diagnosis from noisy self-descriptions (3.1.1)</td><td>Llama-3.1-8B (noise rewrite)</td><td>FLAN-T5 (vs BERT, ClinicalBERT, NB)</td><td>80/20, seed 42</td><td><i>S&rarr;S</i></td><td>full data + reproduce.py</td></tr>
+        <tr><td>3</td><td>Urgency triage from complaints (3.1.3)</td><td>GPT-4 (MIMIC-IV-ED-seeded)</td><td>DistilBERT (vs LR, T5)</td><td>80/20, seed 42</td><td><i>S&rarr;S</i></td><td>sample + reproduce.py</td></tr>
+        <tr><td>4</td><td>Administrative portal-message triage (3.2.1)</td><td>Qwen2.5-0.5B (local)</td><td>DistilBERT heads</td><td>80/20, seed 42</td><td><i>S&rarr;S</i></td><td>sample + reproduce.py</td></tr>
+        <tr><td>5</td><td>Postpartum severity triage (3.2.2)</td><td>GPT-4o-mini</td><td>BioBERT cascade (vs Bi-LSTM)</td><td>80/20, seed 12345</td><td><i>S&rarr;S</i></td><td>full data + reproduce.py</td></tr>
+        <tr><td>6</td><td>Oncology distress classification (3.2.3)</td><td>Gemma2-27B (local)</td><td>DistilBERT (vs TF-IDF+LR)</td><td>fixed shipped split, seed 42</td><td><i>S&rarr;S</i></td><td>sample + reproduce.py</td></tr>
+        <tr><td>7</td><td>Medication-question risk classification (3.2.4)</td><td>GPT-4.1 (critical-case augmentation)</td><td>BioBERT / BlueBERT (vs SVM)</td><td>80/20, seed 42</td><td><b><i>R+S&rarr;R</i></b></td><td>real labels + synthetic augmentation + reproduce.py</td></tr>
+        <tr><td>8</td><td>Home-care status detection (3.2.5)</td><td>GPT (symptom + vitals)</td><td>LightGBM (TF-IDF + vitals fusion)</td><td>80/20, seed 42</td><td><i>S&rarr;S</i></td><td>full data + reproduce.py</td></tr>
+        <tr><td>9</td><td>EMS report routing (3.3.1)</td><td>GPT-4.1-mini (MIMIC-IV-Ext, + ASR noise)</td><td>BioClinicalBERT</td><td>80/20, seed 42</td><td><i>S&rarr;S</i></td><td>sample + reproduce.py</td></tr>
+        <tr><td>10</td><td>SBAR completeness checking (3.3.2)</td><td>OpenAI batch</td><td>BioClinicalBERT / hierarchical</td><td>80/20, seed 42</td><td><i>S&rarr;S</i></td><td>sample + reproduce.py</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <hr class="sec">
   <h2 id="ack">Acknowledgments</h2>
   <p class="lead">We warmly thank the students of the LLMs in Healthcare course in the Digital Healthcare
